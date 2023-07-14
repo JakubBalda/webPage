@@ -11,6 +11,7 @@ export default function AllBooks({ search, bookGenre }) {
   const [sortOption, setSortOption] = useState('title-asc');
   const [minValue, setMinValue] = useState('');
   const [maxValue, setMaxValue] = useState('');
+  const [selectedAuthors, setSelectedAuthors] = useState([]);
 
   useEffect(() => {
     const getBooks = async () => {
@@ -31,8 +32,9 @@ export default function AllBooks({ search, bookGenre }) {
       const genreMatch = bookGenre.toLowerCase() === '' || bookGenre === book.genre;
       const minValueMatch = minValue.toLowerCase() === '' || minValue <= book.price;
       const maxValueMatch = maxValue.toLowerCase() === '' || maxValue >= book.price;
-      console.log(minValue);
-      return titleMatch && genreMatch && minValueMatch && maxValueMatch ;
+      const authorMatch = selectedAuthors.length === 0 || selectedAuthors.includes(book.author);
+
+      return titleMatch && genreMatch && minValueMatch && maxValueMatch && authorMatch;
     });
 
     const sortedBooks = filteredBooks.sort((a, b) => {
@@ -51,7 +53,7 @@ export default function AllBooks({ search, bookGenre }) {
 
     setFilteredData(sortedBooks);
     setCurrentPage(1);
-  }, [books, search, bookGenre, sortOption, minValue, maxValue]);
+  }, [books, search, bookGenre, sortOption, minValue, maxValue, selectedAuthors]);
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
@@ -97,6 +99,17 @@ export default function AllBooks({ search, bookGenre }) {
     setMaxValue(selectedMaxValue);
   }
 
+  const handleAuthorSelection = (event) => {
+    const selectedOptions = Array.from(event.target.selectedOptions, (option) => option.value);
+    setSelectedAuthors(selectedOptions);
+  };
+
+  const handleResetAuthors = () => {
+    setSelectedAuthors([]);
+  };
+
+  const uniqueAuthors = Array.from(new Set(books.map((book) => book.author)));
+
   return (
     <div className='d-flex bg-light flex-column'>
       <div className='container-fluid'>
@@ -104,7 +117,7 @@ export default function AllBooks({ search, bookGenre }) {
           <div className='col-3'>
             <div className='d-flex flex-column mt-50 ml-50'>
               <div className='form text-left pr-50'>
-                <label htmlFor='sortOption' className='ml-5'>
+                <label htmlFor='sortOption' className='ml-5 font-size-14'>
                   Sortuj:
                 </label>
                 <select id='sortOption' className='form-control' value={sortOption} onChange={handleSortChange}>
@@ -115,16 +128,40 @@ export default function AllBooks({ search, bookGenre }) {
                 </select>
               </div>
             </div>
-            <div className='h-600 w-200 ml-50 mt-50 mr-0 pl-0 pr-0 pt-10 card d-flex flex-column position-relative'>
-              <div className='content-title font-size-20 ml-20 mt-10 mr-auto'>{'>'} Filtry</div>
-              <span className='mt-10 ml-15 text-left'>Cena:</span>
-                <div className='form-inline'>
+            <div className='h-400 w-200 ml-50 mt-50 mr-0 pl-0 pr-0 pt-10 card d-flex flex-column position-relative'>
+              <div className='content-title font-size-20 mt-10 text-center'>Filtruj</div>
+              <span className='mt-50 ml-15 text-left font-size-14'>Cena:</span>
+                <div className='form-inline mt-5'>
                   <label htmlFor='minValue' className='ml-10'>Od:</label>
                   <input id='minValue' type='text' className='form-control mr-15' value={minValue} onChange={handleMinValue}/>
 
                   <label htmlFor='maxValue'>Od:</label>
                   <input id='maxValue' type='text' className='form-control mr-10' value={maxValue} onChange={handleMaxValue}/>
                 </div>
+
+                <div>
+                <label htmlFor='authorFilter' className='font-weight-bold mt-10'>
+                  Autorzy:
+                </label>
+                <select
+                  id='authorFilter'
+                  className='form-control h-150'
+                  multiple
+                  value={selectedAuthors}
+                  onChange={handleAuthorSelection}
+                >
+                  {uniqueAuthors.map((author) => (
+                    <option
+                      key={author}
+                      value={author}
+                      selected={selectedAuthors.includes(author)}
+                    >
+                      {author}
+                    </option>
+                  ))}
+                </select>
+                <button className='btn btn-primary mt-15' onClick={handleResetAuthors}>Reset</button>
+              </div>
             </div>
           </div>
           <div className='col-9'>
