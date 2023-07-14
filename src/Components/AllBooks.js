@@ -9,6 +9,8 @@ export default function AllBooks({ search, bookGenre }) {
   const itemsPerPage = 12;
   const [filteredData, setFilteredData] = useState([]);
   const [sortOption, setSortOption] = useState('title-asc');
+  const [minValue, setMinValue] = useState('');
+  const [maxValue, setMaxValue] = useState('');
 
   useEffect(() => {
     const getBooks = async () => {
@@ -27,7 +29,10 @@ export default function AllBooks({ search, bookGenre }) {
     const filteredBooks = books.filter((book) => {
       const titleMatch = search.toLowerCase() === '' || book.title.toLowerCase().includes(search);
       const genreMatch = bookGenre.toLowerCase() === '' || bookGenre === book.genre;
-      return titleMatch && genreMatch;
+      const minValueMatch = minValue.toLowerCase() === '' || minValue <= book.price;
+      const maxValueMatch = maxValue.toLowerCase() === '' || maxValue >= book.price;
+      console.log(minValue);
+      return titleMatch && genreMatch && minValueMatch && maxValueMatch ;
     });
 
     const sortedBooks = filteredBooks.sort((a, b) => {
@@ -46,7 +51,7 @@ export default function AllBooks({ search, bookGenre }) {
 
     setFilteredData(sortedBooks);
     setCurrentPage(1);
-  }, [books, search, bookGenre, sortOption]);
+  }, [books, search, bookGenre, sortOption, minValue, maxValue]);
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
@@ -82,6 +87,16 @@ export default function AllBooks({ search, bookGenre }) {
     setSortOption(selectedSortOption);
   };
 
+  const handleMinValue = (event) => {
+    const selectedMinValue = event.target.value;
+    setMinValue(selectedMinValue);
+  }
+
+  const handleMaxValue = (event) => {
+    const selectedMaxValue = event.target.value;
+    setMaxValue(selectedMaxValue);
+  }
+
   return (
     <div className='d-flex bg-light flex-column'>
       <div className='container-fluid'>
@@ -102,7 +117,14 @@ export default function AllBooks({ search, bookGenre }) {
             </div>
             <div className='h-600 w-200 ml-50 mt-50 mr-0 pl-0 pr-0 pt-10 card d-flex flex-column position-relative'>
               <div className='content-title font-size-20 ml-20 mt-10 mr-auto'>{'>'} Filtry</div>
-                
+              <span className='mt-10 ml-15 text-left'>Cena:</span>
+                <div className='form-inline'>
+                  <label htmlFor='minValue' className='ml-10'>Od:</label>
+                  <input id='minValue' type='text' className='form-control mr-15' value={minValue} onChange={handleMinValue}/>
+
+                  <label htmlFor='maxValue'>Od:</label>
+                  <input id='maxValue' type='text' className='form-control mr-10' value={maxValue} onChange={handleMaxValue}/>
+                </div>
             </div>
           </div>
           <div className='col-9'>

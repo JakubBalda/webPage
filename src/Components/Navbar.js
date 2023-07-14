@@ -9,7 +9,7 @@ export default function NavbarComponent({onSearchChange, onGenreChange}){
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [booksAmount, setBooksAmount] = useState(null);
-  const [genres, setGenres] = useState(new Array); 
+  const [genres, setGenres] = useState([]); 
 
   useEffect(() => {
     const getBookAmount = async () => {
