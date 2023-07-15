@@ -1,5 +1,3 @@
-
-
 export default function BookGenres({onGenreChange, booksAmount, genres}){
 
     const chnageGenre = (genre) => {

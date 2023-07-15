@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import 'halfmoon/css/halfmoon.min.css';
 import axios from 'axios';
 import { Pagination, PageItem } from 'reacthalfmoon';
+import { Link } from 'react-router-dom';
 
 export default function AllBooks({ search, bookGenre }) {
   const [books, setBooks] = useState([]);
@@ -184,14 +185,15 @@ export default function AllBooks({ search, bookGenre }) {
                         <p className='text-muted'>{book.author}</p>
                         <p className='text-muted'>{book.price.toFixed(2)} zł</p>
                         <div className='text-center'>
-                          <a href='#' className='btn'>
-                            Zobacz
-                          </a>
+                        <Link to={`/book/${book.id}`}>
+                            <a href='#' className='btn'>
+                              Zobacz  
+                            </a>
+                        </Link>
                         </div>
                       </div>
-                    </div>
-                  );
-                })}
+                    </div>);
+                  })}
               </div>
             </div>
           </div>
