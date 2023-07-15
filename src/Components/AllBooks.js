@@ -100,8 +100,14 @@ export default function AllBooks({ search, bookGenre }) {
   }
 
   const handleAuthorSelection = (event) => {
-    const selectedOptions = Array.from(event.target.selectedOptions, (option) => option.value);
-    setSelectedAuthors(selectedOptions);
+    const author = event.target.value;
+    if (event.target.checked) {
+      setSelectedAuthors((prevAuthors) => [...prevAuthors, author]);
+    } else {
+      setSelectedAuthors((prevAuthors) =>
+        prevAuthors.filter((selectedAuthor) => selectedAuthor !== author)
+      );
+    }
   };
 
   const handleResetAuthors = () => {
@@ -121,8 +127,8 @@ export default function AllBooks({ search, bookGenre }) {
                   Sortuj:
                 </label>
                 <select id='sortOption' className='form-control' value={sortOption} onChange={handleSortChange}>
-                  <option value='title-asc'>Tytuł (Rosnąco)</option>
-                  <option value='title-desc'>Tytuł (Malejąco)</option>
+                  <option value='title-asc'>Tytuł (A - Z)</option>
+                  <option value='title-desc'>Tytuł (Z - A)</option>
                   <option value='price-asc'>Cena (Rosnąco)</option>
                   <option value='price-desc'>Cena (Malejąco)</option>
                 </select>
@@ -139,28 +145,28 @@ export default function AllBooks({ search, bookGenre }) {
                   <input id='maxValue' type='text' className='form-control mr-10' value={maxValue} onChange={handleMaxValue}/>
                 </div>
 
-                <div>
-                <label htmlFor='authorFilter' className='font-weight-bold mt-10'>
-                  Autorzy:
-                </label>
-                <select
-                  id='authorFilter'
-                  className='form-control h-150'
-                  multiple
-                  value={selectedAuthors}
-                  onChange={handleAuthorSelection}
-                >
-                  {uniqueAuthors.map((author) => (
-                    <option
-                      key={author}
+                <div className='text-left mt-15'>
+                <span className='mt-50 ml-15 text-left font-size-14'>Autorzy:</span>
+                <div className='overflow-scroll h-150 mt-15'>
+                {uniqueAuthors.map((author) => (
+                  <div key={author} className='form-check'>
+                    <input
+                      type='checkbox'
+                      id={author}
                       value={author}
-                      selected={selectedAuthors.includes(author)}
-                    >
+                      checked={selectedAuthors.includes(author)}
+                      onChange={handleAuthorSelection}
+                      className='form-check-input ml-5'
+                    />
+                    <label htmlFor={author} className='form-check-label ml-5'>
                       {author}
-                    </option>
-                  ))}
-                </select>
-                <button className='btn btn-primary mt-15' onClick={handleResetAuthors}>Reset</button>
+                    </label>
+                  </div>
+                ))}
+                </div>
+              </div>
+              <div className='text-center'>
+                <button className='btn btn-primary mt-15 w-100' onClick={handleResetAuthors}>Reset</button>
               </div>
             </div>
           </div>

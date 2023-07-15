@@ -3,11 +3,11 @@ import 'halfmoon/css/halfmoon.min.css';
 import {PageWrapper} from 'reacthalfmoon';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faBars, faCartShopping, faSignIn, faUser} from '@fortawesome/free-solid-svg-icons';
+import {faBars, faCartShopping} from '@fortawesome/free-solid-svg-icons';
+import Sidebar from './Sidebar';
 
-export default function NavbarComponent({onSearchChange, onGenreChange}){
+export default function NavbarComponent({onSearchChange, isSidebarOpen, setIsSidebarOpen}){
 
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [booksAmount, setBooksAmount] = useState(null);
   const [genres, setGenres] = useState([]); 
 
@@ -36,12 +36,8 @@ export default function NavbarComponent({onSearchChange, onGenreChange}){
     getBookAmount();
   }, [])
 
-  const chnageGenre = (genre) => {
-    onGenreChange(genre);
-  };
 
   return (
-    <PageWrapper withSidebar isSidebarOpen={isSidebarOpen} toggle={() => {setIsSidebarOpen(!isSidebarOpen)}}  withNavbar withTransitions>
       <nav className="navbar d-flex justify-content-between">
         <div className="navbar-content">
           <button className="btn btn-action" type="button" onClick={() => {setIsSidebarOpen(!isSidebarOpen)}}>
@@ -56,40 +52,5 @@ export default function NavbarComponent({onSearchChange, onGenreChange}){
         </form>
         <button className="btn btn-primary"><FontAwesomeIcon icon={faCartShopping} /></button>
       </nav>  
-
-      <div className="sidebar d-flex flex-column">
-        <div className='border-bottom'>
-          <button className='btn btn-primary m-15 w-200 align-self-center'>
-          <FontAwesomeIcon icon={faSignIn} />  Zaloguj
-          </button>
-          <button className='btn m-15 w-200 align-self-center'>
-          <FontAwesomeIcon icon={faUser} />  Profil
-          </button>
-        </div>
-
-        <div className="dropdown mt-15 with-arrow">
-          <button className="btn w-200" data-toggle="dropdown" type="button" id="dropdown-toggle-btn-1" aria-haspopup="true" aria-expanded="false">
-            Książki ({booksAmount})<i className="fa fa-angle-down ml-5" aria-hidden="true"></i>
-          </button>
-
-          <div className="dropdown-menu dropdown-menu-center h-250 overflow-scroll" aria-labelledby="dropdown-toggle-btn-1">
-              <div>
-                <a href="#" className="dropdown-item" onClick={() => chnageGenre('')}>&gt; Wszystkie ({booksAmount})</a>
-                <div className="dropdown-divider"></div>
-              </div>
-          {genres.map((genre, key) => {
-            return (
-              <div key={key}>
-                <a href="#" className="dropdown-item" onClick={() => chnageGenre(genre.type)}>&gt; {genre.type} ({genre.count})</a>
-                <div className="dropdown-divider"></div>
-              </div>
-            );
-          })}
-           
-          </div>
-        </div>
-      </div>
-  </PageWrapper>
-
   )
 };
