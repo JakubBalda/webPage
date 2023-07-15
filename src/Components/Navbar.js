@@ -2,7 +2,7 @@ import 'halfmoon/css/halfmoon.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faBars, faCartShopping} from '@fortawesome/free-solid-svg-icons';
 
-export default function NavbarComponent({onSearchChange, isSidebarOpen, setIsSidebarOpen}){
+export default function NavbarComponent({onSearchChange, isSidebarOpen, setIsSidebarOpen, isInCorrectSite}){
 
   return (
       <nav className="navbar d-flex justify-content-between">
@@ -15,7 +15,12 @@ export default function NavbarComponent({onSearchChange, isSidebarOpen, setIsSid
           </a>
         </div>
         <form className="d-flex">
-          <input type="text" placeholder="Wyszukaj tytuł" className="form-control w-400" onChange={(e) => onSearchChange(e.target.value)}></input>
+          { isInCorrectSite 
+            ? 
+            (<input type="text" placeholder="Wyszukaj tytuł" className="form-control w-400" onChange={(e) => onSearchChange(e.target.value)}></input>)
+             : 
+            (<input type="text" placeholder="Wyszukaj tytuł" className="form-control w-400 disabled" disabled onChange={(e) => onSearchChange(e.target.value)}></input> )
+          }
         </form>
         <button className="btn btn-primary"><FontAwesomeIcon icon={faCartShopping} /></button>
       </nav>  

@@ -13,6 +13,7 @@ export default function AllBooks({ search, bookGenre }) {
   const [minValue, setMinValue] = useState('');
   const [maxValue, setMaxValue] = useState('');
   const [selectedAuthors, setSelectedAuthors] = useState([]);
+  const [searchAuthor, setSearchAuthor] = useState('');
 
   useEffect(() => {
     const getBooks = async () => {
@@ -135,7 +136,7 @@ export default function AllBooks({ search, bookGenre }) {
                 </select>
               </div>
             </div>
-            <div className='h-400 w-200 ml-50 mt-50 mr-0 pl-0 pr-0 pt-10 card d-flex flex-column position-relative'>
+            <div className='h-450 w-200 ml-50 mt-50 mr-0 pl-0 pr-0 pt-10 card d-flex flex-column position-relative'>
               <div className='content-title font-size-20 mt-10 text-center'>Filtruj</div>
               <span className='mt-50 ml-15 text-left font-size-14'>Cena:</span>
                 <div className='form-inline mt-5'>
@@ -148,8 +149,14 @@ export default function AllBooks({ search, bookGenre }) {
 
                 <div className='text-left mt-15'>
                 <span className='mt-50 ml-15 text-left font-size-14'>Autorzy:</span>
+                <form className='form-inline d-flex justify-content-center mt-10'>
+                  <input type='text' className='form-control' placeholder='Wyszukaj autora' onChange={(e) => setSearchAuthor(e.target.value)}></input>
+                </form>
                 <div className='overflow-scroll h-150 mt-15'>
-                {uniqueAuthors.map((author) => (
+                {uniqueAuthors.filter((author) => {
+                  return author.toLowerCase() === '' || author.toLowerCase().includes(searchAuthor);
+                })
+                .map((author) => (
                   <div key={author} className='form-check'>
                     <input
                       type='checkbox'
@@ -167,7 +174,7 @@ export default function AllBooks({ search, bookGenre }) {
                 </div>
               </div>
               <div className='text-center'>
-                <button className='btn btn-primary mt-15 w-100' onClick={handleResetAuthors}>Reset</button>
+                <button className='btn btn-primary mt-20 w-100' onClick={handleResetAuthors}>Resetuj autorów</button>
               </div>
             </div>
           </div>
@@ -176,7 +183,7 @@ export default function AllBooks({ search, bookGenre }) {
               <div className='d-flex flex-wrap justify-content-center'>
                 {paginatedData.map((book, key) => {
                   let imageUrl = btoa(String.fromCharCode(...new Uint8Array(book.imageBlob.data)));
-
+                  console.log(imageUrl);
                   return (
                     <div className='card w-200 h-320 p-0 d-flex flex-column mt-70' data-toggle='tooltip' data-title={book.title} data-placement='top' key={book.id}>
                       <img src={`data:image/jpeg;base64,${imageUrl}`} className='w-100 mt-15 align-self-center' alt={book.imageUrl}></img>
