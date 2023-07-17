@@ -11,7 +11,7 @@ export default function NavbarComponent({onSearchChange, isSidebarOpen, setIsSid
             <FontAwesomeIcon icon={faBars}/>
           </button>
           <a href='/' className="navbar-brand">
-            BookStore
+            <span className='font-weight-bold'>Book</span><span>Store</span>
           </a>
         </div>
         <form className="d-flex">
