@@ -79,6 +79,16 @@
 .h-445{
   height: 445px;
 }
+.list-style-none{
+  list-style-type: none;
+}
+.min-h-600{
+  min-height: 600px !important;
+}
+.min-h-250{
+  min-height: 25rem !important;
+}
+
 #bookImage:hover{
   transform: scale(1.2);
   transition: transform 0.5s ease;
