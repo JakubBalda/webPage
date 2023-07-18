@@ -9,6 +9,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import { Rating } from '@smastrom/react-rating'
 import '@smastrom/react-rating/style.css'
+import { HashLink as Link } from "react-router-hash-link";
 
 export default function BookPage(){
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -16,6 +17,7 @@ export default function BookPage(){
     const [imageUrl, setImageUrl] = useState('');
     const [fullSize, setFullSize] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [tabIndex, setTabIndex] = useState(0);
 
     const location = useLocation();
     const isInCorrectSite = location.pathname === '/';
@@ -37,13 +39,16 @@ export default function BookPage(){
         };
     
         getBookById();
-      }, []);
+      }, [id]);
 
       const handleClick = (e) => {
         e.stopPropagation();
         setFullSize(!fullSize); 
       };
       
+      const handleTabSwitch = (index) => {
+        setTabIndex(index);
+      }
 
       if (loading) {
         return <div>Loading...</div>;
@@ -70,12 +75,12 @@ export default function BookPage(){
                             <div className="card h-fit-content w-full mt-55 d-flex">
                                 <div className="col-6 text-left px-15">
                                     <h1 className="pt-10 font-size-18 font-weight-bold">"{book.title}"</h1>
-                                    <div className="border rounded p-5 mt-20 mb-20">
+                                    <div className=" p-5 mt-20 mb-20">
                                         <div className="font-size-14 mt-10"><b>Autor:</b> {book.author}</div>
                                         <div className="font-size-14 mt-10"><b>Wydawnictwo:</b> {book.publisher}</div>
                                         <div className="font-size-14 mt-10 mb-10"><b>Gatunek:</b> {book.genre}</div>
                                     </div>
-                                    <a href="#" className="ml-5">Szczegółowe informacje {'>'}</a>
+                                    <a onClick={() => handleTabSwitch(1)} href="#details">Szczegółowe informacje {'>'}</a>
                                 </div>
 
                                 <div className="col-6">
@@ -117,8 +122,8 @@ export default function BookPage(){
                 </div>
                 <div className="row">
                     <div className="col-12 d-flex justify-content-center">
-                        <div className="card min-h-600 w-600">
-                        <Tabs>
+                        <div className="card min-h-600 w-600" id="details">
+                        <Tabs selectedIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
                             <TabList>
                                 <Tab>Opis</Tab>
                                 <Tab>Dane szczegółowe</Tab>
@@ -127,17 +132,17 @@ export default function BookPage(){
                             <TabPanel>
                                 <p>{book.description}</p>
                             </TabPanel>
-                            <TabPanel>
-                                <h1>Dane szczegółowe</h1>
+                            <TabPanel id="details">
+                                <h1 >Dane szczegółowe</h1>
                                 <ul className="mt-50 font-size-14 list-style-none">
-                                    <li className="border-bottom w-200 mx-auto mt-15"><b>Tytuł:</b> {book.title}</li>
-                                    <li className="border-bottom w-200 mx-auto mt-15"><b>Autor:</b> {book.author}</li>
-                                    <li className="border-bottom w-200 mx-auto mt-15"><b>Wydawnictwo:</b> {book.publisher}</li>
-                                    <li className="border-bottom w-200 mx-auto mt-15"><b>ID książki:</b> {book.id}</li>
-                                    <li className="border-bottom w-200 mx-auto mt-15"><b>Rok wydania:</b> {book.publishYear}</li>
-                                    <li className="border-bottom w-200 mx-auto mt-15"><b>Gatunek literacki:</b> {book.genre}</li>
-                                    <li className="border-bottom w-200 mx-auto mt-15"><b>Ilość stron:</b> {book.pageAmount}</li>
-                                    <li className="border-bottom w-200 mx-auto mt-15"><b>ISBN:</b> {book.isbn}</li>
+                                    <li className=" w-200 mx-auto mt-15"><b>Tytuł:</b> {book.title}</li>
+                                    <li className=" w-200 mx-auto mt-15"><b>Autor:</b> {book.author}</li>
+                                    <li className=" w-200 mx-auto mt-15"><b>Wydawnictwo:</b> {book.publisher}</li>
+                                    <li className=" w-200 mx-auto mt-15"><b>ID książki:</b> {book.id}</li>
+                                    <li className=" w-200 mx-auto mt-15"><b>Rok wydania:</b> {book.publishYear}</li>
+                                    <li className=" w-200 mx-auto mt-15"><b>Gatunek literacki:</b> {book.genre}</li>
+                                    <li className=" w-200 mx-auto mt-15"><b>Ilość stron:</b> {book.pageAmount}</li>
+                                    <li className=" w-200 mx-auto mt-15"><b>ISBN:</b> {book.isbn}</li>
                                 </ul>
                             </TabPanel>
                             <TabPanel>
