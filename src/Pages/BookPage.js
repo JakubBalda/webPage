@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import 'halfmoon/css/halfmoon.min.css';
 import axios from 'axios';
-import { ContentWrapper, PageWrapper, Badge } from "reacthalfmoon";
+import { ContentWrapper, PageWrapper, Badge, Button } from "reacthalfmoon";
 import Sidebar from "../Components/Sidebar";
 import NavbarComponent from "../Components/Navbar";
 import { useLocation, useParams } from 'react-router-dom';
@@ -9,7 +9,6 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import { Rating } from '@smastrom/react-rating'
 import '@smastrom/react-rating/style.css'
-import { HashLink as Link } from "react-router-hash-link";
 
 export default function BookPage(){
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -18,6 +17,7 @@ export default function BookPage(){
     const [fullSize, setFullSize] = useState(false);
     const [loading, setLoading] = useState(true);
     const [tabIndex, setTabIndex] = useState(0);
+    const [shouldScroll, setShouldScroll] = useState(false);
 
     const location = useLocation();
     const isInCorrectSite = location.pathname === '/';
@@ -41,12 +41,24 @@ export default function BookPage(){
         getBookById();
       }, [id]);
 
+      useEffect(() => {
+        if(shouldScroll){
+            const element = document.getElementById('details');
+
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+                setShouldScroll(false);
+            }
+        }
+      }, [shouldScroll]);
+
       const handleClick = (e) => {
         e.stopPropagation();
         setFullSize(!fullSize); 
       };
       
       const handleTabSwitch = (index) => {
+        setShouldScroll(true);
         setTabIndex(index);
       }
 
@@ -55,7 +67,7 @@ export default function BookPage(){
       }
 
     return(
-    <PageWrapper withSidebar isSidebarOpen={isSidebarOpen} toggle={() => {setIsSidebarOpen(!isSidebarOpen)}}  withNavbar withTransitions>
+    <PageWrapper withSidebar isSidebarOpen={isSidebarOpen} toggle={() => {setIsSidebarOpen(!isSidebarOpen)}}  withNavbar withTransitions >
         <NavbarComponent isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} isInCorrectSite={isInCorrectSite}/>
         <Sidebar />
         <ContentWrapper className="bg-light">
@@ -80,7 +92,7 @@ export default function BookPage(){
                                         <div className="font-size-14 mt-10"><b>Wydawnictwo:</b> {book.publisher}</div>
                                         <div className="font-size-14 mt-10 mb-10"><b>Gatunek:</b> {book.genre}</div>
                                     </div>
-                                    <a onClick={() => handleTabSwitch(1)} href="#details">Szczegółowe informacje {'>'}</a>
+                                    <a className="cursor-pointer" onClick={() => handleTabSwitch(1)} >Szczegółowe informacje {'>'}</a>
                                 </div>
 
                                 <div className="col-6">
@@ -101,7 +113,7 @@ export default function BookPage(){
                                         </div>
                                         <div className="font-size-22 font-weight-bold mt-auto mb-20">{book.price.toFixed(2)} zł</div>
                                         <div className="mx-auto form-inline">
-                                                <input type="number" className="w-50 form-control" id="bookAmount" max={book.amount} min={1} value={1}></input>
+                                                <input type="number" className="w-50 form-control" id="bookAmount" max={book.amount} min={1} ></input>
                                                 <label className="ml-10" htmlFor="bookAmount">z {book.amount}</label>
                                         </div>
                                             {
@@ -132,7 +144,7 @@ export default function BookPage(){
                             <TabPanel>
                                 <p>{book.description}</p>
                             </TabPanel>
-                            <TabPanel id="details">
+                            <TabPanel>
                                 <h1 >Dane szczegółowe</h1>
                                 <ul className="mt-50 font-size-14 list-style-none">
                                     <li className=" w-200 mx-auto mt-15"><b>Tytuł:</b> {book.title}</li>

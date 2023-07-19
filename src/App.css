@@ -88,6 +88,12 @@
 .min-h-250{
   min-height: 25rem !important;
 }
+html{
+  scroll-behavior: smooth;
+}
+.cursor-pointer{
+  cursor: pointer;
+}
 
 #bookImage:hover{
   transform: scale(1.2);

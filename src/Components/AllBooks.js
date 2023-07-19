@@ -183,7 +183,6 @@ export default function AllBooks({ search, bookGenre }) {
               <div className='d-flex flex-wrap justify-content-center'>
                 {paginatedData.map((book, key) => {
                   let imageUrl = btoa(String.fromCharCode(...new Uint8Array(book.imageBlob.data)));
-                  console.log(imageUrl);
                   return (
                     <div className='card w-200 h-320 p-0 d-flex flex-column mt-70' data-toggle='tooltip' data-title={book.title} data-placement='top' key={book.id}>
                       <img src={`data:image/jpeg;base64,${imageUrl}`} className='w-100 mt-15 align-self-center' alt={book.imageUrl}></img>
