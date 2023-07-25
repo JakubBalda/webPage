@@ -3,10 +3,10 @@ import NavbarComponent from "../Components/Navbar";
 import Sidebar from "../Components/Sidebar";
 import AllBooks from "../Components/AllBooks";
 import SlideShow from "../Components/SlideShow";
-import { ContentWrapper, PageWrapper, Button, ModalContent, ModalDialog, ModalTitle, Modal, Form, FormGroup, Input, FormRow, Col } from "reacthalfmoon";
+import LoginModal from "../Modals/LoginModal";
+import { ContentWrapper, PageWrapper, Button, ModalContent, ModalDialog, ModalTitle, Modal, Form, Input, FormRow, Col } from "reacthalfmoon";
 import { useState } from "react";
 import { useLocation } from 'react-router-dom';
-import axios from "axios";
 
 export default function HomePage(){
     const [search, setSearch] = useState('');
@@ -15,15 +15,32 @@ export default function HomePage(){
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
     const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
 
-    const [loginData, setLoginData] = useState({
-        login: '',
-        password: ''
-    });
-
-    const [loginFormErrors, setLoginFormErrors] = useState({
+    const [registerData, setRegisterData] = useState({
         login: '',
         password: '',
-        wrongData: ''
+        name: '',
+        surname: '',
+        city: '',
+        street: '',
+        houseNumber: '',
+        flatNumber: '',
+        postal: '',
+        mail: '',
+        phoneNumber: ''
+    });
+
+    const [registerFormErrors, setRegisterFormErrors] = useState({
+        login: '',
+        password: '',
+        name: '',
+        surname: '',
+        city: '',
+        street: '',
+        houseNumber: '',
+        flatNumber: '',
+        postal: '',
+        mail: '',
+        phoneNumber: ''
     });
 
     const location = useLocation();
@@ -36,89 +53,24 @@ export default function HomePage(){
         }, 400);
     }
 
-    const handleInputChange = (e) => {
+    const handleRegisterInputChange = (e) => {
         const { name, value } = e.target;
-        setLoginData({
-            ...loginData,
+        console.log(value);
+        setRegisterData({
+            ...registerData,
             [name]: value
         });
 
-        setLoginFormErrors({
-            ...loginFormErrors,
+        setRegisterFormErrors({
+            ...registerFormErrors,
             [name]: ""
         });
     };
-
-    const validateForm = () => {
-        let isValid = true;
-        const errors = {};
-
-        if (loginData.login.trim() === "") {
-            errors.login = "Login jest wymagany.";
-            console.log(errors.login);
-            isValid = false;
-        }
-
-        if (loginData.password === "") {
-            errors.password = "Hasło jest wymagane.";
-            console.log(errors.password);
-
-            isValid = false;
-        }
-
-        setLoginFormErrors(errors);
-        return isValid;
-    };
-
-    const handleLoginSubmit = (e) => {
-        e.preventDefault();
-
-        if(validateForm()){
-            axios.post('http://localhost:5001/api/users/login', loginData)
-                .then((response) => {
-                    console.log(response.data);
-                        if(response.data === 'Failed'){
-                            setLoginFormErrors({
-                                ...loginFormErrors,
-                                wrongData: "Błędny login lub hasło!"
-                        });
-                    }
-                })
-                .catch((error) => {
-                    console.error('Login failed!', error);
-                });
-            };
-        }
-
+    
     return(
 <div>
-    <Modal isOpen={isLoginModalOpen} toggle={()=>{setIsLoginModalOpen(!isLoginModalOpen)}}>
-        <ModalDialog>
-            <ModalContent>
-                <ModalTitle>Zaloguj się</ModalTitle>
-                <Form >
-                    <FormGroup>
-                        <label className="required">Login</label>
-                        <Input type="text" placeholder="Login" name="login" value={loginData.login} onChange={handleInputChange}/>
-                        {loginFormErrors.login && <p className="error-message text-danger">{loginFormErrors.login}</p>}
-                    </FormGroup>
-                    <FormGroup>
-                        <label className="required">Hasło</label>
-                        <Input type="password" placeholder="Hasło" name="password" value={loginData.password} onChange={handleInputChange} />
-                        {loginFormErrors.wrongData && <p className="error-message text-danger">{loginFormErrors.wrongData}</p>}
-                    </FormGroup>
-                    <FormGroup>
-                        {loginFormErrors.password && <p className="error-message text-danger">{loginFormErrors.password}</p>}
-                        <Button color="primary" block type="submit" onClick={handleLoginSubmit}>Zaloguj</Button>
-                    </FormGroup>
-                </Form>
-                <Button block color="danger" onClick={()=>{setIsLoginModalOpen(false)}}>Anuluj</Button>
-                 Nie masz jeszcze konta? <a className="cursor-pointer" 
-                 onClick={handleFormSwitch}>Zarejestruj się</a>
-            </ModalContent>
-        </ModalDialog>
-    </Modal>
-
+    
+    <LoginModal isLoginModalOpen={isLoginModalOpen} setIsLoginModalOpen={setIsLoginModalOpen} handleFormSwitch={handleFormSwitch}/>
     <Modal isOpen={isRegisterModalOpen} toggle={()=>{setIsRegisterModalOpen(!isRegisterModalOpen)}}>
         <ModalDialog>
             <ModalContent className="w-half">
@@ -127,56 +79,56 @@ export default function HomePage(){
                     <FormRow equalSpacing>
                         <Col>
                             <label className="required">Login</label>
-                            <Input type="text" placeholder="Login" />
+                            <Input type="text" placeholder="Login" name="login" onChange={handleRegisterInputChange}/>
                         </Col>
                         <Col>
                             <label className="required">Hasło</label>
-                            <Input type="password" placeholder="Hasło" />
+                            <Input type="password" placeholder="Hasło" name="password" onChange={handleRegisterInputChange}/>
                         </Col>
                     </FormRow>
                     
                     <FormRow equalSpacing>
                         <Col>
                             <label className="required">Imie</label>
-                            <Input type="text" placeholder="Imie" />
+                            <Input type="text" placeholder="Imie" name="name" onChange={handleRegisterInputChange}/>
                         </Col>
                         <Col>
                             <label className="required">Nazwisko</label>
-                            <Input type="text" placeholder="Nazwisko" />
+                            <Input type="text" placeholder="Nazwisko" name="surname" onChange={handleRegisterInputChange}/>
                         </Col>
                         <Col>
                             <label className="required">Miejscowość</label>
-                            <Input type="text" placeholder="Miejscowość" />
+                            <Input type="text" placeholder="Miejscowość" name="city" onChange={handleRegisterInputChange}/>
                         </Col>
                     </FormRow>
 
                     <FormRow equalSpacing>
                         <Col>
                             <label className="required">Ulica</label>
-                            <Input type="text" placeholder="Ulica" />
+                            <Input type="text" placeholder="Ulica" name="street" onChange={handleRegisterInputChange}/>
                         </Col>
                         <Col>
                             <label className="required">Nr domu</label>
-                            <Input type="text" placeholder="Nr domu" maxlength="4"/>
+                            <Input type="text" placeholder="Nr domu" maxlength="4" name="houseNumber" onChange={handleRegisterInputChange}/>
                         </Col>
                         <Col>
                             <label>Nr mieszkania</label>
-                            <Input type="text" placeholder="Nr mieszkania" maxlength="3"/>
+                            <Input type="text" placeholder="Nr mieszkania" maxlength="3" name="flatNumber" onChange={handleRegisterInputChange}/>
                         </Col>
                     </FormRow>
 
                     <FormRow equalSpacing>
                         <Col>
                             <label className="required">Kod pocztowy</label>
-                            <Input type="text" placeholder="xx-xxx" maxlength="6"/>
+                            <Input type="text" placeholder="xx-xxx" maxlength="6" name="postal" onChange={handleRegisterInputChange}/>
                         </Col>
                         <Col>
                             <label className="required">E-mail</label>
-                            <Input type="text" placeholder="xyz@gmail.com" />
+                            <Input type="text" placeholder="xyz@gmail.com" name="mail" onChange={handleRegisterInputChange}/>
                         </Col>
                         <Col>
                             <label className="required">Nr telefonu</label>
-                            <Input type="text" placeholder="Max 9 cyfr" maxlength="9"/>
+                            <Input type="text" placeholder="Max 9 cyfr" maxlength="9" name="phoneNumber" onChange={handleRegisterInputChange}/>
                         </Col>
                     </FormRow>
 

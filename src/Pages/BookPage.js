@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import React from "react";
 import 'halfmoon/css/halfmoon.min.css';
 import axios from 'axios';
-import { ContentWrapper, PageWrapper, Badge, Button } from "reacthalfmoon";
+import { ContentWrapper, PageWrapper, Badge} from "reacthalfmoon";
 import Sidebar from "../Components/Sidebar";
 import NavbarComponent from "../Components/Navbar";
 import { useLocation, useParams } from 'react-router-dom';
