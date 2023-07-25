@@ -1,8 +1,9 @@
+import React from "react";
 import NavbarComponent from "../Components/Navbar";
 import Sidebar from "../Components/Sidebar";
 import AllBooks from "../Components/AllBooks";
 import SlideShow from "../Components/SlideShow";
-import { ContentWrapper, PageWrapper, Button, ModalContent, ModalDialog, ModalTitle, Modal, Form, FormGroup, Input } from "reacthalfmoon";
+import { ContentWrapper, PageWrapper, Button, ModalContent, ModalDialog, ModalTitle, Modal, Form, FormGroup, Input, FormRow, Col } from "reacthalfmoon";
 import { useState } from "react";
 import { useLocation } from 'react-router-dom';
 import axios from "axios";
@@ -120,22 +121,75 @@ export default function HomePage(){
 
     <Modal isOpen={isRegisterModalOpen} toggle={()=>{setIsRegisterModalOpen(!isRegisterModalOpen)}}>
         <ModalDialog>
-            <ModalContent>
+            <ModalContent className="w-half">
                 <ModalTitle>Zarejestruj się</ModalTitle>
                 <Form>
-                    <FormGroup>
-                        <label className="required">Login</label>
-                        <Input type="text" placeholder="Login" />
-                    </FormGroup>
-                    <FormGroup>
-                        <label className="required">Hasło</label>
-                        <Input type="password" placeholder="Hasło" />
-                    </FormGroup>
-                    <FormGroup>
-                        <Button color="primary" block type="submit">Zarejestruj</Button>
-                    </FormGroup>
+                    <FormRow equalSpacing>
+                        <Col>
+                            <label className="required">Login</label>
+                            <Input type="text" placeholder="Login" />
+                        </Col>
+                        <Col>
+                            <label className="required">Hasło</label>
+                            <Input type="password" placeholder="Hasło" />
+                        </Col>
+                    </FormRow>
+                    
+                    <FormRow equalSpacing>
+                        <Col>
+                            <label className="required">Imie</label>
+                            <Input type="text" placeholder="Imie" />
+                        </Col>
+                        <Col>
+                            <label className="required">Nazwisko</label>
+                            <Input type="text" placeholder="Nazwisko" />
+                        </Col>
+                        <Col>
+                            <label className="required">Miejscowość</label>
+                            <Input type="text" placeholder="Miejscowość" />
+                        </Col>
+                    </FormRow>
+
+                    <FormRow equalSpacing>
+                        <Col>
+                            <label className="required">Ulica</label>
+                            <Input type="text" placeholder="Ulica" />
+                        </Col>
+                        <Col>
+                            <label className="required">Nr domu</label>
+                            <Input type="text" placeholder="Nr domu" maxlength="4"/>
+                        </Col>
+                        <Col>
+                            <label>Nr mieszkania</label>
+                            <Input type="text" placeholder="Nr mieszkania" maxlength="3"/>
+                        </Col>
+                    </FormRow>
+
+                    <FormRow equalSpacing>
+                        <Col>
+                            <label className="required">Kod pocztowy</label>
+                            <Input type="text" placeholder="xx-xxx" maxlength="6"/>
+                        </Col>
+                        <Col>
+                            <label className="required">E-mail</label>
+                            <Input type="text" placeholder="xyz@gmail.com" />
+                        </Col>
+                        <Col>
+                            <label className="required">Nr telefonu</label>
+                            <Input type="text" placeholder="Max 9 cyfr" maxlength="9"/>
+                        </Col>
+                    </FormRow>
+
+                    <FormRow equalSpacing>
+                        <Col>
+                            <Button block color="danger" onClick={()=>{setIsRegisterModalOpen(false)}}>Anuluj</Button>
+                        </Col>
+
+                        <Col>
+                            <Button color="primary" block type="submit">Zarejestruj</Button>
+                        </Col>
+                    </FormRow>
                 </Form>
-                <Button block color="danger" onClick={()=>{setIsRegisterModalOpen(false)}}>Anuluj</Button>
             </ModalContent>
         </ModalDialog>
     </Modal>

@@ -1,4 +1,5 @@
 import BookGenres from "./BookGenres";
+import React from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faSignIn, faUser} from '@fortawesome/free-solid-svg-icons';
 import { useState, useEffect } from "react";

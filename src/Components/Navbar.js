@@ -1,3 +1,4 @@
+import React from "react";
 import 'halfmoon/css/halfmoon.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faBars, faCartShopping} from '@fortawesome/free-solid-svg-icons';
