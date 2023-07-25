@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 
-export default function Sidebar({onGenreChange}){
+export default function Sidebar({onGenreChange, setIsLoginModalOpen}){
     const [booksAmount, setBooksAmount] = useState(null);
     const [genres, setGenres] = useState([]); 
 
@@ -36,8 +36,9 @@ export default function Sidebar({onGenreChange}){
 
     return(
         <div className="sidebar d-flex flex-column">
+      <div>
             <div className='border-bottom'>
-                <button className='btn btn-primary m-15 w-200 align-self-center'>
+                <button className='btn btn-primary m-15 w-200 align-self-center' onClick={()=>{setIsLoginModalOpen(true)}}>
                     <FontAwesomeIcon icon={faSignIn} />  Zaloguj
                 </button>
                 <button className='btn m-15 w-200 align-self-center'>
@@ -52,6 +53,8 @@ export default function Sidebar({onGenreChange}){
 
                 <BookGenres onGenreChange={onGenreChange} booksAmount={booksAmount} genres={genres}/>
             </div>
+        </div>
+        
         </div>
     )
 }
