@@ -3,7 +3,6 @@ import axios from "axios";
 import { useState } from "react";
 import { Button, ModalContent, ModalDialog, ModalTitle, Modal, Form, Input, FormRow, Col } from "reacthalfmoon";
 
-
 export default function RegisterModal({isRegisterModalOpen, setIsRegisterModalOpen}){
     const [registerData, setRegisterData] = useState({
         login: '',
@@ -46,6 +45,41 @@ export default function RegisterModal({isRegisterModalOpen, setIsRegisterModalOp
             [name]: ""
         });
     };
+
+    const validateRegisterForm = () => {
+        let isValid = true;
+        const errors = {};
+
+        if (registerData.login.trim() === "") {
+            errors.login = "Login jest wymagany.";
+            console.log(errors.login);
+            isValid = false;
+        }
+
+        if (registerData.password === "") {
+            errors.password = "Hasło jest wymagane.";
+            console.log(errors.password);
+
+            isValid = false;
+        }
+
+        setRegisterFormErrors(errors);
+        return isValid;
+    };
+
+    const handleRegisterSubmit = (e) => {
+        e.preventDefault();
+
+        if(validateRegisterForm()){
+            axios.post('http://localhost:5001/api/users/register', registerData)
+                .then((response) => {
+                    console.log(response.data);
+                })
+                .catch((error) => {
+                    console.error('Login failed!', error);
+                });
+            };
+        }
 
     return(
         <Modal isOpen={isRegisterModalOpen} toggle={()=>{setIsRegisterModalOpen(!isRegisterModalOpen)}}>
@@ -115,7 +149,7 @@ export default function RegisterModal({isRegisterModalOpen, setIsRegisterModalOp
                         </Col>
 
                         <Col>
-                            <Button color="primary" block type="submit">Zarejestruj</Button>
+                            <Button color="primary" block type="submit" onClick={handleRegisterSubmit}>Zarejestruj</Button>
                         </Col>
                     </FormRow>
                 </Form>
