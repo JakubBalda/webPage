@@ -14,6 +14,11 @@ export default function HomePage(){
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
     const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
 
+    const [loginData, setLoginData] = useState({
+        login: '',
+        password: ''
+    });
+
     const location = useLocation();
     const isInCorrectSite = location.pathname === '/';
 
@@ -24,15 +29,18 @@ export default function HomePage(){
         }, 400);
     }
 
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setLoginData({
+            ...loginData,
+            [name]: value
+        });
+    };
+
     const handleLoginSubmit = (e) => {
         e.preventDefault();
 
-        const loginData = {
-            username: e.target.username.value,
-            password: e.target.password.value
-        };
-
-        axios.post('YOUR_API_ENDPOINT', loginData)
+        axios.post('http://localhost:5001/api/users/login', loginData)
             .then((response) => {
                 // Handle the API response here, e.g., show success message or redirect the user
                 console.log('Login successful!', response.data);
@@ -49,17 +57,17 @@ export default function HomePage(){
         <ModalDialog>
             <ModalContent>
                 <ModalTitle>Zaloguj się</ModalTitle>
-                <Form>
+                <Form >
                     <FormGroup>
                         <label className="required">Login</label>
-                        <Input type="text" placeholder="Login" />
+                        <Input type="text" placeholder="Login" name="login" value={loginData.login} onChange={handleInputChange}/>
                     </FormGroup>
                     <FormGroup>
                         <label className="required">Hasło</label>
-                        <Input type="password" placeholder="Hasło" />
+                        <Input type="password" placeholder="Hasło" name="password" value={loginData.password} onChange={handleInputChange} />
                     </FormGroup>
                     <FormGroup>
-                        <Button color="primary" block type="submit">Zaloguj</Button>
+                        <Button color="primary" block type="submit" onClick={handleLoginSubmit}>Zaloguj</Button>
                     </FormGroup>
                 </Form>
                 <Button block color="danger" onClick={()=>{setIsLoginModalOpen(false)}}>Anuluj</Button>
