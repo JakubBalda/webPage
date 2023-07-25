@@ -19,6 +19,12 @@ export default function HomePage(){
         password: ''
     });
 
+    const [loginFormErrors, setLoginFormErrors] = useState({
+        login: '',
+        password: '',
+        wrongData: ''
+    });
+
     const location = useLocation();
     const isInCorrectSite = location.pathname === '/';
 
@@ -35,21 +41,53 @@ export default function HomePage(){
             ...loginData,
             [name]: value
         });
+
+        setLoginFormErrors({
+            ...loginFormErrors,
+            [name]: ""
+        });
+    };
+
+    const validateForm = () => {
+        let isValid = true;
+        const errors = {};
+
+        if (loginData.login.trim() === "") {
+            errors.login = "Login jest wymagany.";
+            console.log(errors.login);
+            isValid = false;
+        }
+
+        if (loginData.password === "") {
+            errors.password = "Hasło jest wymagane.";
+            console.log(errors.password);
+
+            isValid = false;
+        }
+
+        setLoginFormErrors(errors);
+        return isValid;
     };
 
     const handleLoginSubmit = (e) => {
         e.preventDefault();
 
-        axios.post('http://localhost:5001/api/users/login', loginData)
-            .then((response) => {
-                // Handle the API response here, e.g., show success message or redirect the user
-                console.log('Login successful!', response.data);
-            })
-            .catch((error) => {
-                // Handle errors here, e.g., show error message
-                console.error('Login failed!', error);
-            });
-    };
+        if(validateForm()){
+            axios.post('http://localhost:5001/api/users/login', loginData)
+                .then((response) => {
+                    console.log(response.data);
+                        if(response.data === 'Failed'){
+                            setLoginFormErrors({
+                                ...loginFormErrors,
+                                wrongData: "Błędny login lub hasło!"
+                        });
+                    }
+                })
+                .catch((error) => {
+                    console.error('Login failed!', error);
+                });
+            };
+        }
 
     return(
 <div>
@@ -61,12 +99,15 @@ export default function HomePage(){
                     <FormGroup>
                         <label className="required">Login</label>
                         <Input type="text" placeholder="Login" name="login" value={loginData.login} onChange={handleInputChange}/>
+                        {loginFormErrors.login && <p className="error-message text-danger">{loginFormErrors.login}</p>}
                     </FormGroup>
                     <FormGroup>
                         <label className="required">Hasło</label>
                         <Input type="password" placeholder="Hasło" name="password" value={loginData.password} onChange={handleInputChange} />
+                        {loginFormErrors.wrongData && <p className="error-message text-danger">{loginFormErrors.wrongData}</p>}
                     </FormGroup>
                     <FormGroup>
+                        {loginFormErrors.password && <p className="error-message text-danger">{loginFormErrors.password}</p>}
                         <Button color="primary" block type="submit" onClick={handleLoginSubmit}>Zaloguj</Button>
                     </FormGroup>
                 </Form>
