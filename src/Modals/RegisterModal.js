@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import { useState } from "react";
 import { Button, ModalContent, ModalDialog, ModalTitle, Modal, Form, Input, FormRow, Col } from "reacthalfmoon";
+import validator from 'validator';
 
 export default function RegisterModal({isRegisterModalOpen, setIsRegisterModalOpen}){
     const [registerData, setRegisterData] = useState({
@@ -52,14 +53,138 @@ export default function RegisterModal({isRegisterModalOpen, setIsRegisterModalOp
 
         if (registerData.login.trim() === "") {
             errors.login = "Login jest wymagany.";
-            console.log(errors.login);
+            isValid = false;
+        }
+
+        if(registerData.login.length > 30){
+            errors.login = "Login jest za długi - max 30 znaków."
             isValid = false;
         }
 
         if (registerData.password === "") {
             errors.password = "Hasło jest wymagane.";
-            console.log(errors.password);
+            isValid = false;
+        }
 
+        if(!validator.isStrongPassword(registerData.password,{
+           minLength: 8, minLowercase: 1, minUppercase: 1, minNumbers: 1, minSymbols: 1, maxlength: 40 
+            })){
+                errors.password = "Hasło musi być silne (max 40 znaków)!";
+                isValid = false;
+        }
+
+        if (registerData.name === "") {
+            errors.name = "Imie jest wymagane.";
+            isValid = false;
+        }
+
+        if(!validator.isAlpha(registerData.name)){
+            errors.name =  "Imie jest niepoprawne."
+            isValid = false;
+        }
+
+        if(registerData.name.length > 30){
+            errors.name = "Imie jest za długie - max 30 znaków."
+            isValid = false;
+        }
+
+        if (registerData.surname === "") {
+            errors.surname = "Nazwisko jest wymagane.";
+            isValid = false;
+        }
+
+        if(registerData.surname.length > 30){
+            errors.surname =  "Nazwisko jest za długie - max 30 znaków."
+            isValid = false;
+        }
+
+        if (registerData.city === "") {
+            errors.city = "Miejscowość jest wymagana.";
+            isValid = false;
+        }
+
+        if(registerData.city.length > 40){
+            errors.city =  "Miejscowość jest za długa - max 40 znaków."
+            isValid = false;
+        }
+
+        if(!validator.isAlpha(registerData.city)){
+            errors.city =  "Miejscowość jest niepoprawna"
+            isValid = false;
+        }
+
+        if (registerData.street === "") {
+            errors.street = "Ulica jest wymagana.";
+            isValid = false;
+        }
+
+        if(registerData.street.length > 40){
+            errors.street =  "Ulica jest za długa - max 40 znaków."
+            isValid = false;
+        }
+
+        if (registerData.houseNumber === "") {
+            errors.houseNumber = "Nr domu jest wymagany.";
+            isValid = false;
+        }
+
+        if (!validator.isAlphanumeric(registerData.houseNumber)) {
+            errors.houseNumber = "Nr domu jest niepopawny";
+            isValid = false;
+        }
+
+        if(registerData.houseNumber.length > 4){
+            errors.houseNumber =  "Nr domu jest za długi - max 4 znaki."
+            isValid = false;
+        }
+
+        if (!validator.isAlphanumeric(registerData.flatNumber)) {
+            errors.flatNumber = "Nr mieszkania jest niepopawny";
+            isValid = false;
+        }
+
+        if(registerData.flatNumber.length > 3){
+            errors.flatNumber =  "Nr domu jest za długi - max 3 znaki."
+            isValid = false;
+        }
+
+        if(!validator.isPostalCode(registerData.postal, 'PL')){
+            errors.postal = "Kod pocztowy jest niepoprawny.";
+            isValid = false;
+        }
+
+        if (registerData.postal === "") {
+            errors.postal = "Kod pocztowy jest wymagany.";
+            isValid = false;
+        }
+
+        if(!validator.isEmail(registerData.mail)){
+            errors.mail = "E-mail jest niepoprawny.";
+            isValid = false;
+        }
+
+        if (registerData.mail === "") {
+            errors.mail = "E-mail jest wymagany.";
+            isValid = false;
+        }
+        
+        if (registerData.mail.length > 50) {
+            errors.phoneNumber = "E-mail jest zbyt długi - max 50 znaków.";
+            isValid = false;
+        }
+        
+        if(!validator.isNumeric(registerData.phoneNumber)){
+            errors.phoneNumber = "Nr telefonu jest niepoprawny.";
+            isValid = false;
+        }
+
+        if (registerData.phoneNumber === "") {
+            errors.phoneNumber = "Nr telefonu jest wymagany.";
+            isValid = false;
+        }
+
+        if (registerData.phoneNumber.length > 9) {
+            errors.phoneNumber = "Nr telefonu jest zbyt długi - max 9 cyfr.";
             isValid = false;
         }
 
@@ -73,7 +198,22 @@ export default function RegisterModal({isRegisterModalOpen, setIsRegisterModalOp
         if(validateRegisterForm()){
             axios.post('http://localhost:5001/api/users/register', registerData)
                 .then((response) => {
-                    console.log(response.data);
+                    switch(response.data){
+                        case 'login':
+                            alert('Login zajęty');
+                            break;
+                        case 'mail':
+                            alert('E-mail zajęty');
+                            break;
+                        case 'failed':
+                            alert('Sprawdź poprawność danych')
+                            break;
+                        default:
+                            alert('Zarejestrowano poprawnie. Możesz sie zalogować');
+                            window.location.reload();
+                            break;
+                            
+                    }
                 })
                 .catch((error) => {
                     console.error('Login failed!', error);
@@ -91,10 +231,12 @@ export default function RegisterModal({isRegisterModalOpen, setIsRegisterModalOp
                         <Col>
                             <label className="required">Login</label>
                             <Input type="text" placeholder="Login" name="login" onChange={handleRegisterInputChange}/>
+                            {registerFormErrors.login && <p className="error-message text-danger">{registerFormErrors.login}</p>}
                         </Col>
                         <Col>
                             <label className="required">Hasło</label>
                             <Input type="password" placeholder="Hasło" name="password" onChange={handleRegisterInputChange}/>
+                            {registerFormErrors.password && <p className="error-message text-danger">{registerFormErrors.password}</p>}
                         </Col>
                     </FormRow>
                     
@@ -102,14 +244,17 @@ export default function RegisterModal({isRegisterModalOpen, setIsRegisterModalOp
                         <Col>
                             <label className="required">Imie</label>
                             <Input type="text" placeholder="Imie" name="name" onChange={handleRegisterInputChange}/>
+                            {registerFormErrors.name && <p className="error-message text-danger">{registerFormErrors.name}</p>}
                         </Col>
                         <Col>
                             <label className="required">Nazwisko</label>
                             <Input type="text" placeholder="Nazwisko" name="surname" onChange={handleRegisterInputChange}/>
+                            {registerFormErrors.surname && <p className="error-message text-danger">{registerFormErrors.surname}</p>}
                         </Col>
                         <Col>
                             <label className="required">Miejscowość</label>
                             <Input type="text" placeholder="Miejscowość" name="city" onChange={handleRegisterInputChange}/>
+                            {registerFormErrors.city && <p className="error-message text-danger">{registerFormErrors.city}</p>}
                         </Col>
                     </FormRow>
 
@@ -117,14 +262,17 @@ export default function RegisterModal({isRegisterModalOpen, setIsRegisterModalOp
                         <Col>
                             <label className="required">Ulica</label>
                             <Input type="text" placeholder="Ulica" name="street" onChange={handleRegisterInputChange}/>
+                            {registerFormErrors.street && <p className="error-message text-danger">{registerFormErrors.street}</p>}
                         </Col>
                         <Col>
                             <label className="required">Nr domu</label>
                             <Input type="text" placeholder="Nr domu" maxlength="4" name="houseNumber" onChange={handleRegisterInputChange}/>
+                            {registerFormErrors.houseNumber && <p className="error-message text-danger">{registerFormErrors.houseNumber}</p>}
                         </Col>
                         <Col>
                             <label>Nr mieszkania</label>
                             <Input type="text" placeholder="Nr mieszkania" maxlength="3" name="flatNumber" onChange={handleRegisterInputChange}/>
+                            {registerFormErrors.flatNumber && <p className="error-message text-danger">{registerFormErrors.flatNumber}</p>}
                         </Col>
                     </FormRow>
 
@@ -132,14 +280,17 @@ export default function RegisterModal({isRegisterModalOpen, setIsRegisterModalOp
                         <Col>
                             <label className="required">Kod pocztowy</label>
                             <Input type="text" placeholder="xx-xxx" maxlength="6" name="postal" onChange={handleRegisterInputChange}/>
+                            {registerFormErrors.postal && <p className="error-message text-danger">{registerFormErrors.postal}</p>}
                         </Col>
                         <Col>
                             <label className="required">E-mail</label>
                             <Input type="text" placeholder="xyz@gmail.com" name="mail" onChange={handleRegisterInputChange}/>
+                            {registerFormErrors.mail && <p className="error-message text-danger">{registerFormErrors.mail}</p>}
                         </Col>
                         <Col>
                             <label className="required">Nr telefonu</label>
                             <Input type="text" placeholder="Max 9 cyfr" maxlength="9" name="phoneNumber" onChange={handleRegisterInputChange}/>
+                            {registerFormErrors.phoneNumber && <p className="error-message text-danger">{registerFormErrors.phoneNumber}</p>}
                         </Col>
                     </FormRow>
 
