@@ -6,6 +6,7 @@ import BookPage from './Pages/BookPage';
 import React from "react";
 import { useCookies } from "react-cookie"
 import { useState } from 'react';
+import UserPanel from './Pages/UserPanel';
 
 function App() {
   const [cookies, setCookie] = useCookies(["user"]);
@@ -28,6 +29,7 @@ function App() {
         <Route path='/book/:id' element={<BookPage cookies={cookies} setCookie={setCookie} handleFormSwitch={handleFormSwitch}
                                             setIsLoginModalOpen={setIsLoginModalOpen} isLoginModalOpen={isLoginModalOpen}
                                             setIsRegisterModalOpen={setIsRegisterModalOpen} isRegisterModalOpen={isRegisterModalOpen}/>}></Route>
+        <Route path='/myProfile' element={<UserPanel cookies={cookies} setCookie={setCookie} setIsLoginModalOpen={setIsLoginModalOpen}/>}></Route>
       </Routes>
     </div>
   );

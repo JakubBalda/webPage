@@ -6,7 +6,7 @@ import SlideShow from "../Components/SlideShow";
 import LoginModal from "../Modals/LoginModal";
 import RegisterModal from "../Modals/RegisterModal";
 import { ContentWrapper, PageWrapper } from "reacthalfmoon";
-import { useState } from "react";
+import { useState } from "react"; 
 
 export default function HomePage({cookies, setCookie, handleFormSwitch, isLoginModalOpen, setIsLoginModalOpen, isRegisterModalOpen, setIsRegisterModalOpen}){
     const [search, setSearch] = useState('');

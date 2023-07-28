@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { CookiesProvider } from "react-cookie";
 import { useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export default function Sidebar({onGenreChange, setIsLoginModalOpen, cookies, setCookie}){
     const [booksAmount, setBooksAmount] = useState(null);
@@ -55,9 +56,11 @@ export default function Sidebar({onGenreChange, setIsLoginModalOpen, cookies, se
                     <button className='btn btn-primary m-15 w-200 align-self-center' onClick={handleLogOut}>
                       <FontAwesomeIcon icon={faSignIn} />  Wyloguj (<b>{cookies.user.login}</b>)
                     </button>
-                    <button className='btn m-15 w-200 align-self-center'>
-                      <FontAwesomeIcon icon={faUser} />  Profil 
-                    </button>
+                    <Link to={'/myProfile'}>
+                      <button className='btn m-15 w-200 align-self-center' >
+                        <FontAwesomeIcon icon={faUser} />  Profil 
+                      </button>
+                    </Link>
                   </div>
                 ) : (
                   <button className='btn btn-primary m-15 w-200 align-self-center' onClick={()=>{setIsLoginModalOpen(true)}}>
@@ -77,7 +80,7 @@ export default function Sidebar({onGenreChange, setIsLoginModalOpen, cookies, se
               </div>) 
               :
               (<div></div>)
-            }
+              }
         </div>
         
         </div>
