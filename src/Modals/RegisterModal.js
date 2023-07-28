@@ -56,134 +56,139 @@ export default function RegisterModal({isRegisterModalOpen, setIsRegisterModalOp
             isValid = false;
         }
 
-        if(registerData.login.length > 30){
+        if(registerData.login.trim().length > 30){
             errors.login = "Login jest za długi - max 30 znaków."
             isValid = false;
         }
 
-        if (registerData.password === "") {
+        if (registerData.password.trim() === "") {
             errors.password = "Hasło jest wymagane.";
             isValid = false;
         }
 
-        if(!validator.isStrongPassword(registerData.password,{
+        if(!validator.isStrongPassword(registerData.password.trim(),{
            minLength: 8, minLowercase: 1, minUppercase: 1, minNumbers: 1, minSymbols: 1, maxlength: 40 
             })){
                 errors.password = "Hasło musi być silne (max 40 znaków)!";
                 isValid = false;
         }
 
-        if (registerData.name === "") {
+        if (registerData.name.trim() === "") {
             errors.name = "Imie jest wymagane.";
             isValid = false;
         }
 
-        if(!validator.isAlpha(registerData.name)){
+        if(!validator.isAlpha(registerData.name.trim())){
             errors.name =  "Imie jest niepoprawne."
             isValid = false;
         }
 
-        if(registerData.name.length > 30){
+        if(registerData.name.trim().length > 30){
             errors.name = "Imie jest za długie - max 30 znaków."
             isValid = false;
         }
 
-        if (registerData.surname === "") {
+        if (registerData.surname.trim() === "") {
             errors.surname = "Nazwisko jest wymagane.";
             isValid = false;
         }
 
-        if(registerData.surname.length > 30){
+        if(registerData.surname.trim().length > 30){
             errors.surname =  "Nazwisko jest za długie - max 30 znaków."
             isValid = false;
         }
 
-        if (registerData.city === "") {
+        if (registerData.city.trim() === "") {
             errors.city = "Miejscowość jest wymagana.";
             isValid = false;
         }
 
-        if(registerData.city.length > 40){
+        if(registerData.city.trim().length > 40){
             errors.city =  "Miejscowość jest za długa - max 40 znaków."
             isValid = false;
         }
 
-        if(!validator.isAlpha(registerData.city)){
-            errors.city =  "Miejscowość jest niepoprawna"
+        if(!validator.isAlpha(registerData.city.trim().split(" ").join(""), ['pl-PL'])){
+            errors.city =  "Miejscowość jest niepoprawna."
             isValid = false;
         }
 
-        if (registerData.street === "") {
+        if (registerData.street.trim() === "") {
             errors.street = "Ulica jest wymagana.";
             isValid = false;
         }
 
-        if(registerData.street.length > 40){
+        if(registerData.street.trim().length > 40){
             errors.street =  "Ulica jest za długa - max 40 znaków."
             isValid = false;
         }
 
-        if (registerData.houseNumber === "") {
+        if (registerData.houseNumber.trim() === "") {
             errors.houseNumber = "Nr domu jest wymagany.";
             isValid = false;
         }
 
-        if (!validator.isAlphanumeric(registerData.houseNumber)) {
+        if (!validator.isAlphanumeric(registerData.houseNumber.trim())) {
             errors.houseNumber = "Nr domu jest niepopawny";
             isValid = false;
         }
 
-        if(registerData.houseNumber.length > 4){
+        if(registerData.houseNumber.trim().length > 4){
             errors.houseNumber =  "Nr domu jest za długi - max 4 znaki."
             isValid = false;
         }
 
-        if (!validator.isAlphanumeric(registerData.flatNumber)) {
+        if (!validator.isAlphanumeric(registerData.flatNumber.trim())) {
             errors.flatNumber = "Nr mieszkania jest niepopawny";
             isValid = false;
         }
 
-        if(registerData.flatNumber.length > 3){
+        if(registerData.flatNumber.trim() === ""){
+            errors.flatNumber = "";
+            isValid = true;
+        }
+
+        if(registerData.flatNumber.trim().length > 3){
             errors.flatNumber =  "Nr domu jest za długi - max 3 znaki."
             isValid = false;
         }
 
-        if(!validator.isPostalCode(registerData.postal, 'PL')){
+        if(!validator.isPostalCode(registerData.postal.trim(), 'PL')){
             errors.postal = "Kod pocztowy jest niepoprawny.";
             isValid = false;
         }
 
-        if (registerData.postal === "") {
+        if (registerData.postal.trim() === "") {
             errors.postal = "Kod pocztowy jest wymagany.";
             isValid = false;
         }
 
-        if(!validator.isEmail(registerData.mail)){
+        if(!validator.isEmail(registerData.mail.trim())){
             errors.mail = "E-mail jest niepoprawny.";
             isValid = false;
         }
 
-        if (registerData.mail === "") {
+        if (registerData.mail.trim() === "") {
             errors.mail = "E-mail jest wymagany.";
             isValid = false;
         }
         
-        if (registerData.mail.length > 50) {
+        if (registerData.mail.trim().length > 50) {
             errors.phoneNumber = "E-mail jest zbyt długi - max 50 znaków.";
             isValid = false;
         }
         
-        if(!validator.isNumeric(registerData.phoneNumber)){
+        if(!validator.isNumeric(registerData.phoneNumber.trim())){
             errors.phoneNumber = "Nr telefonu jest niepoprawny.";
             isValid = false;
         }
 
-        if (registerData.phoneNumber === "") {
+        if (registerData.phoneNumber.trim() === "") {
             errors.phoneNumber = "Nr telefonu jest wymagany.";
             isValid = false;
         }
 
-        if (registerData.phoneNumber.length > 9) {
+        if (registerData.phoneNumber.trim().length > 9) {
             errors.phoneNumber = "Nr telefonu jest zbyt długi - max 9 cyfr.";
             isValid = false;
         }
