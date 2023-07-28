@@ -2,8 +2,11 @@ import React from "react";
 import 'halfmoon/css/halfmoon.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faBars, faCartShopping} from '@fortawesome/free-solid-svg-icons';
+import { useLocation } from 'react-router-dom';
 
-export default function NavbarComponent({onSearchChange, isSidebarOpen, setIsSidebarOpen, isInCorrectSite}){
+export default function NavbarComponent({onSearchChange, isSidebarOpen, setIsSidebarOpen}){
+  const location = useLocation();
+  const isInCorrectPage = location.pathname === '/';
 
   return (
       <nav className="navbar d-flex justify-content-between">
@@ -16,7 +19,7 @@ export default function NavbarComponent({onSearchChange, isSidebarOpen, setIsSid
           </a>
         </div>
         <form className="d-flex">
-          { isInCorrectSite 
+          { isInCorrectPage 
             ? 
             (<input type="text" placeholder="Wyszukaj tytuł" className="form-control w-400" onChange={(e) => onSearchChange(e.target.value)}></input>)
              : 
