@@ -4,9 +4,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faSignIn, faUser} from '@fortawesome/free-solid-svg-icons';
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { CookiesProvider } from "react-cookie";
 
-
-export default function Sidebar({onGenreChange, setIsLoginModalOpen}){
+export default function Sidebar({onGenreChange, setIsLoginModalOpen, cookies, setCookie}){
     const [booksAmount, setBooksAmount] = useState(null);
     const [genres, setGenres] = useState([]); 
 
@@ -35,16 +35,33 @@ export default function Sidebar({onGenreChange, setIsLoginModalOpen}){
         getBookAmount();
       }, [])
 
+      const handleLogOut = () => {
+          setCookie("user", '', {path: "/"});
+          alert("Pomyślnie wylogowano");
+          window.location.reload();
+      }
+
     return(
         <div className="sidebar d-flex flex-column">
       <div>
             <div className='border-bottom'>
-                <button className='btn btn-primary m-15 w-200 align-self-center' onClick={()=>{setIsLoginModalOpen(true)}}>
+              <CookiesProvider>
+                {cookies.user ? (
+                  <div>
+                    <button className='btn btn-primary m-15 w-200 align-self-center' onClick={handleLogOut}>
+                      <FontAwesomeIcon icon={faSignIn} />  Wyloguj (<b>{cookies.user.login}</b>)
+                    </button>
+                    <button className='btn m-15 w-200 align-self-center'>
+                      <FontAwesomeIcon icon={faUser} />  Profil 
+                    </button>
+                  </div>
+                ) : (
+                  <button className='btn btn-primary m-15 w-200 align-self-center' onClick={()=>{setIsLoginModalOpen(true)}}>
                     <FontAwesomeIcon icon={faSignIn} />  Zaloguj
-                </button>
-                <button className='btn m-15 w-200 align-self-center'>
-                    <FontAwesomeIcon icon={faUser} />  Profil
-                </button>
+                  </button>
+                )}
+                
+              </CookiesProvider>
             </div>
 
             <div className="dropdown mt-15 with-arrow">

@@ -9,32 +9,23 @@ import { ContentWrapper, PageWrapper } from "reacthalfmoon";
 import { useState } from "react";
 import { useLocation } from 'react-router-dom';
 
-export default function HomePage(){
+export default function HomePage({cookies, setCookie, handleFormSwitch, isLoginModalOpen, setIsLoginModalOpen, isRegisterModalOpen, setIsRegisterModalOpen}){
     const [search, setSearch] = useState('');
     const [bookGenre, setBookGenre] = useState('');
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-    const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-    const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
 
     const location = useLocation();
     const isInCorrectSite = location.pathname === '/';
 
-    const handleFormSwitch = () => {
-        setIsLoginModalOpen(false);
-        setTimeout(() => {
-            setIsRegisterModalOpen(true);
-        }, 400);
-    }
-
     return(
 <div>
     
-    <LoginModal isLoginModalOpen={isLoginModalOpen} setIsLoginModalOpen={setIsLoginModalOpen} handleFormSwitch={handleFormSwitch}/>
+    <LoginModal isLoginModalOpen={isLoginModalOpen} setIsLoginModalOpen={setIsLoginModalOpen} handleFormSwitch={handleFormSwitch} setCookie={setCookie} cookies={cookies}/>
     <RegisterModal isRegisterModalOpen={isRegisterModalOpen} setIsRegisterModalOpen={setIsRegisterModalOpen}/>
         
     <PageWrapper withSidebar isSidebarOpen={isSidebarOpen} toggle={() => {setIsSidebarOpen(!isSidebarOpen)}}  withNavbar withTransitions>
         <NavbarComponent onSearchChange={setSearch} isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} isInCorrectSite={isInCorrectSite}/>
-        <Sidebar onGenreChange={setBookGenre} setIsLoginModalOpen={setIsLoginModalOpen}/>
+        <Sidebar onGenreChange={setBookGenre} setIsLoginModalOpen={setIsLoginModalOpen} cookies={cookies} setCookie={setCookie}/>
         <ContentWrapper>
             <SlideShow />
             <AllBooks search={search} bookGenre={bookGenre}/>

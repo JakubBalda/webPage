@@ -3,7 +3,8 @@ import axios from "axios";
 import { useState } from "react";
 
 import {ModalContent, ModalDialog, ModalTitle, Modal, Form, FormGroup, Button, Input} from 'reacthalfmoon'
-export default function LoginModal({isLoginModalOpen, setIsLoginModalOpen, handleFormSwitch}){
+
+export default function LoginModal({isLoginModalOpen, setIsLoginModalOpen, handleFormSwitch, setCookie, cookies}){
     const [loginData, setLoginData] = useState({
         login: '',
         password: ''
@@ -61,6 +62,9 @@ export default function LoginModal({isLoginModalOpen, setIsLoginModalOpen, handl
                                 ...loginFormErrors,
                                 wrongData: "Błędny login lub hasło!"
                         });
+                    }else{
+                        setCookie("user", response.data, {path: "/"});
+                        window.location.reload();
                     }
                 })
                 .catch((error) => {
