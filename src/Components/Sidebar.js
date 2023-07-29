@@ -48,7 +48,7 @@ export default function Sidebar({onGenreChange, setIsLoginModalOpen, cookies, se
 
     return(
         <div className="sidebar d-flex flex-column">
-      <div>
+          <div>
             <div className='border-bottom'>
               <CookiesProvider>
                 {cookies.user ? (
@@ -83,6 +83,6 @@ export default function Sidebar({onGenreChange, setIsLoginModalOpen, cookies, se
               }
         </div>
         
-        </div>
+      </div>
     )
 }
