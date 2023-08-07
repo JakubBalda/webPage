@@ -5,11 +5,13 @@ import Sidebar from "../Components/Sidebar";
 import { ContentWrapper, PageWrapper } from "reacthalfmoon";
 import axios from 'axios';
 import 'halfmoon/css/halfmoon.min.css';
+import EditUserDataModal from "../Modals/EditUserDataModal";
 
 export default function UserPanel({setIsLoginModalOpen, cookies, setCookie}){
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [userProfileData, setUserProfileData] = useState([]);
-    const [isDataInEditionMode, setIsDataInEditionMode] = useState(false);
+    const [isEditUserDataModalOpen, setIsEditUserDataModalOpen] = useState(false);
+
 
     useEffect(() => {
         const getUserData = async () => {
@@ -26,33 +28,15 @@ export default function UserPanel({setIsLoginModalOpen, cookies, setCookie}){
 
     return(
     <div>
+        <EditUserDataModal isEditUserDataModalOpen={isEditUserDataModalOpen} setIsEditUserDataModalOpen={setIsEditUserDataModalOpen} userProfileData={userProfileData}/>
+
         <PageWrapper withSidebar isSidebarOpen={isSidebarOpen} toggle={() => {setIsSidebarOpen(!isSidebarOpen)}}  withNavbar withTransitions>
             <NavbarComponent isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen}/>
             <Sidebar setIsLoginModalOpen={setIsLoginModalOpen} cookies={cookies} setCookie={setCookie}/>
             <ContentWrapper>
-                <div className="card w-quarter d-flex flex-column">
-                <h1 className="font-size-24">Mój profil</h1>
-
-                    {isDataInEditionMode?
-                        (
-                        <div>
-                            <div className="text-left">
-                                <div className="font-size-12">Imie: <b>{userProfileData.name}</b></div>
-                                <div className="font-size-12">Nazwisko: <b>{userProfileData.surname}</b></div>
-                                <div className="font-size-12">E-mail: <b>{userProfileData.mail}</b></div>
-                                <div className="font-size-12">Login: <b>{userProfileData.login}</b></div>
-                                <div className="font-size-12">Miejscowość: <b>{userProfileData.city}</b></div>
-                                <div className="font-size-12">Ulica: <b>{userProfileData.street}</b></div>
-                                <div className="font-size-12">Nr domu: <b>{userProfileData.houseNumber}</b></div>
-                                <div className="font-size-12">Nr mieszkania: <b>{userProfileData.flatNumber}</b></div>
-                                <div className="font-size-12">Kod pocztowy: <b>{userProfileData.postalCode}</b></div>
-                                <div className="font-size-12">Nr telefonu: <b>{userProfileData.phoneNumber}</b></div>
-                            </div>
-                            <button className="btn btn-secondary mt-15 w-half" onClick={() => setIsDataInEditionMode(false)}>Zapisz</button>
-                        </div>   
-                        )
-                        :
-                        (
+                <div className="d-flex">
+                    <div className="card w-quarter d-flex flex-column h-three-quarter">
+                        <h1 className="font-size-24">Mój profil</h1>
                             <div>
                                 <div className="text-left">
                                     <div className="font-size-12">Imie: <b>{userProfileData.name}</b></div>
@@ -66,11 +50,21 @@ export default function UserPanel({setIsLoginModalOpen, cookies, setCookie}){
                                     <div className="font-size-12">Kod pocztowy: <b>{userProfileData.postalCode}</b></div>
                                     <div className="font-size-12">Nr telefonu: <b>{userProfileData.phoneNumber}</b></div>
                                 </div>
-                                <button className="btn btn-primary mt-15 w-half" onClick={() => setIsDataInEditionMode(true)}>Edytuj dane</button>
+                                <div className="d-flex justify-content-between">
+                                    <button className="btn btn-primary mt-15" onClick={() => setIsEditUserDataModalOpen(true)}>Edytuj dane</button>
+                                    <button className="btn btn-primary mt-15">Edytuj hasło</button>
+                                </div>
                             </div>
-                        )
-                    }
-            </div>  
+                    </div>
+                    <div className="d-flex flex-column h-half w-three-quarter">
+                        <div className="card h-half mt-70">
+                            <h1 className="font-size-24">Moje zamówienia</h1>
+                        </div>
+                        <div className="card h-half">
+                            <h1 className="font-size-24">Moje rezerwacje</h1>
+                        </div>
+                    </div>
+                </div>  
                 
             </ContentWrapper>
         </PageWrapper>

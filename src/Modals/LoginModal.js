@@ -73,7 +73,7 @@ export default function LoginModal({isLoginModalOpen, setIsLoginModalOpen, handl
             };
         }
     
-return(
+    return(
     <Modal isOpen={isLoginModalOpen} toggle={()=>{setIsLoginModalOpen(!isLoginModalOpen)}}>
         <ModalDialog>
             <ModalContent>

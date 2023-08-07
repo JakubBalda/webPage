@@ -56,7 +56,7 @@
   width: 320px;
 }
 .mt-70{
-  margin-top: 70px;
+  margin-top: 70px !important;
 }
 .ml-50{
   margin-left: 50px;
