@@ -6,11 +6,13 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { CookiesProvider } from "react-cookie";
 import { useLocation } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function Sidebar({onGenreChange, setIsLoginModalOpen, cookies, setCookie}){
     const [booksAmount, setBooksAmount] = useState(null);
     const [genres, setGenres] = useState([]); 
+
+    const navigate = useNavigate();
 
     const location = useLocation();
     const isInCorrectPage = location.pathname === '/';
@@ -43,7 +45,7 @@ export default function Sidebar({onGenreChange, setIsLoginModalOpen, cookies, se
       const handleLogOut = () => {
           setCookie("user", '', {path: "/"});
           alert("Pomyślnie wylogowano");
-          window.location.reload();
+          navigate("/");
       }
 
     return(

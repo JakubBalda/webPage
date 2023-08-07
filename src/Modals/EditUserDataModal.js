@@ -115,7 +115,7 @@ export default function EditUserDataModal({isEditUserDataModalOpen, setIsEditUse
                         </Col>
 
                         <Col>
-                            <Button color="secondary" block type="submit" onClick={handleEditUserDataSubmit}>Edytuj</Button>
+                            <Button color="secondary" block type="submit" onClick={handleEditUserDataSubmit}>Zapisz</Button>
                         </Col>
                     </FormRow>
                 </Form>

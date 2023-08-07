@@ -6,11 +6,13 @@ import { ContentWrapper, PageWrapper } from "reacthalfmoon";
 import axios from 'axios';
 import 'halfmoon/css/halfmoon.min.css';
 import EditUserDataModal from "../Modals/EditUserDataModal";
+import EditUserPasswordModal from "../Modals/EditUserPasswordModal";
 
 export default function UserPanel({setIsLoginModalOpen, cookies, setCookie}){
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [userProfileData, setUserProfileData] = useState([]);
     const [isEditUserDataModalOpen, setIsEditUserDataModalOpen] = useState(false);
+    const [isEditUserPasswordModalOpen, setIsEditUserPasswordModalOpen] = useState(false);
 
 
     useEffect(() => {
@@ -29,7 +31,8 @@ export default function UserPanel({setIsLoginModalOpen, cookies, setCookie}){
     return(
     <div>
         <EditUserDataModal isEditUserDataModalOpen={isEditUserDataModalOpen} setIsEditUserDataModalOpen={setIsEditUserDataModalOpen} userProfileData={userProfileData}/>
-
+        <EditUserPasswordModal isEditUserPasswordModalOpen={isEditUserPasswordModalOpen} setIsEditUserPasswordModalOpen={setIsEditUserPasswordModalOpen} />
+        
         <PageWrapper withSidebar isSidebarOpen={isSidebarOpen} toggle={() => {setIsSidebarOpen(!isSidebarOpen)}}  withNavbar withTransitions>
             <NavbarComponent isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen}/>
             <Sidebar setIsLoginModalOpen={setIsLoginModalOpen} cookies={cookies} setCookie={setCookie}/>
@@ -52,7 +55,7 @@ export default function UserPanel({setIsLoginModalOpen, cookies, setCookie}){
                                 </div>
                                 <div className="d-flex justify-content-between">
                                     <button className="btn btn-primary mt-15" onClick={() => setIsEditUserDataModalOpen(true)}>Edytuj dane</button>
-                                    <button className="btn btn-primary mt-15">Edytuj hasło</button>
+                                    <button className="btn btn-primary mt-15" onClick={() => setIsEditUserPasswordModalOpen(true)}>Edytuj hasło</button>
                                 </div>
                             </div>
                     </div>
