@@ -78,7 +78,7 @@ export default function RegisterModal({isRegisterModalOpen, setIsRegisterModalOp
             isValid = false;
         }
 
-        if(!validator.isAlpha(registerData.name.trim())){
+        if(!validator.isAlpha(registerData.name.trim(), ['pl-PL'])){
             errors.name =  "Imie jest niepoprawne."
             isValid = false;
         }
@@ -95,6 +95,11 @@ export default function RegisterModal({isRegisterModalOpen, setIsRegisterModalOp
 
         if(registerData.surname.trim().length > 30){
             errors.surname =  "Nazwisko jest za długie - max 30 znaków."
+            isValid = false;
+        }
+
+        if(!validator.isAlpha(registerData.surname.trim(), ['pl-PL'])){
+            errors.surname = "Nazwisko jest niepoprawne"
             isValid = false;
         }
 
@@ -226,6 +231,36 @@ export default function RegisterModal({isRegisterModalOpen, setIsRegisterModalOp
             };
         }
 
+        const handleFormReset = () => {
+            setRegisterData({
+                login: '',
+                password: '',
+                name: '',
+                surname: '',
+                city: '',
+                street: '',
+                houseNumber: '',
+                flatNumber: '',
+                postal: '',
+                mail: '',
+                phoneNumber: ''
+            });
+
+            setRegisterFormErrors({
+                login: '',
+                password: '',
+                name: '',
+                surname: '',
+                city: '',
+                street: '',
+                houseNumber: '',
+                flatNumber: '',
+                postal: '',
+                mail: '',
+                phoneNumber: ''
+            })
+        }
+
     return(
         <Modal isOpen={isRegisterModalOpen} toggle={()=>{setIsRegisterModalOpen(!isRegisterModalOpen)}}>
         <ModalDialog>
@@ -301,7 +336,7 @@ export default function RegisterModal({isRegisterModalOpen, setIsRegisterModalOp
 
                     <FormRow equalSpacing>
                         <Col>
-                            <Button block color="danger" onClick={()=>{setIsRegisterModalOpen(false)}}>Anuluj</Button>
+                            <Button block color="danger" onClick={()=>{setIsRegisterModalOpen(false); handleFormReset();}}>Anuluj</Button>
                         </Col>
 
                         <Col>
