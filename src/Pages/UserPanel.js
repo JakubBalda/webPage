@@ -19,7 +19,6 @@ export default function UserPanel({setIsLoginModalOpen, cookies, setCookie}){
         const getUserData = async () => {
             try{
                 const res = await axios.get(`http://localhost:5001/api/users/${cookies.user.id}`);
-                console.log(res.data);
                 setUserProfileData(res.data);
             }catch(err){
                 console.log(err)
@@ -32,7 +31,7 @@ export default function UserPanel({setIsLoginModalOpen, cookies, setCookie}){
     <div>
         <EditUserDataModal isEditUserDataModalOpen={isEditUserDataModalOpen} setIsEditUserDataModalOpen={setIsEditUserDataModalOpen} userProfileData={userProfileData}/>
         <EditUserPasswordModal isEditUserPasswordModalOpen={isEditUserPasswordModalOpen} setIsEditUserPasswordModalOpen={setIsEditUserPasswordModalOpen} />
-        
+
         <PageWrapper withSidebar isSidebarOpen={isSidebarOpen} toggle={() => {setIsSidebarOpen(!isSidebarOpen)}}  withNavbar withTransitions>
             <NavbarComponent isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen}/>
             <Sidebar setIsLoginModalOpen={setIsLoginModalOpen} cookies={cookies} setCookie={setCookie}/>

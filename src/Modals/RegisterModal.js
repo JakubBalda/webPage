@@ -35,7 +35,7 @@ export default function RegisterModal({isRegisterModalOpen, setIsRegisterModalOp
 
     const handleRegisterInputChange = (e) => {
         const { name, value } = e.target;
-        console.log(value);
+        
         setRegisterData({
             ...registerData,
             [name]: value
