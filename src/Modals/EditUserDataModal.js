@@ -34,7 +34,6 @@ export default function EditUserDataModal({isEditUserDataModalOpen, setIsEditUse
 
     useEffect(() => {
         if(userProfileData.length === undefined){
-            console.log(userProfileData);
             setUserData({
                 login: userProfileData.login,
                 name: userProfileData.name,
@@ -72,7 +71,7 @@ export default function EditUserDataModal({isEditUserDataModalOpen, setIsEditUse
             isValid = false;
         }
 
-        if(!validator.isAlpha(userData.name.trim())){
+        if(!validator.isAlpha(userData.name.trim(), ['pl-PL'])){
             errors.name =  "Imie jest niepoprawne."
             isValid = false;
         }
@@ -84,6 +83,11 @@ export default function EditUserDataModal({isEditUserDataModalOpen, setIsEditUse
 
         if (userData.surname.trim() === "") {
             errors.surname = "Nazwisko jest wymagane.";
+            isValid = false;
+        }
+
+        if(!validator.isAlpha(userData.surname.trim(), ['pl-PL'])){
+            errors.surname = "Nazwisko jest niepoprawne"
             isValid = false;
         }
 
@@ -215,7 +219,6 @@ export default function EditUserDataModal({isEditUserDataModalOpen, setIsEditUse
     }
 
     const handleFormReset = () => {
-        console.log(userProfileData);
 
         setUserData({
             login: userProfileData.login,
@@ -227,7 +230,7 @@ export default function EditUserDataModal({isEditUserDataModalOpen, setIsEditUse
             flatNumber: userProfileData.flatNumber,
             postal: userProfileData.postalCode,
             mail: userProfileData.mail,
-            phoneNumber: userProfileData.phoneNumber
+            phoneNumber: userProfileData.phoneNumber.substring(3)
         });
     }
 
