@@ -1,21 +1,21 @@
 import React from "react";
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button, ModalContent, ModalDialog, ModalTitle, Modal, Form, Input, FormRow, Col } from "reacthalfmoon";
 import validator from 'validator';
 
 export default function EditUserDataModal({isEditUserDataModalOpen, setIsEditUserDataModalOpen, userProfileData}){
     const [userData, setUserData] = useState({
-        login: userProfileData.login,
-        name: userProfileData.name,
-        surname: userProfileData.surname,
-        city: userProfileData.city,
-        street: userProfileData.street,
-        houseNumber: userProfileData.houseNumber,
-        flatNumber: userProfileData.flatNumber,
-        postal: userProfileData.postalCode,
-        mail: userProfileData.mail,
-        phoneNumber: userProfileData.phoneNumber
+        login: '',
+        name: '',
+        surname: '',
+        city: '',
+        street: '',
+        houseNumber: '',
+        flatNumber: '',
+        postal: '',
+        mail: '',
+        phoneNumber: ''
     });
 
     const [userDataFormErrors, setUserDataFormErrors] = useState({
@@ -32,9 +32,30 @@ export default function EditUserDataModal({isEditUserDataModalOpen, setIsEditUse
         phoneNumber: ''
     });
 
+    useEffect(() => {
+        if(userProfileData.length === undefined){
+            console.log(userProfileData);
+            setUserData({
+                login: userProfileData.login,
+                name: userProfileData.name,
+                surname: userProfileData.surname,
+                city: userProfileData.city,
+                street: userProfileData.street,
+                houseNumber: userProfileData.houseNumber,
+                flatNumber: userProfileData.flatNumber,
+                postal: userProfileData.postalCode,
+                mail: userProfileData.mail,
+                phoneNumber: userProfileData.phoneNumber.substring(3)
+            });
+        }
+
+    }, [userProfileData]);
+
     const validateEditUserDataForm = () => {
         let isValid = true;
         const errors = {};
+
+        console.log(userData);
 
         if (userData.login.trim() === "") {
             errors.login = "Login jest wymagany.";
@@ -44,18 +65,6 @@ export default function EditUserDataModal({isEditUserDataModalOpen, setIsEditUse
         if(userData.login.trim().length > 30){
             errors.login = "Login jest za długi - max 30 znaków."
             isValid = false;
-        }
-
-        if (userData.password.trim() === "") {
-            errors.password = "Hasło jest wymagane.";
-            isValid = false;
-        }
-
-        if(!validator.isStrongPassword(userData.password.trim(),{
-           minLength: 8, minLowercase: 1, minUppercase: 1, minNumbers: 1, minSymbols: 1, maxlength: 40 
-            })){
-                errors.password = "Hasło musi być silne (max 40 znaków)!";
-                isValid = false;
         }
 
         if (userData.name.trim() === "") {
@@ -199,9 +208,15 @@ export default function EditUserDataModal({isEditUserDataModalOpen, setIsEditUse
 
     const handleEditUserDataSubmit = (e) => {
         e.preventDefault();
+
+        if(validateEditUserDataForm()){
+            console.log("Validation correct")
+        }
     }
 
     const handleFormReset = () => {
+        console.log(userProfileData);
+
         setUserData({
             login: userProfileData.login,
             name: userProfileData.name,
@@ -230,7 +245,7 @@ export default function EditUserDataModal({isEditUserDataModalOpen, setIsEditUse
                         </Col>
                         <Col>
                             <label className="required">E-mail</label>
-                            <Input type="text" placeholder="xyz@gmail.com" name="mail" value={userProfileData.mail} onChange={handleEditUserDataInputChange}/>
+                            <Input type="text" placeholder="xyz@gmail.com" name="mail" value={userData.mail} onChange={handleEditUserDataInputChange}/>
                             {userDataFormErrors.mail && <p className="error-message text-danger">{userDataFormErrors.mail}</p>}
                         </Col>
                     </FormRow>
@@ -238,17 +253,17 @@ export default function EditUserDataModal({isEditUserDataModalOpen, setIsEditUse
                     <FormRow equalSpacing>
                         <Col>
                             <label className="required">Imie</label>
-                            <Input type="text" placeholder="Imie" name="name" value={userProfileData.name} onChange={handleEditUserDataInputChange}/>
+                            <Input type="text" placeholder="Imie" name="name" value={userData.name} onChange={handleEditUserDataInputChange}/>
                             {userDataFormErrors.name && <p className="error-message text-danger">{userDataFormErrors.name}</p>}
                         </Col>
                         <Col>
                             <label className="required">Nazwisko</label>
-                            <Input type="text" placeholder="Nazwisko" name="surname" value={userProfileData.surname} onChange={handleEditUserDataInputChange}/>
+                            <Input type="text" placeholder="Nazwisko" name="surname" value={userData.surname} onChange={handleEditUserDataInputChange}/>
                             {userDataFormErrors.surname && <p className="error-message text-danger">{userDataFormErrors.surname}</p>}
                         </Col>
                         <Col>
                             <label className="required">Miejscowość</label>
-                            <Input type="text" placeholder="Miejscowość" name="city" value={userProfileData.city} onChange={handleEditUserDataInputChange}/>
+                            <Input type="text" placeholder="Miejscowość" name="city" value={userData.city} onChange={handleEditUserDataInputChange}/>
                             {userDataFormErrors.city && <p className="error-message text-danger">{userDataFormErrors.city}</p>}
                         </Col>
                     </FormRow>
@@ -256,17 +271,17 @@ export default function EditUserDataModal({isEditUserDataModalOpen, setIsEditUse
                     <FormRow equalSpacing>
                         <Col>
                             <label className="required">Ulica</label>
-                            <Input type="text" placeholder="Ulica" name="street" value={userProfileData.street} onChange={handleEditUserDataInputChange}/>
+                            <Input type="text" placeholder="Ulica" name="street" value={userData.street} onChange={handleEditUserDataInputChange}/>
                             {userDataFormErrors.street && <p className="error-message text-danger">{userDataFormErrors.street}</p>}
                         </Col>
                         <Col>
                             <label className="required">Nr domu</label>
-                            <Input type="text" placeholder="Nr domu" maxlength="4" name="houseNumber" value={userProfileData.houseNumber} onChange={handleEditUserDataInputChange}/>
+                            <Input type="text" placeholder="Nr domu" maxLength="4" name="houseNumber" value={userData.houseNumber} onChange={handleEditUserDataInputChange}/>
                             {userDataFormErrors.houseNumber && <p className="error-message text-danger">{userDataFormErrors.houseNumber}</p>}
                         </Col>
                         <Col>
                             <label>Nr mieszkania</label>
-                            <Input type="text" placeholder="Nr mieszkania" maxlength="3" name="flatNumber" value={userProfileData.flatNumber} onChange={handleEditUserDataInputChange}/>
+                            <Input type="text" placeholder="Nr mieszkania" maxLength="3" name="flatNumber" value={userData.flatNumber} onChange={handleEditUserDataInputChange}/>
                             {userDataFormErrors.flatNumber && <p className="error-message text-danger">{userDataFormErrors.flatNumber}</p>}
                         </Col>
                     </FormRow>
@@ -274,12 +289,12 @@ export default function EditUserDataModal({isEditUserDataModalOpen, setIsEditUse
                     <FormRow equalSpacing>
                         <Col>
                             <label className="required">Kod pocztowy</label>
-                            <Input type="text" placeholder="xx-xxx" maxlength="6" name="postal" value={userProfileData.postalCode} onChange={handleEditUserDataInputChange}/>
+                            <Input type="text" placeholder="xx-xxx" maxLength="6" name="postal" value={userData.postal} onChange={handleEditUserDataInputChange}/>
                             {userDataFormErrors.postal && <p className="error-message text-danger">{userDataFormErrors.postal}</p>}
                         </Col>
                         <Col>
                             <label className="required">Nr telefonu</label>
-                            <Input type="text" placeholder="Max 9 cyfr" maxlength="9" name="phoneNumber" value={userProfileData.phoneNumber} onChange={handleEditUserDataInputChange}/>
+                            <Input type="text" placeholder="Max 9 cyfr" maxLength="9" name="phoneNumber" value={userData.phoneNumber} onChange={handleEditUserDataInputChange}/>
                             {userDataFormErrors.phoneNumber && <p className="error-message text-danger">{userDataFormErrors.phoneNumber}</p>}
                         </Col>
                     </FormRow>

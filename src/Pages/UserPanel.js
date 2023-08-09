@@ -25,11 +25,18 @@ export default function UserPanel({setIsLoginModalOpen, cookies, setCookie}){
             }
         }
         getUserData();
-    }, [])
+    }, []);
+    const editUserDataModal = userProfileData && (
+        <EditUserDataModal
+            isEditUserDataModalOpen={isEditUserDataModalOpen}
+            setIsEditUserDataModalOpen={setIsEditUserDataModalOpen}
+            userProfileData={userProfileData}
+        />
+    );
 
     return(
     <div>
-        <EditUserDataModal isEditUserDataModalOpen={isEditUserDataModalOpen} setIsEditUserDataModalOpen={setIsEditUserDataModalOpen} userProfileData={userProfileData}/>
+        {editUserDataModal}
         <EditUserPasswordModal isEditUserPasswordModalOpen={isEditUserPasswordModalOpen} setIsEditUserPasswordModalOpen={setIsEditUserPasswordModalOpen} />
 
         <PageWrapper withSidebar isSidebarOpen={isSidebarOpen} toggle={() => {setIsSidebarOpen(!isSidebarOpen)}}  withNavbar withTransitions>
@@ -39,7 +46,7 @@ export default function UserPanel({setIsLoginModalOpen, cookies, setCookie}){
                 <div className="d-flex">
                     <div className="card w-quarter d-flex flex-column h-three-quarter">
                         <h1 className="font-size-24">Mój profil</h1>
-                            <div>
+                            <div className="d-flex flex-column">
                                 <div className="text-left">
                                     <div className="font-size-12">Imie: <b>{userProfileData.name}</b></div>
                                     <div className="font-size-12">Nazwisko: <b>{userProfileData.surname}</b></div>
