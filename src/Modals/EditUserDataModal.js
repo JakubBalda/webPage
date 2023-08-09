@@ -32,6 +32,156 @@ export default function EditUserDataModal({isEditUserDataModalOpen, setIsEditUse
         phoneNumber: ''
     });
 
+    const validateEditUserDataForm = () => {
+        let isValid = true;
+        const errors = {};
+
+        if (userData.login.trim() === "") {
+            errors.login = "Login jest wymagany.";
+            isValid = false;
+        }
+
+        if(userData.login.trim().length > 30){
+            errors.login = "Login jest za długi - max 30 znaków."
+            isValid = false;
+        }
+
+        if (userData.password.trim() === "") {
+            errors.password = "Hasło jest wymagane.";
+            isValid = false;
+        }
+
+        if(!validator.isStrongPassword(userData.password.trim(),{
+           minLength: 8, minLowercase: 1, minUppercase: 1, minNumbers: 1, minSymbols: 1, maxlength: 40 
+            })){
+                errors.password = "Hasło musi być silne (max 40 znaków)!";
+                isValid = false;
+        }
+
+        if (userData.name.trim() === "") {
+            errors.name = "Imie jest wymagane.";
+            isValid = false;
+        }
+
+        if(!validator.isAlpha(userData.name.trim())){
+            errors.name =  "Imie jest niepoprawne."
+            isValid = false;
+        }
+
+        if(userData.name.trim().length > 30){
+            errors.name = "Imie jest za długie - max 30 znaków."
+            isValid = false;
+        }
+
+        if (userData.surname.trim() === "") {
+            errors.surname = "Nazwisko jest wymagane.";
+            isValid = false;
+        }
+
+        if(userData.surname.trim().length > 30){
+            errors.surname =  "Nazwisko jest za długie - max 30 znaków."
+            isValid = false;
+        }
+
+        if (userData.city.trim() === "") {
+            errors.city = "Miejscowość jest wymagana.";
+            isValid = false;
+        }
+
+        if(userData.city.trim().length > 40){
+            errors.city =  "Miejscowość jest za długa - max 40 znaków."
+            isValid = false;
+        }
+
+        if(!validator.isAlpha(userData.city.trim().split(" ").join(""), ['pl-PL'])){
+            errors.city =  "Miejscowość jest niepoprawna."
+            isValid = false;
+        }
+
+        if (userData.street.trim() === "") {
+            errors.street = "Ulica jest wymagana.";
+            isValid = false;
+        }
+
+        if(userData.street.trim().length > 40){
+            errors.street =  "Ulica jest za długa - max 40 znaków."
+            isValid = false;
+        }
+
+        if (userData.houseNumber.trim() === "") {
+            errors.houseNumber = "Nr domu jest wymagany.";
+            isValid = false;
+        }
+
+        if (!validator.isAlphanumeric(userData.houseNumber.trim())) {
+            errors.houseNumber = "Nr domu jest niepopawny";
+            isValid = false;
+        }
+
+        if(userData.houseNumber.trim().length > 4){
+            errors.houseNumber =  "Nr domu jest za długi - max 4 znaki."
+            isValid = false;
+        }
+
+        if (!validator.isAlphanumeric(userData.flatNumber.trim())) {
+            errors.flatNumber = "Nr mieszkania jest niepopawny";
+            isValid = false;
+        }
+
+        if(userData.flatNumber.trim() === ""){
+            errors.flatNumber = "";
+            isValid = true;
+        }
+
+        if(userData.flatNumber.trim().length > 3){
+            errors.flatNumber =  "Nr domu jest za długi - max 3 znaki."
+            isValid = false;
+        }
+
+        if(!validator.isPostalCode(userData.postal.trim(), 'PL')){
+            errors.postal = "Kod pocztowy jest niepoprawny.";
+            isValid = false;
+        }
+
+        if (userData.postal.trim() === "") {
+            errors.postal = "Kod pocztowy jest wymagany.";
+            isValid = false;
+        }
+
+        if(!validator.isEmail(userData.mail.trim())){
+            errors.mail = "E-mail jest niepoprawny.";
+            isValid = false;
+        }
+
+        if (userData.mail.trim() === "") {
+            errors.mail = "E-mail jest wymagany.";
+            isValid = false;
+        }
+        
+        if (userData.mail.trim().length > 50) {
+            errors.phoneNumber = "E-mail jest zbyt długi - max 50 znaków.";
+            isValid = false;
+        }
+        
+        if(!validator.isNumeric(userData.phoneNumber.trim())){
+            errors.phoneNumber = "Nr telefonu jest niepoprawny.";
+            isValid = false;
+        }
+
+        if (userData.phoneNumber.trim() === "") {
+            errors.phoneNumber = "Nr telefonu jest wymagany.";
+            isValid = false;
+        }
+
+        if (userData.phoneNumber.trim().length > 9) {
+            errors.phoneNumber = "Nr telefonu jest zbyt długi - max 9 cyfr.";
+            isValid = false;
+        }
+
+        setUserDataFormErrors(errors);
+        return isValid;
+    };
+
     const handleEditUserDataInputChange = (e) => {
         const { name, value } = e.target;
         console.log(value);
@@ -47,8 +197,8 @@ export default function EditUserDataModal({isEditUserDataModalOpen, setIsEditUse
         
     }
 
-    const handleEditUserDataSubmit = () => {
-        
+    const handleEditUserDataSubmit = (e) => {
+        e.preventDefault();
     }
 
     const handleFormReset = () => {

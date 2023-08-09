@@ -35,7 +35,7 @@ export default function RegisterModal({isRegisterModalOpen, setIsRegisterModalOp
 
     const handleRegisterInputChange = (e) => {
         const { name, value } = e.target;
-        
+
         setRegisterData({
             ...registerData,
             [name]: value
@@ -221,7 +221,7 @@ export default function RegisterModal({isRegisterModalOpen, setIsRegisterModalOp
                     }
                 })
                 .catch((error) => {
-                    console.error('Login failed!', error);
+                    console.error('Register failed!', error);
                 });
             };
         }
