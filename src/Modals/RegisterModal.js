@@ -205,30 +205,34 @@ export default function RegisterModal({isRegisterModalOpen, setIsRegisterModalOp
     const handleRegisterSubmit = (e) => {
         e.preventDefault();
 
-        if(validateRegisterForm()){
-            axios.post('http://localhost:5001/api/users/register', registerData)
-                .then((response) => {
-                    switch(response.data){
-                        case 'login':
-                            alert('Login zajęty');
-                            break;
-                        case 'mail':
-                            alert('E-mail zajęty');
-                            break;
-                        case 'failed':
-                            alert('Sprawdź poprawność danych')
-                            break;
-                        default:
-                            alert('Zarejestrowano poprawnie. Możesz sie zalogować');
-                            window.location.reload();
-                            break;
-                            
-                    }
-                })
-                .catch((error) => {
-                    console.error('Register failed!', error);
-                });
+        if(window.confirm('Czy podane dane są poprawne?') === true){
+
+            if(validateRegisterForm()){
+                axios.post('http://localhost:5001/api/users/register', registerData)
+                    .then((response) => {
+                        switch(response.data){
+                            case 'login':
+                                alert('Login zajęty');
+                                break;
+                            case 'mail':
+                                alert('E-mail zajęty');
+                                break;
+                            case 'failed':
+                                alert('Sprawdź poprawność danych')
+                                break;
+                            default:
+                                alert('Zarejestrowano poprawnie. Możesz sie zalogować');
+                                window.location.reload();
+                                break;
+                                
+                        }
+                    })
+                    .catch((error) => {
+                        console.error('Register failed!', error);
+                    });
             };
+        }
+        
         }
 
         const handleFormReset = () => {
