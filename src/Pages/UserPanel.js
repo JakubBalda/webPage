@@ -31,6 +31,7 @@ export default function UserPanel({setIsLoginModalOpen, cookies, setCookie}){
             isEditUserDataModalOpen={isEditUserDataModalOpen}
             setIsEditUserDataModalOpen={setIsEditUserDataModalOpen}
             userProfileData={userProfileData}
+            cookies={cookies}
         />
     );
 
