@@ -5,6 +5,7 @@ import { Button, ModalContent, ModalDialog, ModalTitle, Modal, Form, Input, Form
 import validator from 'validator';
 
 export default function EditUserDataModal({isEditUserDataModalOpen, setIsEditUserDataModalOpen, userProfileData, cookies}){
+
     const [userData, setUserData] = useState({
         login: '',
         name: '',
@@ -212,12 +213,17 @@ export default function EditUserDataModal({isEditUserDataModalOpen, setIsEditUse
 
     const handleEditUserDataSubmit = (e) => {
         e.preventDefault();
+
         if(window.confirm('Czy podane dane są poprawne?') === true){
             if(validateEditUserDataForm()){
                 axios.put(`http://localhost:5001/api/users/updateData/${cookies.user.id}`, userData)
                     .then((response) => {
                         if(response.data === 'completed')
+                        {
                             alert('Edycja przebiegła pomyślnie!');
+                            setIsEditUserDataModalOpen(false);
+                            window.location.reload();
+                        }
                         else
                             alert('Wystąpił błąd, sprawdź poprawność danych');
                     })
