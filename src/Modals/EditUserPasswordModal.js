@@ -50,6 +50,27 @@ export default function EditUserPasswordModal({isEditUserPasswordModalOpen, setI
 
     const handleEditUserPasswordSubmit = () => {
 
+        if(validateUserNewPassword() && window.confirm('Na pewno chcesz zmienić hasło?') === true){
+            axios.put('', userNewPassword)
+                .then((response) => {
+
+                })
+                .catch((error) => {
+                    console.log('Error: ' + error);
+                })
+        }
+    }
+
+    const handleFormReset = () => {
+        setUserNewPassword({
+            newPassword: '',
+            repeatNewPassword: ''
+        });
+
+        setUserNewPasswordErrors({
+            newPassword: '',
+            repeatNewPassword: ''
+        })
     }
 
     return (
@@ -61,22 +82,22 @@ export default function EditUserPasswordModal({isEditUserPasswordModalOpen, setI
                     <FormRow equalSpacing>
                         <Col>
                             <label className="required">Nowe hasło</label>
-                            <Input type="password" placeholder="Nowe hasło" name="newPassword" onChange={handleEditUserPasswordInputChange}></Input>
+                            <Input type="password" placeholder="Nowe hasło" name="newPassword" value={userNewPassword.newPassword} onChange={handleEditUserPasswordInputChange}></Input>
                             {userNewPasswordErrors.newPassword && <p className="error-message text-danger">{userNewPasswordErrors.newPassword}</p>}
                         </Col>
                         <Col>
                             <label className="required">Powtórz nowe hasło</label>
-                            <Input type="password" placeholder="Powtórz nowe hasło" name="repeatNewPassword" onChange={handleEditUserPasswordInputChange}></Input>
+                            <Input type="password" placeholder="Powtórz nowe hasło" name="repeatNewPassword" value={userNewPassword.repeatNewPassword} onChange={handleEditUserPasswordInputChange}></Input>
                             {userNewPasswordErrors.repeatNewPassword && <p className="error-message text-danger">{userNewPasswordErrors.repeatNewPassword}</p>}
                         </Col>
                     </FormRow>
                     <FormRow equalSpacing>
                         <Col>
-                            <Button block color="danger" onClick={()=>{setIsEditUserPasswordModalOpen(false)}}>Anuluj</Button>
+                            <Button block color="danger" onClick={()=>{setIsEditUserPasswordModalOpen(false); handleFormReset()}}>Anuluj</Button>
                         </Col>
 
                         <Col>
-                            <Button color="secondary" block type="submit">Zapisz</Button>
+                            <Button color="secondary" block type="submit" onClick={handleEditUserPasswordSubmit}>Zapisz</Button>
                         </Col>
                     </FormRow>
                 </Form>
