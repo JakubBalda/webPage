@@ -55,8 +55,6 @@ export default function EditUserDataModal({isEditUserDataModalOpen, setIsEditUse
         let isValid = true;
         const errors = {};
 
-        console.log(userData);
-
         if (userData.login.trim() === "") {
             errors.login = "Login jest wymagany.";
             isValid = false;
@@ -198,7 +196,6 @@ export default function EditUserDataModal({isEditUserDataModalOpen, setIsEditUse
 
     const handleEditUserDataInputChange = (e) => {
         const { name, value } = e.target;
-        console.log(value);
         setUserData({
             ...userData,
             [name]: value
