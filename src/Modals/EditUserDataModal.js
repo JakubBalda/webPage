@@ -195,7 +195,7 @@ export default function EditUserDataModal({isEditUserDataModalOpen, setIsEditUse
     };
 
     const handleEditUserDataInputChange = (e) => {
-        const { name, value } = e.target;
+        const { name, value } = e.target
         setUserData({
             ...userData,
             [name]: value
