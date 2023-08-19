@@ -1,25 +1,67 @@
 import React from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { Button, ModalContent, ModalDialog, ModalTitle, Modal, Form, Input, FormRow, Col } from "reacthalfmoon";
+import { Button, ModalContent, ModalDialog, ModalTitle, Modal, Form, Input, FormRow, Col, TextArea  } from "reacthalfmoon";
 import validator from 'validator';
 
 export default function EditBookDataModal({isEditBookDataModalOpen, setIsEditBookDataModalOpen, book}){
 
     const [bookData, setBookData] = useState({
-
+        title: '',
+        authorName: '',
+        authorSurname: '',
+        isbn: '',
+        description: '',
+        price: '',
+        amount: '',
+        publisher: '',
+        pageAmount: '',
+        publishYear: '',
+        genre: '',
     })
 
     const [bookDataFormErrors, setBookDataFormErrors] = useState({
-
+        title: '',
+        authorName: '',
+        authorSurname: '',
+        isbn: '',
+        description: '',
+        price: '',
+        amount: '',
+        publisher: '',
+        pageAmount: '',
+        publishYear: '',
+        genre: '',
     })
+
+    useEffect(() => {
+        if(book.length === undefined){
+            const author = book.author.split(' ');
+            setBookData({
+                title: book.title,
+                authorName: author[0],
+                authorSurname: author[1],
+                isbn: book.isbn,
+                description: book.description,
+                price: book.price,
+                amount: book.amount,
+                publisher: book.publisher,
+                pageAmount: book.pageAmount,
+                publishYear: book.publishYear,
+                genre: book.genre
+            });
+
+            console.log(bookData);
+        }
+
+    }, [book]);
 
     const handleEditBookDataInputChange = () => {
 
     }
 
     const handleEditBookDataSubmit = () => {
-        
+
     }
 
     const handleFormReset = () => {
@@ -30,67 +72,76 @@ export default function EditBookDataModal({isEditBookDataModalOpen, setIsEditBoo
         <Modal isOpen={isEditBookDataModalOpen} toggle={()=>{setIsEditBookDataModalOpen(!isEditBookDataModalOpen)}}>
         <ModalDialog>
             <ModalContent className="w-half">
-                <ModalTitle>Edytuj dane</ModalTitle>
+                <ModalTitle>Edytuj dane książki</ModalTitle>
                 <Form>
                     <FormRow equalSpacing>
                         <Col>
-                            <label className="required">Login</label>
-                            <Input type="text" placeholder="Login" name="login" value={bookData.login} onChange={handleEditBookDataInputChange}/>
-                            {bookDataFormErrors.login && <p className="error-message text-danger">{bookDataFormErrors.login}</p>}
+                            <label className="required">Tytuł</label>
+                            <Input type="text" placeholder="Tytuł" name="title" value={bookData.title} onChange={handleEditBookDataInputChange}/>
+                            {bookDataFormErrors.title && <p className="error-message text-danger">{bookDataFormErrors.title}</p>}
                         </Col>
                         <Col>
-                            <label className="required">E-mail</label>
-                            <Input type="text" placeholder="xyz@gmail.com" name="mail" value={bookData.mail} onChange={handleEditBookDataInputChange}/>
-                            {bookDataFormErrors.mail && <p className="error-message text-danger">{bookDataFormErrors.mail}</p>}
+                            <label className="required">Gatunek</label>
+                            <Input type="text" placeholder="Gatunek" name="genre" value={bookData.genre} onChange={handleEditBookDataInputChange}/>
+                            {bookDataFormErrors.genre && <p className="error-message text-danger">{bookDataFormErrors.genre}</p>}
                         </Col>
                     </FormRow>
                     
                     <FormRow equalSpacing>
                         <Col>
-                            <label className="required">Imie</label>
-                            <Input type="text" placeholder="Imie" name="name" value={bookData.name} onChange={handleEditBookDataInputChange}/>
-                            {bookDataFormErrors.name && <p className="error-message text-danger">{bookDataFormErrors.name}</p>}
+                            <label className="required">Imie autora</label>
+                            <Input type="text" placeholder="Imie" name="authorName" value={bookData.authorName} onChange={handleEditBookDataInputChange}/>
+                            {bookDataFormErrors.authorName && <p className="error-message text-danger">{bookDataFormErrors.authorName}</p>}
                         </Col>
                         <Col>
-                            <label className="required">Nazwisko</label>
-                            <Input type="text" placeholder="Nazwisko" name="surname" value={bookData.surname} onChange={handleEditBookDataInputChange}/>
-                            {bookDataFormErrors.surname && <p className="error-message text-danger">{bookDataFormErrors.surname}</p>}
+                            <label className="required">Nazwisko autora</label>
+                            <Input type="text" placeholder="Nazwisko" name="authorSurname" value={bookData.authorSurname} onChange={handleEditBookDataInputChange}/>
+                            {bookDataFormErrors.authorSurname && <p className="error-message text-danger">{bookDataFormErrors.authorSurname}</p>}
                         </Col>
                         <Col>
-                            <label className="required">Miejscowość</label>
-                            <Input type="text" placeholder="Miejscowość" name="city" value={bookData.city} onChange={handleEditBookDataInputChange}/>
-                            {bookDataFormErrors.city && <p className="error-message text-danger">{bookDataFormErrors.city}</p>}
-                        </Col>
-                    </FormRow>
-
-                    <FormRow equalSpacing>
-                        <Col>
-                            <label className="required">Ulica</label>
-                            <Input type="text" placeholder="Ulica" name="street" value={bookData.street} onChange={handleEditBookDataInputChange}/>
-                            {bookDataFormErrors.street && <p className="error-message text-danger">{bookDataFormErrors.street}</p>}
-                        </Col>
-                        <Col>
-                            <label className="required">Nr domu</label>
-                            <Input type="text" placeholder="Nr domu" maxLength="4" name="houseNumber" value={bookData.houseNumber} onChange={handleEditBookDataInputChange}/>
-                            {bookDataFormErrors.houseNumber && <p className="error-message text-danger">{bookDataFormErrors.houseNumber}</p>}
-                        </Col>
-                        <Col>
-                            <label>Nr mieszkania</label>
-                            <Input type="text" placeholder="Nr mieszkania" maxLength="3" name="flatNumber" value={bookData.flatNumber} onChange={handleEditBookDataInputChange}/>
-                            {bookDataFormErrors.flatNumber && <p className="error-message text-danger">{bookDataFormErrors.flatNumber}</p>}
+                            <label className="required">ISBN</label>
+                            <Input type="text" placeholder="ISBN" name="isbn" value={bookData.isbn} onChange={handleEditBookDataInputChange}/>
+                            {bookDataFormErrors.isbn && <p className="error-message text-danger">{bookDataFormErrors.isbn}</p>}
                         </Col>
                     </FormRow>
 
                     <FormRow equalSpacing>
                         <Col>
-                            <label className="required">Kod pocztowy</label>
-                            <Input type="text" placeholder="xx-xxx" maxLength="6" name="postal" value={bookData.postal} onChange={handleEditBookDataInputChange}/>
-                            {bookDataFormErrors.postal && <p className="error-message text-danger">{bookDataFormErrors.postal}</p>}
+                            <label className="required">Wydawnictwo</label>
+                            <Input type="text" placeholder="Wydawnictwo" name="publisher" value={bookData.publisher} onChange={handleEditBookDataInputChange}/>
+                            {bookDataFormErrors.publisher && <p className="error-message text-danger">{bookDataFormErrors.publisher}</p>}
                         </Col>
                         <Col>
-                            <label className="required">Nr telefonu</label>
-                            <Input type="text" placeholder="Max 9 cyfr" maxLength="9" name="phoneNumber" value={bookData.phoneNumber} onChange={handleEditBookDataInputChange}/>
-                            {bookDataFormErrors.phoneNumber && <p className="error-message text-danger">{bookDataFormErrors.phoneNumber}</p>}
+                            <label className="required">Rok wydania</label>
+                            <Input type="text" placeholder="Rok wydania" maxLength="4" name="publishYear" value={bookData.publishYear} onChange={handleEditBookDataInputChange}/>
+                            {bookDataFormErrors.publishYears && <p className="error-message text-danger">{bookDataFormErrors.publishYear}</p>}
+                        </Col>
+                        <Col>
+                            <label className="required">Ilość stron</label>
+                            <Input type="text" placeholder="Ilość stron" maxLength="3" name="pageAmount" value={bookData.pageAmount} onChange={handleEditBookDataInputChange}/>
+                            {bookDataFormErrors.pageAmount && <p className="error-message text-danger">{bookDataFormErrors.pageAmount}</p>}
+                        </Col>
+                    </FormRow>
+
+                    <FormRow equalSpacing>
+                        <Col>
+                            <label className="required">Ilość</label>
+                            <Input type="text" placeholder="Na stanie" maxLength="6" name="amount" value={bookData.amount} onChange={handleEditBookDataInputChange}/>
+                            {bookDataFormErrors.amount && <p className="error-message text-danger">{bookDataFormErrors.amount}</p>}
+                        </Col>
+                        <Col>
+                            <label className="required">Cena</label>
+                            <Input type="text" placeholder="Cena" name="price" value={bookData.price} onChange={handleEditBookDataInputChange}/>
+                            {bookDataFormErrors.price && <p className="error-message text-danger">{bookDataFormErrors.price}</p>}
+                        </Col>
+                    </FormRow>
+
+                    <FormRow>
+                        <Col>
+                            <label>Opis</label>
+                            <TextArea placeholder="Opis książki" name="description" value={bookData.description} onChange={handleEditBookDataInputChange}></TextArea>
+                            {bookDataFormErrors.description && <p className="error-message text-danger">{bookDataFormErrors.description}</p>}
+
                         </Col>
                     </FormRow>
 
