@@ -56,8 +56,17 @@ export default function EditBookDataModal({isEditBookDataModalOpen, setIsEditBoo
 
     }, [book]);
 
-    const handleEditBookDataInputChange = () => {
+    const handleEditBookDataInputChange = (e) => {
+        const { name, value } = e.target
+        setBookData({
+            ...bookData,
+            [name]: value
+        });
 
+        setBookDataFormErrors({
+            ...bookDataFormErrors,
+            [name]: ""
+        });
     }
 
     const handleEditBookDataSubmit = () => {
@@ -65,7 +74,20 @@ export default function EditBookDataModal({isEditBookDataModalOpen, setIsEditBoo
     }
 
     const handleFormReset = () => {
-
+        const author = book.author.split(' '); 
+        setBookData({
+            title: book.title,
+            authorName: author[0],
+            authorSurname: author[1],
+            isbn: book.isbn,
+            description: book.description,
+            price: book.price,
+            amount: book.amount,
+            publisher: book.publisher,
+            pageAmount: book.pageAmount,
+            publishYear: book.publishYear,
+            genre: book.genre,
+        })
     }
 
     return(
