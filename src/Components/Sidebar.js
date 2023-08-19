@@ -8,7 +8,7 @@ import { CookiesProvider } from "react-cookie";
 import { useLocation } from 'react-router-dom';
 import { Link, useNavigate } from 'react-router-dom';
 
-export default function Sidebar({onGenreChange, setIsLoginModalOpen, cookies, setCookie}){
+export default function Sidebar({onGenreChange, setIsLoginModalOpen, cookies, setCookie, setIsEditBookDataModalOpen}){
     const [booksAmount, setBooksAmount] = useState(null);
     const [genres, setGenres] = useState([]); 
 
@@ -81,7 +81,13 @@ export default function Sidebar({onGenreChange, setIsLoginModalOpen, cookies, se
                     <BookGenres onGenreChange={onGenreChange} booksAmount={booksAmount} genres={genres}/>
               </div>) 
               :
-              (<div></div>)
+              (<div>
+                  {cookies.user.role === 'Admin' ?
+                    (<button className="btn btn-secondary mt-20" onClick={() => {setIsEditBookDataModalOpen(true)}}>Edytuj książke</button>) 
+                    :
+                    (<div></div>)
+                  }
+              </div>)
               }
         </div>
         

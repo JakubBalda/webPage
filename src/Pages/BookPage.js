@@ -12,9 +12,11 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import { Rating } from '@smastrom/react-rating'
 import '@smastrom/react-rating/style.css'
+import EditBookDataModal from "../Modals/EditBookDataModal";
 
 export default function BookPage({cookies, setCookie, handleFormSwitch, setIsLoginModalOpen, isLoginModalOpen, isRegisterModalOpen, setIsRegisterModalOpen}){
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [isEditBookDataModalOpen, setIsEditBookDataModalOpen] = useState(false);
     const [book, setBook] = useState([])
     const [imageUrl, setImageUrl] = useState('');
     const [fullSize, setFullSize] = useState(false);
@@ -73,10 +75,11 @@ export default function BookPage({cookies, setCookie, handleFormSwitch, setIsLog
         <div>
             <LoginModal isLoginModalOpen={isLoginModalOpen} setIsLoginModalOpen={setIsLoginModalOpen} handleFormSwitch={handleFormSwitch} setCookie={setCookie} cookies={cookies}/>
             <RegisterModal isRegisterModalOpen={isRegisterModalOpen} setIsRegisterModalOpen={setIsRegisterModalOpen}/>
+            <EditBookDataModal isEditBookDataModalOpen={isEditBookDataModalOpen} setIsEditBookDataModalOpen={setIsEditBookDataModalOpen} book={book}/>
 
             <PageWrapper withSidebar isSidebarOpen={isSidebarOpen} toggle={() => {setIsSidebarOpen(!isSidebarOpen)}}  withNavbar withTransitions >
                 <NavbarComponent isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} isInCorrectSite={isInCorrectSite}/>
-                <Sidebar cookies={cookies} setCookie={setCookie} setIsLoginModalOpen={setIsLoginModalOpen}/>
+                <Sidebar cookies={cookies} setCookie={setCookie} setIsLoginModalOpen={setIsLoginModalOpen} setIsEditBookDataModalOpen={setIsEditBookDataModalOpen}/>
                 <ContentWrapper className="bg-light">
                     <div className="container-fluid">
                         <div className="row">
