@@ -215,7 +215,7 @@ export default function EditUserDataModal({isEditUserDataModalOpen, setIsEditUse
             if(validateEditUserDataForm()){
                 axios.put(`http://localhost:5001/api/users/updateData/${cookies.user.id}`, userData)
                     .then((response) => {
-                        if(response.data === 'completed')
+                        if(response.data.affectedRows === 1)
                         {
                             alert('Edycja przebiegła pomyślnie!');
                             setIsEditUserDataModalOpen(false);
