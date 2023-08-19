@@ -15,7 +15,7 @@ export default function Sidebar({onGenreChange, setIsLoginModalOpen, cookies, se
     const navigate = useNavigate();
 
     const location = useLocation();
-    const isInCorrectPage = location.pathname === '/';
+    const isOnMainPage = location.pathname === '/';
 
     useEffect(() => {
         const getBookAmount = async () => {
@@ -73,7 +73,7 @@ export default function Sidebar({onGenreChange, setIsLoginModalOpen, cookies, se
               </CookiesProvider>
             </div>
 
-            {isInCorrectPage ? 
+            {isOnMainPage ? 
             (<div className="dropdown mt-15 with-arrow">
                 <button className="btn w-200" data-toggle="dropdown" type="button" id="dropdown-toggle-btn-1" aria-haspopup="true" aria-expanded="false">
                     Książki ({booksAmount})<i className="fa fa-angle-down ml-5" aria-hidden="true"></i>
