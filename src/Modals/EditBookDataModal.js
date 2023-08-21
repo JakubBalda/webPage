@@ -56,6 +56,81 @@ export default function EditBookDataModal({isEditBookDataModalOpen, setIsEditBoo
 
     }, [book]);
 
+    const validateEditBookDataForm = () => {
+        let isValid = true;
+        const errors = {};
+
+        if(bookData.title.trim() === ""){
+            isValid = false;
+            errors.title = "Tytuł jest wymagany.";
+        }
+
+        if(bookData.title.trim().length > 100){
+            isValid = false;
+            errors.title = "Tytuł jest zbyt długi - max 100 znaków.";
+        }
+
+        if(bookData.authorName.trim() === ""){
+            isValid = false;
+            errors.title = "Imie autora jest wymagane.";
+        }
+
+        if(bookData.authorSurname.trim() === ""){
+            isValid = false;
+            errors.title = "Nazwisko autora jest wymagane.";
+        }
+
+        if(bookData.isbn.trim() === ""){
+            isValid = false;
+            errors.title = "ISBN jest wymagany.";
+        }
+
+        if(bookData.isbn.trim().length < 17 ||  bookData.isbn.trim().length > 17){
+            isValid = false;
+            errors.title = "ISBN jest niepoprawny - 17 znaków wymagane.";
+        }
+
+        if(bookData.price.trim() === ""){
+            isValid = false;
+            errors.title = "Cena jest wymagana.";
+        }
+
+        if(bookData.amount.trim() === ""){
+            isValid = false;
+            errors.title = "Ilość jest wymagana.";
+        }
+
+        if(bookData.publisher.trim() === ""){
+            isValid = false;
+            errors.title = "Wydawnictwo jest wymagane.";
+        }
+
+        if(bookData.publisher.trim().length > 100){
+            isValid = false;
+            errors.title = "Wydawnictwo jest zbyt długie - max 100 znaków.";
+        }
+
+        if(bookData.publishYear.trim() === ""){
+            isValid = false;
+            errors.title = "Rok wydania jest wymagany.";
+        }
+
+        if(bookData.genre.trim() === ""){
+            isValid = false;
+            errors.title = "Gatunek jest wymagany.";
+        }
+
+        if(bookData.genre.trim().length > 40){
+            isValid = false;
+            errors.title = "Gatunek za długi - max 40 znaków.";
+        }
+
+        if(bookData.pageAmount.trim() === ""){
+            isValid = false;
+            errors.title = "Ilość stron jest wymagana.";
+        }
+    }
+
     const handleEditBookDataInputChange = (e) => {
         const { name, value } = e.target
         setBookData({
