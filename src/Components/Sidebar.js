@@ -8,7 +8,7 @@ import { CookiesProvider } from "react-cookie";
 import { useLocation } from 'react-router-dom';
 import { Link, useNavigate } from 'react-router-dom';
 
-export default function Sidebar({onGenreChange, setIsLoginModalOpen, cookies, setCookie, setIsEditBookDataModalOpen}){
+export default function Sidebar({onGenreChange, setIsLoginModalOpen, cookies, setCookie, setIsEditBookDataModalOpen, bookId}){
     const [booksAmount, setBooksAmount] = useState(null);
     const [genres, setGenres] = useState([]); 
 
@@ -46,6 +46,22 @@ export default function Sidebar({onGenreChange, setIsLoginModalOpen, cookies, se
           setCookie("user", '', {path: "/"});
           alert("Pomyślnie wylogowano");
           navigate("/");
+      }
+
+      const handleDeleteBook = () => {
+          if(window.confirm('Czy na pewno chcesz usunąć książkę?') === true){
+            axios.delete(`http://localhost:5000/api/books/${bookId}`)
+              .then((response) => {
+                  if(response.data === "Deleted"){
+                    alert('Książka została usunięta');
+                  }else{
+                    alert('Wystąpił błąd podczas usuwania książki, spróbuj ponownie później');
+                  }
+              })
+              .catch((error) => {
+                console.log('Error: ' + error);
+              })
+          }
       }
 
     return(
