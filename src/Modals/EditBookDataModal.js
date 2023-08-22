@@ -3,9 +3,8 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { Button, ModalContent, ModalDialog, ModalTitle, Modal, Form, Input, FormRow, Col, TextArea  } from "reacthalfmoon";
 import validator from 'validator';
-import { type } from "@testing-library/user-event/dist/type";
 
-export default function EditBookDataModal({isEditBookDataModalOpen, setIsEditBookDataModalOpen, book}){
+export default function EditBookDataModal({isEditBookDataModalOpen, setIsEditBookDataModalOpen, book, bookId}){
 
     const [bookData, setBookData] = useState({
         title: '',
@@ -19,6 +18,8 @@ export default function EditBookDataModal({isEditBookDataModalOpen, setIsEditBoo
         pageAmount: '',
         publishYear: '',
         genre: '',
+        oldAuthorName: '',
+        oldAuthorSurname: ''
     })
 
     const [bookDataFormErrors, setBookDataFormErrors] = useState({
@@ -49,7 +50,9 @@ export default function EditBookDataModal({isEditBookDataModalOpen, setIsEditBoo
                 publisher: book.publisher,
                 pageAmount: book.pageAmount,
                 publishYear: book.publishYear,
-                genre: book.genre
+                genre: book.genre,
+                oldAuthorName: author[0],
+                oldAuthorSurname: author[1]
             });
 
             console.log(bookData);
@@ -174,7 +177,16 @@ export default function EditBookDataModal({isEditBookDataModalOpen, setIsEditBoo
 
     const handleEditBookDataSubmit = () => {
         if(validateEditBookDataForm()){
-            console.log('validated');
+            if(window.confirm('Czy dane są poprawne?') === true){
+                axios.put(`http://localhost:5000/api/books/${bookId}`, bookData)
+                .then((response) => {
+                    alert(response.data);
+                    window.location.reload();
+                })
+                .catch((error) => {
+                    console.log('Error: '+ error);
+                })
+            }
         }
     }
 
