@@ -8,7 +8,7 @@ import { CookiesProvider } from "react-cookie";
 import { useLocation } from 'react-router-dom';
 import { Link, useNavigate } from 'react-router-dom';
 
-export default function Sidebar({onGenreChange, setIsLoginModalOpen, cookies, setCookie, setIsEditBookDataModalOpen, bookId}){
+export default function Sidebar({onGenreChange, setIsLoginModalOpen, cookies, setCookie, setIsEditBookDataModalOpen, bookId, setIsNewBookModalOpen}){
     const [booksAmount, setBooksAmount] = useState(null);
     const [genres, setGenres] = useState([]); 
 
@@ -16,6 +16,7 @@ export default function Sidebar({onGenreChange, setIsLoginModalOpen, cookies, se
 
     const location = useLocation();
     const isOnMainPage = location.pathname === '/';
+    const isOnBookPage = location.pathname.includes('/book/');
 
     useEffect(() => {
         const getBookAmount = async () => {
@@ -90,15 +91,25 @@ export default function Sidebar({onGenreChange, setIsLoginModalOpen, cookies, se
             </div>
 
             {isOnMainPage ? 
-            (<div className="dropdown mt-15 with-arrow">
+            (<div>
+              <div className="dropdown mt-15 with-arrow">
                 <button className="btn w-200" data-toggle="dropdown" type="button" id="dropdown-toggle-btn-1" aria-haspopup="true" aria-expanded="false">
                     Książki ({booksAmount})<i className="fa fa-angle-down ml-5" aria-hidden="true"></i>
                 </button>
                     <BookGenres onGenreChange={onGenreChange} booksAmount={booksAmount} genres={genres}/>
-              </div>) 
+              </div>
+              {cookies.user.role === 'Admin' ? 
+                (<div>
+                  <button className="btn btn-success mt-20 w-200" onClick={() => {setIsNewBookModalOpen(true)}}>Dodaj książke</button>
+                </div>)
+              :
+                (<div></div>)
+              }
+              </div>
+              ) 
               :
               (<div>
-                  {cookies.user.role === 'Admin' ?
+                  {cookies.user.role === 'Admin' && isOnBookPage ?
                     (
                       <div className="">
                         <div>
@@ -110,6 +121,7 @@ export default function Sidebar({onGenreChange, setIsLoginModalOpen, cookies, se
                     :
                     (<div></div>)
                   }
+
               </div>)
               }
         </div>
