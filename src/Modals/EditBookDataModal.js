@@ -52,7 +52,8 @@ export default function EditBookDataModal({isEditBookDataModalOpen, setIsEditBoo
                 publishYear: book.publishYear,
                 genre: book.genre,
                 oldAuthorName: author[0],
-                oldAuthorSurname: author[1]
+                oldAuthorSurname: author[1],
+                oldIsbn: book.isbn
             });
 
             console.log(bookData);
