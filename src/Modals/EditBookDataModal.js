@@ -3,6 +3,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { Button, ModalContent, ModalDialog, ModalTitle, Modal, Form, Input, FormRow, Col, TextArea  } from "reacthalfmoon";
 import validator from 'validator';
+import { type } from "@testing-library/user-event/dist/type";
 
 export default function EditBookDataModal({isEditBookDataModalOpen, setIsEditBookDataModalOpen, book}){
 
@@ -72,63 +73,90 @@ export default function EditBookDataModal({isEditBookDataModalOpen, setIsEditBoo
 
         if(bookData.authorName.trim() === ""){
             isValid = false;
-            errors.title = "Imie autora jest wymagane.";
+            errors.authorName = "Imie autora jest wymagane.";
         }
 
         if(bookData.authorSurname.trim() === ""){
             isValid = false;
-            errors.title = "Nazwisko autora jest wymagane.";
+            errors.authorSurname = "Nazwisko autora jest wymagane.";
         }
 
         if(bookData.isbn.trim() === ""){
             isValid = false;
-            errors.title = "ISBN jest wymagany.";
+            errors.isbn = "ISBN jest wymagany.";
         }
 
-        if(bookData.isbn.trim().length < 17 ||  bookData.isbn.trim().length > 17){
+        if(bookData.isbn.trim().length !== 13 ){
             isValid = false;
-            errors.title = "ISBN jest niepoprawny - 17 znaków wymagane.";
+            errors.isbn = "ISBN jest niepoprawny - 13 znaków wymagane.";
+        }
+        if(bookData.price.toString() === ""){
+            isValid = false;
+            errors.price = "Cena jest wymagana.";
+        }
+        
+        if(!validator.isCurrency(bookData.price.toString())){
+            isValid = false;
+            errors.price = "Niepoprawny format ceny.";
         }
 
-        if(bookData.price.trim() === ""){
+        if(!validator.isInt(bookData.amount.toString(), {min: 0, max: 254})){
             isValid = false;
-            errors.title = "Cena jest wymagana.";
+            errors.amount = "Ilość musi być liczbą naturalną. Max - 254"
         }
 
-        if(bookData.amount.trim() === ""){
+        if(bookData.amount.toString() === ""){
             isValid = false;
-            errors.title = "Ilość jest wymagana.";
+            errors.amount = "Ilość jest wymagana.";
         }
 
         if(bookData.publisher.trim() === ""){
             isValid = false;
-            errors.title = "Wydawnictwo jest wymagane.";
+            errors.publisher = "Wydawnictwo jest wymagane.";
         }
 
         if(bookData.publisher.trim().length > 100){
             isValid = false;
-            errors.title = "Wydawnictwo jest zbyt długie - max 100 znaków.";
+            errors.publisher = "Wydawnictwo jest zbyt długie - max 100 znaków.";
         }
 
-        if(bookData.publishYear.trim() === ""){
+        if(bookData.publishYear.toString() === ""){
             isValid = false;
-            errors.title = "Rok wydania jest wymagany.";
+            errors.publishYear = "Rok wydania jest wymagany.";
+        }
+
+        if(!validator.isInt(bookData.publishYear.toString(), {min: 0})){
+            isValid = false;
+            errors.publishYear = "Rok wydania musi być liczbą naturalną"
         }
 
         if(bookData.genre.trim() === ""){
             isValid = false;
-            errors.title = "Gatunek jest wymagany.";
+            errors.genre = "Gatunek jest wymagany.";
         }
 
         if(bookData.genre.trim().length > 40){
             isValid = false;
-            errors.title = "Gatunek za długi - max 40 znaków.";
+            errors.genre = "Gatunek za długi - max 40 znaków.";
         }
 
-        if(bookData.pageAmount.trim() === ""){
+        if(!validator.isInt(bookData.pageAmount.toString(), {min: 0})){
             isValid = false;
-            errors.title = "Ilość stron jest wymagana.";
+            errors.pageAmount = "Ilość stron musi być liczbą naturalną."
         }
+
+        if(bookData.pageAmount.toString() === ""){
+            isValid = false;
+            errors.pageAmount = "Ilość stron jest wymagana.";
+        }
+        console.log(bookData.description);
+        if(bookData.description !== 'null' || bookData.description !== "" && bookData.description.trim().length > 500){
+            isValid = false;
+            errors.description = 'Opis zbyt długi.';
+        }
+
+        setBookDataFormErrors(errors);
+        return isValid;
     }
 
     const handleEditBookDataInputChange = (e) => {
@@ -145,7 +173,9 @@ export default function EditBookDataModal({isEditBookDataModalOpen, setIsEditBoo
     }
 
     const handleEditBookDataSubmit = () => {
-
+        if(validateEditBookDataForm()){
+            console.log('validated');
+        }
     }
 
     const handleFormReset = () => {
@@ -236,8 +266,15 @@ export default function EditBookDataModal({isEditBookDataModalOpen, setIsEditBoo
                     <FormRow>
                         <Col>
                             <label>Opis</label>
-                            <TextArea placeholder="Opis książki" name="description" value={bookData.description} onChange={handleEditBookDataInputChange}></TextArea>
-                            {bookDataFormErrors.description && <p className="error-message text-danger">{bookDataFormErrors.description}</p>}
+                            {bookData.description === 'null' || bookData.description === "" ?
+                            (
+                                <TextArea placeholder="Opis książki" name="description" onChange={handleEditBookDataInputChange}></TextArea>
+                            ) 
+                            :
+                            (
+                                <TextArea placeholder="Opis książki" name="description" value={bookData.description} onChange={handleEditBookDataInputChange}></TextArea>
+                            )};
+                                {bookDataFormErrors.description && <p className="error-message text-danger">{bookDataFormErrors.description}</p>}
 
                         </Col>
                     </FormRow>
