@@ -17,6 +17,8 @@ export default function AddNewBookModal({isAddNewBookModalOpen, setIsNewBookModa
         pageAmount: '',
         publishYear: '',
         genre: '',
+        bookPhoto: '',
+        bookPhotoUrl: ''
     })
 
     const [bookDataFormErrors, setBookDataFormErrors] = useState({
@@ -31,6 +33,8 @@ export default function AddNewBookModal({isAddNewBookModalOpen, setIsNewBookModa
         pageAmount: '',
         publishYear: '',
         genre: '',
+        bookPhoto: '',
+        bookPhotoUrl: ''
     })
 
     const validateAddNewBookDataForm = () => {
@@ -148,6 +152,25 @@ export default function AddNewBookModal({isAddNewBookModalOpen, setIsNewBookModa
         });
     }
 
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        const { name } = e.target
+
+        if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const imageDataURL = e.target.result;
+
+            setBookData({
+                ...bookData,
+                [name]: imageDataURL
+            });
+
+        };
+        reader.readAsDataURL(file);
+        }
+    }
+
     const handleAddNewBookDataSubmit = () => {
         if(validateAddNewBookDataForm()){
             if(window.confirm('Czy dane są poprawne?') === true){
@@ -176,6 +199,8 @@ export default function AddNewBookModal({isAddNewBookModalOpen, setIsNewBookModa
             pageAmount: '',
             publishYear: '',
             genre: '',
+            bookPhoto: '',
+            bookPhotoUrl: ''
         })
     }
     return(
@@ -243,6 +268,19 @@ export default function AddNewBookModal({isAddNewBookModalOpen, setIsNewBookModa
                             <label className="required">Cena</label>
                             <Input type="text" placeholder="Cena" name="price" value={bookData.price} onChange={handleAddNewBookDataInputChange}/>
                             {bookDataFormErrors.price && <p className="error-message text-danger">{bookDataFormErrors.price}</p>}
+                        </Col>
+                    </FormRow>
+
+                    <FormRow equalSpacing>
+                        <Col>
+                            <label className="required">Okładka</label>
+                            <Input type="file" accept="image/*" placeholder="Okładka" name="bookPhoto" onChange={handleImageChange}/>
+                            {bookDataFormErrors.bookPhoto && <p className="error-message text-danger">{bookDataFormErrors.bookPhoto}</p>}
+                        </Col>
+                        <Col>
+                            <label className="required">Nazwa pliku</label>
+                            <Input type="text" placeholder="Nazwa pliku" name="bookPhotoUrl" value={bookData.bookPhotoUrl} onChange={handleAddNewBookDataInputChange}/>
+                            {bookDataFormErrors.bookPhotoUrl && <p className="error-message text-danger">{bookDataFormErrors.bookPhotoUrl}</p>}
                         </Col>
                     </FormRow>
 
