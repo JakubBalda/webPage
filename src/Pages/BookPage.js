@@ -35,6 +35,7 @@ export default function BookPage({cookies, setCookie, handleFormSwitch, setIsLog
 
             const res = await axios.get(`http://localhost:5000/api/books/${id}`);
             setBook(res.data);
+            console.log(res.data);
             setImageUrl(btoa(String.fromCharCode(...new Uint8Array(res.data.imageBlob.data))));
             setLoading(false);
           } catch (err) {

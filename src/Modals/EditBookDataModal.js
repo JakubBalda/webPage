@@ -19,7 +19,9 @@ export default function EditBookDataModal({isEditBookDataModalOpen, setIsEditBoo
         publishYear: '',
         genre: '',
         oldAuthorName: '',
-        oldAuthorSurname: ''
+        oldAuthorSurname: '',
+        bookPhoto: '',
+        bookPhotoUrl: ''
     })
 
     const [bookDataFormErrors, setBookDataFormErrors] = useState({
@@ -34,6 +36,8 @@ export default function EditBookDataModal({isEditBookDataModalOpen, setIsEditBoo
         pageAmount: '',
         publishYear: '',
         genre: '',
+        bookPhoto: '',
+        bookPhotoUrl: ''
     })
 
     useEffect(() => {
@@ -53,7 +57,8 @@ export default function EditBookDataModal({isEditBookDataModalOpen, setIsEditBoo
                 genre: book.genre,
                 oldAuthorName: author[0],
                 oldAuthorSurname: author[1],
-                oldIsbn: book.isbn
+                oldIsbn: book.isbn,
+                bookPhotoUrl: book.imageUrl
             });
 
             console.log(bookData);
@@ -176,6 +181,25 @@ export default function EditBookDataModal({isEditBookDataModalOpen, setIsEditBoo
         });
     }
 
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        const { name } = e.target
+
+        if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const imageDataURL = e.target.result;
+
+            setBookData({
+                ...bookData,
+                [name]: imageDataURL
+            });
+
+        };
+        reader.readAsDataURL(file);
+        }
+    }
+
     const handleEditBookDataSubmit = () => {
         if(validateEditBookDataForm()){
             if(window.confirm('Czy dane są poprawne?') === true){
@@ -205,6 +229,7 @@ export default function EditBookDataModal({isEditBookDataModalOpen, setIsEditBoo
             pageAmount: book.pageAmount,
             publishYear: book.publishYear,
             genre: book.genre,
+            bookPhotoUrl: book.imageURL
         })
     }
 
@@ -273,6 +298,19 @@ export default function EditBookDataModal({isEditBookDataModalOpen, setIsEditBoo
                             <label className="required">Cena</label>
                             <Input type="text" placeholder="Cena" name="price" value={bookData.price} onChange={handleEditBookDataInputChange}/>
                             {bookDataFormErrors.price && <p className="error-message text-danger">{bookDataFormErrors.price}</p>}
+                        </Col>
+                    </FormRow>
+
+                    <FormRow equalSpacing>
+                        <Col>
+                            <label>Okładka</label>
+                            <Input type="file" accept="image/*" placeholder="Okładka" name="bookPhoto" onChange={handleImageChange}/>
+                            {bookDataFormErrors.bookPhoto && <p className="error-message text-danger">{bookDataFormErrors.bookPhoto}</p>}
+                        </Col>
+                        <Col>
+                            <label>Nazwa pliku</label>
+                            <Input type="text" placeholder="Nazwa pliku" name="bookPhotoUrl" value={bookData.bookPhotoUrl} onChange={handleEditBookDataInputChange}/>
+                            {bookDataFormErrors.bookPhotoUrl && <p className="error-message text-danger">{bookDataFormErrors.bookPhotoUrl}</p>}
                         </Col>
                     </FormRow>
 

@@ -273,12 +273,12 @@ export default function AddNewBookModal({isAddNewBookModalOpen, setIsNewBookModa
 
                     <FormRow equalSpacing>
                         <Col>
-                            <label className="required">Okładka</label>
+                            <label>Okładka</label>
                             <Input type="file" accept="image/*" placeholder="Okładka" name="bookPhoto" onChange={handleImageChange}/>
                             {bookDataFormErrors.bookPhoto && <p className="error-message text-danger">{bookDataFormErrors.bookPhoto}</p>}
                         </Col>
                         <Col>
-                            <label className="required">Nazwa pliku</label>
+                            <label>Nazwa pliku</label>
                             <Input type="text" placeholder="Nazwa pliku" name="bookPhotoUrl" value={bookData.bookPhotoUrl} onChange={handleAddNewBookDataInputChange}/>
                             {bookDataFormErrors.bookPhotoUrl && <p className="error-message text-danger">{bookDataFormErrors.bookPhotoUrl}</p>}
                         </Col>
