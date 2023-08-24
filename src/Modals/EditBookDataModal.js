@@ -189,31 +189,24 @@ export default function EditBookDataModal({isEditBookDataModalOpen, setIsEditBoo
     const handleImageChange = async (e) => {
         const file = e.target.files[0];
         const { name } = e.target
-
-        if (file) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            const imageDataURL = e.target.result;
-            console.log(imageDataURL);
-
-        };
-        reader.readAsBinaryString(file);
+        setBookImage(file);
     }
-}
-
-    const readFileAsArrayBuffer = (file) => {
-        return new Promise((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onload = () => resolve(reader.result);
-          reader.onerror = (error) => reject(error);
-          reader.readAsArrayBuffer(file);
-        });
-      };
 
     const handleEditBookDataSubmit = () => {
+        const formData = new FormData();
+        formData.append('bookImage', bookImage);
+
+        for (const key in bookData){
+            formData.append(key, bookData[key]);
+        }
+
         if(validateEditBookDataForm()){
             if(window.confirm('Czy dane są poprawne?') === true){
-                axios.put(`http://localhost:5000/api/books/${bookId}`, bookData)
+                axios.put(`http://localhost:5000/api/books/${bookId}`, formData, {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                      },
+                })
                 .then((response) => {
                     alert(response.data);
                     window.location.reload();
