@@ -185,10 +185,8 @@ export default function EditBookDataModal({isEditBookDataModalOpen, setIsEditBoo
         console.log(bookData);
     }
 
-    //TO:DO Spróbuj naprawić upload okładki kiedyś
     const handleImageChange = async (e) => {
         const file = e.target.files[0];
-        const { name } = e.target
         setBookImage(file);
     }
 
