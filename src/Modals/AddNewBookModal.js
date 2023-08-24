@@ -17,8 +17,6 @@ export default function AddNewBookModal({isAddNewBookModalOpen, setIsNewBookModa
         pageAmount: '',
         publishYear: '',
         genre: '',
-        bookPhoto: '',
-        bookPhotoUrl: ''
     })
 
     const [bookDataFormErrors, setBookDataFormErrors] = useState({
@@ -33,8 +31,6 @@ export default function AddNewBookModal({isAddNewBookModalOpen, setIsNewBookModa
         pageAmount: '',
         publishYear: '',
         genre: '',
-        bookPhoto: '',
-        bookPhotoUrl: ''
     })
 
     const validateAddNewBookDataForm = () => {
@@ -130,9 +126,11 @@ export default function AddNewBookModal({isAddNewBookModalOpen, setIsNewBookModa
             errors.pageAmount = "Ilość stron jest wymagana.";
         }
         console.log(bookData.description);
-        if(bookData.description !== 'null' || bookData.description !== "" && bookData.description.trim().length > 500){
-            isValid = false;
-            errors.description = 'Opis zbyt długi.';
+        if(bookData.description !== 'null'){
+            if(bookData.description !== "" && bookData.description.trim().length > 500){
+                isValid = false;
+                errors.description = 'Opis zbyt długi.';
+            }
         }
 
         setBookDataFormErrors(errors);
@@ -152,6 +150,7 @@ export default function AddNewBookModal({isAddNewBookModalOpen, setIsNewBookModa
         });
     }
 
+    //TO:DO napraw kiedyś wgrywanie okładki
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         const { name } = e.target
@@ -161,20 +160,16 @@ export default function AddNewBookModal({isAddNewBookModalOpen, setIsNewBookModa
         reader.onload = (e) => {
             const imageDataURL = e.target.result;
 
-            setBookData({
-                ...bookData,
-                [name]: imageDataURL
-            });
-
         };
         reader.readAsDataURL(file);
         }
     }
 
     const handleAddNewBookDataSubmit = () => {
+        console.log(bookData);
         if(validateAddNewBookDataForm()){
             if(window.confirm('Czy dane są poprawne?') === true){
-                axios.put(`http://localhost:5000/api/books/`, bookData)
+                axios.post(`http://localhost:5000/api/books/new`, bookData)
                 .then((response) => {
                     alert(response.data);
                     window.location.reload();
@@ -268,19 +263,6 @@ export default function AddNewBookModal({isAddNewBookModalOpen, setIsNewBookModa
                             <label className="required">Cena</label>
                             <Input type="text" placeholder="Cena" name="price" value={bookData.price} onChange={handleAddNewBookDataInputChange}/>
                             {bookDataFormErrors.price && <p className="error-message text-danger">{bookDataFormErrors.price}</p>}
-                        </Col>
-                    </FormRow>
-
-                    <FormRow equalSpacing>
-                        <Col>
-                            <label>Okładka</label>
-                            <Input type="file" accept="image/*" placeholder="Okładka" name="bookPhoto" onChange={handleImageChange}/>
-                            {bookDataFormErrors.bookPhoto && <p className="error-message text-danger">{bookDataFormErrors.bookPhoto}</p>}
-                        </Col>
-                        <Col>
-                            <label>Nazwa pliku</label>
-                            <Input type="text" placeholder="Nazwa pliku" name="bookPhotoUrl" value={bookData.bookPhotoUrl} onChange={handleAddNewBookDataInputChange}/>
-                            {bookDataFormErrors.bookPhotoUrl && <p className="error-message text-danger">{bookDataFormErrors.bookPhotoUrl}</p>}
                         </Col>
                     </FormRow>
 

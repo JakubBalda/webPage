@@ -20,9 +20,11 @@ export default function EditBookDataModal({isEditBookDataModalOpen, setIsEditBoo
         genre: '',
         oldAuthorName: '',
         oldAuthorSurname: '',
-        bookPhoto: '',
+        bookPhoto: null,
         bookPhotoUrl: ''
     })
+
+    const [bookImage, setBookImage] = useState(null);
 
     const [bookDataFormErrors, setBookDataFormErrors] = useState({
         title: '',
@@ -58,10 +60,10 @@ export default function EditBookDataModal({isEditBookDataModalOpen, setIsEditBoo
                 oldAuthorName: author[0],
                 oldAuthorSurname: author[1],
                 oldIsbn: book.isbn,
-                bookPhotoUrl: book.imageUrl
+                bookPhotoUrl: book.imageUrl,
+                bookPhoto: ''
             });
 
-            console.log(bookData);
         }
 
     }, [book]);
@@ -179,9 +181,12 @@ export default function EditBookDataModal({isEditBookDataModalOpen, setIsEditBoo
             ...bookDataFormErrors,
             [name]: ""
         });
+
+        console.log(bookData);
     }
 
-    const handleImageChange = (e) => {
+    //TO:DO Spróbuj naprawić upload okładki kiedyś
+    const handleImageChange = async (e) => {
         const file = e.target.files[0];
         const { name } = e.target
 
@@ -189,16 +194,21 @@ export default function EditBookDataModal({isEditBookDataModalOpen, setIsEditBoo
         const reader = new FileReader();
         reader.onload = (e) => {
             const imageDataURL = e.target.result;
-
-            setBookData({
-                ...bookData,
-                [name]: imageDataURL
-            });
+            console.log(imageDataURL);
 
         };
-        reader.readAsDataURL(file);
-        }
+        reader.readAsBinaryString(file);
     }
+}
+
+    const readFileAsArrayBuffer = (file) => {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = (error) => reject(error);
+          reader.readAsArrayBuffer(file);
+        });
+      };
 
     const handleEditBookDataSubmit = () => {
         if(validateEditBookDataForm()){
@@ -229,7 +239,8 @@ export default function EditBookDataModal({isEditBookDataModalOpen, setIsEditBoo
             pageAmount: book.pageAmount,
             publishYear: book.publishYear,
             genre: book.genre,
-            bookPhotoUrl: book.imageURL
+            bookPhotoUrl: book.imageURL,
+            bookPhoto: null
         })
     }
 
