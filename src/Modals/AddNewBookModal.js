@@ -17,7 +17,10 @@ export default function AddNewBookModal({isAddNewBookModalOpen, setIsNewBookModa
         pageAmount: '',
         publishYear: '',
         genre: '',
+        bookPhotoUrl: ''
     })
+
+    const [bookImage, setBookImage] = useState(null);
 
     const [bookDataFormErrors, setBookDataFormErrors] = useState({
         title: '',
@@ -31,6 +34,7 @@ export default function AddNewBookModal({isAddNewBookModalOpen, setIsNewBookModa
         pageAmount: '',
         publishYear: '',
         genre: '',
+        bookPhotoUrl: ''
     })
 
     const validateAddNewBookDataForm = () => {
@@ -153,26 +157,27 @@ export default function AddNewBookModal({isAddNewBookModalOpen, setIsNewBookModa
     //TO:DO napraw kiedyś wgrywanie okładki
     const handleImageChange = (e) => {
         const file = e.target.files[0];
-        const { name } = e.target
-
-        if (file) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            const imageDataURL = e.target.result;
-
-        };
-        reader.readAsDataURL(file);
-        }
+        setBookImage(file);
     }
 
     const handleAddNewBookDataSubmit = () => {
-        console.log(bookData);
+        const formData = new FormData();
+        formData.append('bookImage', bookImage);
+
+        for (const key in bookData){
+            formData.append(key, bookData[key]);
+        }
+
         if(validateAddNewBookDataForm()){
             if(window.confirm('Czy dane są poprawne?') === true){
-                axios.post(`http://localhost:5000/api/books/new`, bookData)
+                axios.post(`http://localhost:5000/api/books/new`, formData)
                 .then((response) => {
-                    alert(response.data);
-                    window.location.reload();
+                    if(response.data === 'Added'){
+                        alert('Książka została dodana.');
+                        window.location.reload();
+                    }else{
+                        alert(response.data);
+                    }
                 })
                 .catch((error) => {
                     console.log('Error: '+ error);
@@ -263,6 +268,19 @@ export default function AddNewBookModal({isAddNewBookModalOpen, setIsNewBookModa
                             <label className="required">Cena</label>
                             <Input type="text" placeholder="Cena" name="price" value={bookData.price} onChange={handleAddNewBookDataInputChange}/>
                             {bookDataFormErrors.price && <p className="error-message text-danger">{bookDataFormErrors.price}</p>}
+                        </Col>
+                    </FormRow>
+
+                    <FormRow equalSpacing>
+                        <Col>
+                            <label className="required">Okładka</label>
+                            <Input type="file" accept="image/*" placeholder="Okładka" name="bookPhoto" onChange={handleImageChange}/>
+                            {bookDataFormErrors.bookPhoto && <p className="error-message text-danger">{bookDataFormErrors.bookPhoto}</p>}
+                        </Col>
+                        <Col>
+                            <label>Nazwa pliku</label>
+                            <Input type="text" placeholder="Nazwa pliku" name="bookPhotoUrl" value={bookData.bookPhotoUrl} onChange={handleAddNewBookDataInputChange}/>
+                            {bookDataFormErrors.bookPhotoUrl && <p className="error-message text-danger">{bookDataFormErrors.bookPhotoUrl}</p>}
                         </Col>
                     </FormRow>
 
