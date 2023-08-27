@@ -38,8 +38,21 @@ export default function UserPanel({setIsLoginModalOpen, cookies, setCookie}){
                 console.log(err)
             }
         }
+
+        const getFavouriteAuthors = async () => {
+            try{
+                const res = await axios.get(`http://localhost:5001/api/users/getFavouriteAuthors/${cookies.user.id}`);
+                setFavouriteAuthors(res.data);
+                setSelectedAuthors(res.data);
+            }catch(err){
+                console.log(err)
+            }
+        }
         getUserData();
         getAuthors();
+        getFavouriteAuthors();
+        console.log(favouriteAuthors);  
+
     }, []);
 
     const handleAuthorSelection = (event) => {
@@ -51,12 +64,14 @@ export default function UserPanel({setIsLoginModalOpen, cookies, setCookie}){
           setSelectedAuthors((prevAuthors) =>
             prevAuthors.filter((selectedAuthor) => selectedAuthor !== authorId)
           );
+
+          setFavouriteAuthors((prevFavouriteAuthors) =>
+                prevFavouriteAuthors.filter((favAuthor) => favAuthor !== authorId)
+            );
         }
       };
 
       const handeSaveFavouriteAuthors = () =>{
-        console.log(selectedAuthors);
-
         axios.post('http://localhost:5001/api/users/favouriteAuthors', [cookies.user.id, selectedAuthors])
             .then((response) => {
                 if(response.data === 'Added' || response.data === 'Updated'){
@@ -67,7 +82,6 @@ export default function UserPanel({setIsLoginModalOpen, cookies, setCookie}){
             .catch((error) => {
                 console.log('Error: '+ error);
             })
-
       }
 
     const editUserDataModal = userProfileData && (
@@ -119,7 +133,7 @@ export default function UserPanel({setIsLoginModalOpen, cookies, setCookie}){
                         </div>
                     </div>
                 </div>
-                <div className="mt-20 border">
+                <div className="mt-20 border w-three-quarter mx-auto">
                         <h1 className="mt-10">Moje preferencje</h1>
                         <div className="d-flex flex-wrap">
                             <div className="w-half">
@@ -139,7 +153,7 @@ export default function UserPanel({setIsLoginModalOpen, cookies, setCookie}){
                                         type='checkbox'
                                         id={author.id}
                                         value={author.id}
-                                        checked={selectedAuthors.includes(author.id)}
+                                        checked={favouriteAuthors.includes(author.id) || selectedAuthors.includes(author.id)}
                                         onChange={handleAuthorSelection}
                                         className='form-check-input ml-5'
                                         />
