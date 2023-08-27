@@ -57,6 +57,17 @@ export default function UserPanel({setIsLoginModalOpen, cookies, setCookie}){
       const handeSaveFavouriteAuthors = () =>{
         console.log(selectedAuthors);
 
+        axios.post('http://localhost:5001/api/users/favouriteAuthors', [cookies.user.id, selectedAuthors])
+            .then((response) => {
+                if(response.data === 'Added' || response.data === 'Updated'){
+                    alert('Zmiany zostały zapisane');
+                    window.location.reload();
+                }
+            })
+            .catch((error) => {
+                console.log('Error: '+ error);
+            })
+
       }
 
     const editUserDataModal = userProfileData && (
@@ -110,7 +121,7 @@ export default function UserPanel({setIsLoginModalOpen, cookies, setCookie}){
                 </div>
                 <div className="mt-20 border">
                         <h1 className="mt-10">Moje preferencje</h1>
-                        <div className="d-flex">
+                        <div className="d-flex flex-wrap">
                             <div className="w-half">
                                 <h3>Ulubieni autorzy</h3>
                                 <form className='form-inline d-flex justify-content-center mt-10'>
