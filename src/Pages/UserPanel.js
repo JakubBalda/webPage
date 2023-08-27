@@ -138,11 +138,11 @@ export default function UserPanel({setIsLoginModalOpen, cookies, setCookie}){
                         <div className="d-flex flex-wrap">
                             <div className="w-half">
                                 <h3>Ulubieni autorzy</h3>
-                                <form className='form-inline d-flex justify-content-center mt-10'>
+                                <form className='form-inline d-flex justify-content-center mt-10 w-three-quarter mx-auto'>
                                     <input type='text' className='form-control' placeholder='Wyszukaj autora' onChange={(e) => setSearchAuthor(e.target.value)}></input>
                                 </form>
                                 <div>
-                                    <div className='overflow-scroll h-150 mt-15'>
+                                    <div className='overflow-scroll h-150 mt-15 w-three-quarter mx-auto'>
                                     {authors.filter((author) => {
                                         let authorData = author.name + ' ' + author.surname;
                                         return authorData.toLowerCase() === '' || authorData.toLowerCase().includes(searchAuthor);
