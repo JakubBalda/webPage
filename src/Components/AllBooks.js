@@ -46,7 +46,7 @@ export default function AllBooks({ search, bookGenre, cookies, setBookGenre }) {
 
   useEffect(() => {
     const filteredBooks = books.filter((book) => {
-      const titleMatch = search.toLowerCase() === '' || book.title.toLowerCase().includes(search);
+      const titleMatch = search.toLowerCase() === '' || book.title.toLowerCase().includes(search.toLowerCase());
       const genreMatch = bookGenre.length === 0 || bookGenre.includes(book.genre);
       const minValueMatch = minValue.toLowerCase() === '' || minValue <= book.price;
       const maxValueMatch = maxValue.toLowerCase() === '' || maxValue >= book.price;
