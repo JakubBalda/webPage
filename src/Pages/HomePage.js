@@ -26,7 +26,7 @@ export default function HomePage({cookies, setCookie, handleFormSwitch, isLoginM
         <Sidebar onGenreChange={setBookGenre} setIsLoginModalOpen={setIsLoginModalOpen} cookies={cookies} setCookie={setCookie} setIsNewBookModalOpen={setIsNewBookModalOpen}/>
         <ContentWrapper>
             <SlideShow />
-            <AllBooks search={search} bookGenre={bookGenre}/>
+            <AllBooks search={search} bookGenre={bookGenre} cookies={cookies}/>
         </ContentWrapper>
     </PageWrapper>
 </div>

@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Pagination, PageItem } from 'reacthalfmoon';
 import { Link } from 'react-router-dom';
 
-export default function AllBooks({ search, bookGenre }) {
+export default function AllBooks({ search, bookGenre, cookies }) {
   const [books, setBooks] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 12;
@@ -14,6 +14,8 @@ export default function AllBooks({ search, bookGenre }) {
   const [maxValue, setMaxValue] = useState('');
   const [selectedAuthors, setSelectedAuthors] = useState([]);
   const [searchAuthor, setSearchAuthor] = useState('');
+  const [favouriteAuthors, setFavouriteAuthors] = useState([]);
+  const [favouriteGenres, setFavouriteGenres] = useState([]);
 
   useEffect(() => {
     const getBooks = async () => {
@@ -25,7 +27,21 @@ export default function AllBooks({ search, bookGenre }) {
       }
     };
 
+    const getPreferences = async () => {
+      try{
+          const res = await axios.get(`http://localhost:5001/api/users/getUserPreferences/${cookies.user.id}`);
+          console.log(res.data);
+          setFavouriteAuthors(res.data[0]);
+          setFavouriteGenres(res.data[1]);
+      }catch(err){
+          console.log(err)
+      }
+  }
+
     getBooks();
+
+    if(cookies.user.id !== undefined)
+      getPreferences();
   }, []);
 
   useEffect(() => {
@@ -103,6 +119,7 @@ export default function AllBooks({ search, bookGenre }) {
 
   const handleAuthorSelection = (event) => {
     const author = event.target.value;
+
     if (event.target.checked) {
       setSelectedAuthors((prevAuthors) => [...prevAuthors, author]);
     } else {
@@ -115,6 +132,22 @@ export default function AllBooks({ search, bookGenre }) {
   const handleResetAuthors = () => {
     setSelectedAuthors([]);
   };
+
+  const handlePreferenceSelect = (event) => {
+    const preference = event.target.value;
+
+    switch(preference){
+      case 'authors':{
+        setSelectedAuthors(favouriteAuthors);
+        break;
+      }
+    }
+  }
+
+  const handlePreferencesReset = () => {
+    document.getElementById('preferencesOption').value = 'default';
+    setSelectedAuthors([]);
+  }
 
   const uniqueAuthors = Array.from(new Set(books.map((book) => book.author)));
 
@@ -136,7 +169,7 @@ export default function AllBooks({ search, bookGenre }) {
                 </select>
               </div>
             </div>
-            <div className='h-450 w-200 ml-50 mt-50 mr-0 pl-0 pr-0 pt-10 card d-flex flex-column position-relative'>
+            <div className=' w-200 ml-50 mt-50 mr-0 pl-0 pr-0 pt-10 card d-flex flex-column position-relative'>
               <div className='content-title font-size-20 mt-10 text-center'>Filtruj</div>
               <span className='mt-50 ml-15 text-left font-size-14'>Cena:</span>
                 <div className='form-inline mt-5'>
@@ -176,6 +209,23 @@ export default function AllBooks({ search, bookGenre }) {
               <div className='text-center'>
                 <button className='btn btn-primary mt-20 w-100' onClick={handleResetAuthors}>Resetuj autorów</button>
               </div>
+              {cookies.user.id !== undefined ?
+              (
+                <div className='mt-50 text-left w-full'>
+                  <span className='mt-50 ml-15 font-size-14'>Preferencje:</span>
+                  <select className='form-control mt-10' id='preferencesOption' onChange={handlePreferenceSelect}>
+                      <option disabled selected value='default'></option>
+                      <option value='authors'>Ulubieni autorzy</option>
+                      <option value='genres'>Ulubione gatunki</option>
+                  </select>
+                  <div className='text-center'>
+                    <button className='btn btn-primary mt-10 w-100' onClick={handlePreferencesReset}>Resetuj</button>
+                  </div>
+                </div>
+              )
+              :
+                (<div></div>)
+              }
             </div>
           </div>
           <div className='col-9'>
