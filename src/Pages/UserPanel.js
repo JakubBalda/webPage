@@ -49,7 +49,6 @@ export default function UserPanel({setIsLoginModalOpen, cookies, setCookie}){
         const getUserPreferences = async () => {
             try{
                 const res = await axios.get(`http://localhost:5001/api/users/getUserPreferences/${cookies.user.id}`);
-                console.log(res.data);
                 setFavouriteAuthors(res.data[0]);
                 setSelectedAuthors(res.data[0]);
 
@@ -76,7 +75,7 @@ export default function UserPanel({setIsLoginModalOpen, cookies, setCookie}){
     }, []);
 
     const handleAuthorSelection = (event) => {
-        const authorId = Number(event.target.value);
+        const authorId = event.target.value;
 
         if (event.target.checked) {
           setSelectedAuthors((prevAuthors) => [...prevAuthors, authorId]);
@@ -134,7 +133,8 @@ export default function UserPanel({setIsLoginModalOpen, cookies, setCookie}){
       }
 
       useEffect(() => {
-        console.log(selectedGenres);
+        console.log(selectedAuthors);
+        console.log(selectedGenres)
       })
 
     const editUserDataModal = userProfileData && (
@@ -205,8 +205,8 @@ export default function UserPanel({setIsLoginModalOpen, cookies, setCookie}){
                                         <input
                                         type='checkbox'
                                         id={author.id}
-                                        value={author.id}
-                                        checked={favouriteAuthors.includes(author.id) || selectedAuthors.includes(author.id)}
+                                        value={author.name + ' ' + author.surname}
+                                        checked={favouriteAuthors.includes(author.name + ' ' + author.surname) || selectedAuthors.includes(author.name + ' ' + author.surname)}
                                         onChange={handleAuthorSelection}
                                         className='form-check-input ml-5'
                                         />
@@ -222,7 +222,7 @@ export default function UserPanel({setIsLoginModalOpen, cookies, setCookie}){
                             <div className="w-half">
                                 <h3>Ulubione gatunki</h3>
                                 <form className='form-inline d-flex justify-content-center mt-10 w-three-quarter mx-auto'>
-                                    <input type='text' className='form-control' placeholder='Wyszukaj autora' onChange={(e) => setSearchGenre(e.target.value)}></input>
+                                    <input type='text' className='form-control' placeholder='Wyszukaj gatunek' onChange={(e) => setSearchGenre(e.target.value)}></input>
                                 </form>
                                 <div>
                                     <div className='overflow-scroll h-150 mt-15 w-three-quarter mx-auto'>
