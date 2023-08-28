@@ -198,7 +198,7 @@ export default function UserPanel({setIsLoginModalOpen, cookies, setCookie}){
                                     <div className='overflow-scroll h-150 mt-15 w-three-quarter mx-auto'>
                                     {authors.filter((author) => {
                                         let authorData = author.name + ' ' + author.surname;
-                                        return authorData.toLowerCase() === '' || authorData.toLowerCase().includes(searchAuthor);
+                                        return authorData.toLowerCase() === '' || authorData.toLowerCase().includes(searchAuthor.toLowerCase());
                                     })
                                     .map((author) => (
                                     <div key={author.id} className='form-check'>
@@ -227,7 +227,7 @@ export default function UserPanel({setIsLoginModalOpen, cookies, setCookie}){
                                 <div>
                                     <div className='overflow-scroll h-150 mt-15 w-three-quarter mx-auto'>
                                     {genres.filter((genre) => {
-                                        return genre.Genre.toLowerCase() === '' || genre.Genre.toLowerCase().includes(searchGenre);
+                                        return genre.Genre.toLowerCase() === '' || genre.Genre.toLowerCase().includes(searchGenre.toLowerCase());
                                     })
                                     .map((genre) => (
                                     <div key={genre.Genre.id} className='form-check'>

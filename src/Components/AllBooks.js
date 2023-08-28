@@ -194,7 +194,7 @@ export default function AllBooks({ search, bookGenre, cookies, setBookGenre }) {
                 </form>
                 <div className='overflow-scroll h-150 mt-15'>
                 {uniqueAuthors.filter((author) => {
-                  return author.toLowerCase() === '' || author.toLowerCase().includes(searchAuthor);
+                  return author.toLowerCase() === '' || author.toLowerCase().includes(searchAuthor.toLowerCase());
                 })
                 .map((author) => (
                   <div key={author} className='form-check'>
