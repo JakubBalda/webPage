@@ -46,7 +46,7 @@ export default function UserPanel({setIsLoginModalOpen, cookies, setCookie}){
             }
         }
 
-        const getUserPreferencs = async () => {
+        const getUserPreferences = async () => {
             try{
                 const res = await axios.get(`http://localhost:5001/api/users/getUserPreferences/${cookies.user.id}`);
                 console.log(res.data);
@@ -71,7 +71,7 @@ export default function UserPanel({setIsLoginModalOpen, cookies, setCookie}){
 
         getUserData();
         getAuthors();
-        getUserPreferencs();
+        getUserPreferences();
         getGenres();
     }, []);
 
