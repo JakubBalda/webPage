@@ -7,7 +7,6 @@ import axios from 'axios';
 import 'halfmoon/css/halfmoon.min.css';
 import EditUserDataModal from "../Modals/EditUserDataModal";
 import EditUserPasswordModal from "../Modals/EditUserPasswordModal";
-import { type } from "@testing-library/user-event/dist/type";
 
 export default function UserPanel({setIsLoginModalOpen, cookies, setCookie}){
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -15,9 +14,17 @@ export default function UserPanel({setIsLoginModalOpen, cookies, setCookie}){
     const [isEditUserDataModalOpen, setIsEditUserDataModalOpen] = useState(false);
     const [isEditUserPasswordModalOpen, setIsEditUserPasswordModalOpen] = useState(false);
     const [authors, setAuthors] = useState([]);
+    const [genres, setGenres] = useState([]);
+    
+    //Favourite authors states
     const [selectedAuthors, setSelectedAuthors] = useState([]);
     const [searchAuthor, setSearchAuthor] = useState('');
     const [favouriteAuthors, setFavouriteAuthors] = useState([]);
+
+    //Favourite genres states
+    const [selectedGenres, setSelectedGenres] = useState([]);
+    const [searchGenre, setSearchGenre] = useState('');
+    const [favouriteGenres, setFavouriteGenres] = useState([]);
 
 
     useEffect(() => {
@@ -48,11 +55,20 @@ export default function UserPanel({setIsLoginModalOpen, cookies, setCookie}){
                 console.log(err)
             }
         }
+
+        const getGenres = async () => {
+            try{
+                const res = await axios.get(`http://localhost:5000/api/books/genres/userPanel`);
+                setGenres(res.data);
+            }catch(err){
+                console.log(err);
+            }
+        }
+
         getUserData();
         getAuthors();
         getFavouriteAuthors();
-        console.log(favouriteAuthors);  
-
+        getGenres();
     }, []);
 
     const handleAuthorSelection = (event) => {
@@ -168,6 +184,9 @@ export default function UserPanel({setIsLoginModalOpen, cookies, setCookie}){
                             </div>
                             <div className="w-half">
                                 <h3>Ulubione gatunki</h3>
+                                <form className='form-inline d-flex justify-content-center mt-10 w-three-quarter mx-auto'>
+                                    <input type='text' className='form-control' placeholder='Wyszukaj autora' onChange={(e) => setSearchAuthor(e.target.value)}></input>
+                                </form>
                             </div>
                         </div>
                 </div>  

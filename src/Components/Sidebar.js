@@ -20,7 +20,7 @@ export default function Sidebar({onGenreChange, setIsLoginModalOpen, cookies, se
 
     useEffect(() => {
         const getBookAmount = async () => {
-          axios.get('http://localhost:5000/api/books/genres')
+          axios.get('http://localhost:5000/api/books/genres/sidebar')
           .then(res => {
             setBooksAmount(res.data.length);
     
