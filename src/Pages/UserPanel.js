@@ -46,11 +46,15 @@ export default function UserPanel({setIsLoginModalOpen, cookies, setCookie}){
             }
         }
 
-        const getFavouriteAuthors = async () => {
+        const getUserPreferencs = async () => {
             try{
-                const res = await axios.get(`http://localhost:5001/api/users/getFavouriteAuthors/${cookies.user.id}`);
-                setFavouriteAuthors(res.data);
-                setSelectedAuthors(res.data);
+                const res = await axios.get(`http://localhost:5001/api/users/getUserPreferences/${cookies.user.id}`);
+                console.log(res.data);
+                setFavouriteAuthors(res.data[0]);
+                setSelectedAuthors(res.data[0]);
+
+                setFavouriteGenres(res.data[1]);
+                setSelectedGenres(res.data[1]);
             }catch(err){
                 console.log(err)
             }
@@ -67,7 +71,7 @@ export default function UserPanel({setIsLoginModalOpen, cookies, setCookie}){
 
         getUserData();
         getAuthors();
-        getFavouriteAuthors();
+        getUserPreferencs();
         getGenres();
     }, []);
 
@@ -87,7 +91,7 @@ export default function UserPanel({setIsLoginModalOpen, cookies, setCookie}){
         }
       };
 
-      const handeSaveFavouriteAuthors = () =>{
+      const handleSaveFavouriteAuthors = () =>{
         axios.post('http://localhost:5001/api/users/favouriteAuthors', [cookies.user.id, selectedAuthors])
             .then((response) => {
                 if(response.data === 'Added' || response.data === 'Updated'){
@@ -115,6 +119,19 @@ export default function UserPanel({setIsLoginModalOpen, cookies, setCookie}){
             );
         }
       };
+
+      const handleSaveFavouriteGenres = () =>{
+        axios.post('http://localhost:5001/api/users/favouriteGenres', [cookies.user.id, selectedGenres])
+            .then((response) => {
+                if(response.data === 'Added' || response.data === 'Updated'){
+                    alert('Zmiany zostały zapisane');
+                    window.location.reload();
+                }
+            })
+            .catch((error) => {
+                console.log('Error: '+ error);
+            })
+      }
 
       useEffect(() => {
         console.log(selectedGenres);
@@ -200,12 +217,12 @@ export default function UserPanel({setIsLoginModalOpen, cookies, setCookie}){
                                     ))}
                                     </div>
                                 </div>
-                                <button className="btn btn-primary" onClick={handeSaveFavouriteAuthors}>Zapisz</button>
+                                <button className="btn btn-primary" onClick={handleSaveFavouriteAuthors}>Zapisz</button>
                             </div>
                             <div className="w-half">
                                 <h3>Ulubione gatunki</h3>
                                 <form className='form-inline d-flex justify-content-center mt-10 w-three-quarter mx-auto'>
-                                    <input type='text' className='form-control' placeholder='Wyszukaj autora' onChange={(e) => setSearchAuthor(e.target.value)}></input>
+                                    <input type='text' className='form-control' placeholder='Wyszukaj autora' onChange={(e) => setSearchGenre(e.target.value)}></input>
                                 </form>
                                 <div>
                                     <div className='overflow-scroll h-150 mt-15 w-three-quarter mx-auto'>
@@ -229,7 +246,7 @@ export default function UserPanel({setIsLoginModalOpen, cookies, setCookie}){
                                     ))}
                                     </div>
                                 </div>
-                                <button className="btn btn-primary" onClick={handeSaveFavouriteAuthors}>Zapisz</button>
+                                <button className="btn btn-primary" onClick={handleSaveFavouriteGenres}>Zapisz</button>
                             </div>
                         </div>
                 </div>  
