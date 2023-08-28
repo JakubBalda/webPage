@@ -11,7 +11,7 @@ import { useState } from "react";
 
 export default function HomePage({cookies, setCookie, handleFormSwitch, isLoginModalOpen, setIsLoginModalOpen, isRegisterModalOpen, setIsRegisterModalOpen}){
     const [search, setSearch] = useState('');
-    const [bookGenre, setBookGenre] = useState('');
+    const [bookGenre, setBookGenre] = useState([]);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isAddNewBookModalOpen, setIsNewBookModalOpen] = useState(false);
 
@@ -26,7 +26,7 @@ export default function HomePage({cookies, setCookie, handleFormSwitch, isLoginM
         <Sidebar onGenreChange={setBookGenre} setIsLoginModalOpen={setIsLoginModalOpen} cookies={cookies} setCookie={setCookie} setIsNewBookModalOpen={setIsNewBookModalOpen}/>
         <ContentWrapper>
             <SlideShow />
-            <AllBooks search={search} bookGenre={bookGenre} cookies={cookies}/>
+            <AllBooks search={search} bookGenre={bookGenre} cookies={cookies} setBookGenre={setBookGenre}/>
         </ContentWrapper>
     </PageWrapper>
 </div>

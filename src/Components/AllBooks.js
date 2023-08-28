@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Pagination, PageItem } from 'reacthalfmoon';
 import { Link } from 'react-router-dom';
 
-export default function AllBooks({ search, bookGenre, cookies }) {
+export default function AllBooks({ search, bookGenre, cookies, setBookGenre }) {
   const [books, setBooks] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 12;
@@ -47,7 +47,7 @@ export default function AllBooks({ search, bookGenre, cookies }) {
   useEffect(() => {
     const filteredBooks = books.filter((book) => {
       const titleMatch = search.toLowerCase() === '' || book.title.toLowerCase().includes(search);
-      const genreMatch = bookGenre.toLowerCase() === '' || bookGenre === book.genre;
+      const genreMatch = bookGenre.length === 0 || bookGenre.includes(book.genre);
       const minValueMatch = minValue.toLowerCase() === '' || minValue <= book.price;
       const maxValueMatch = maxValue.toLowerCase() === '' || maxValue >= book.price;
       const authorMatch = selectedAuthors.length === 0 || selectedAuthors.includes(book.author);
@@ -139,6 +139,12 @@ export default function AllBooks({ search, bookGenre, cookies }) {
     switch(preference){
       case 'authors':{
         setSelectedAuthors(favouriteAuthors);
+        setBookGenre([]);
+        break;
+      }
+      case 'genres':{
+        setBookGenre(favouriteGenres);
+        setSelectedAuthors([]);
         break;
       }
     }
@@ -147,6 +153,7 @@ export default function AllBooks({ search, bookGenre, cookies }) {
   const handlePreferencesReset = () => {
     document.getElementById('preferencesOption').value = 'default';
     setSelectedAuthors([]);
+    setBookGenre([]);
   }
 
   const uniqueAuthors = Array.from(new Set(books.map((book) => book.author)));
