@@ -100,6 +100,26 @@ export default function UserPanel({setIsLoginModalOpen, cookies, setCookie}){
             })
       }
 
+      const handleGenreSelection = (event) => {
+        const genre = event.target.value;
+
+        if (event.target.checked) {
+          setSelectedGenres((prevGenres) => [...prevGenres, genre]);
+        } else {
+            setSelectedGenres((prevGenres) =>
+            prevGenres.filter((selectedGenres) => selectedGenres !== genre)
+          );
+
+          setFavouriteGenres((prevFavouriteGenres) =>
+                prevFavouriteGenres.filter((favGenre) => favGenre !== genre)
+            );
+        }
+      };
+
+      useEffect(() => {
+        console.log(selectedGenres);
+      })
+
     const editUserDataModal = userProfileData && (
         <EditUserDataModal
             isEditUserDataModalOpen={isEditUserDataModalOpen}
@@ -187,6 +207,29 @@ export default function UserPanel({setIsLoginModalOpen, cookies, setCookie}){
                                 <form className='form-inline d-flex justify-content-center mt-10 w-three-quarter mx-auto'>
                                     <input type='text' className='form-control' placeholder='Wyszukaj autora' onChange={(e) => setSearchAuthor(e.target.value)}></input>
                                 </form>
+                                <div>
+                                    <div className='overflow-scroll h-150 mt-15 w-three-quarter mx-auto'>
+                                    {genres.filter((genre) => {
+                                        return genre.Genre.toLowerCase() === '' || genre.Genre.toLowerCase().includes(searchGenre);
+                                    })
+                                    .map((genre) => (
+                                    <div key={genre.Genre.id} className='form-check'>
+                                        <input
+                                        type='checkbox'
+                                        id={genre.Genre}
+                                        value={genre.Genre}
+                                        checked={favouriteGenres.includes(genre.Genre) || selectedGenres.includes(genre.Genre)}
+                                        onChange={handleGenreSelection}
+                                        className='form-check-input ml-5'
+                                        />
+                                        <label htmlFor={genre.Genre} className='form-check-label ml-5'>
+                                            {genre.Genre}
+                                        </label>
+                                    </div>
+                                    ))}
+                                    </div>
+                                </div>
+                                <button className="btn btn-primary" onClick={handeSaveFavouriteAuthors}>Zapisz</button>
                             </div>
                         </div>
                 </div>  
