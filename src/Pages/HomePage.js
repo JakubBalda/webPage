@@ -8,8 +8,9 @@ import RegisterModal from "../Modals/RegisterModal";
 import AddNewBookModal from "../Modals/AddNewBookModal";
 import { ContentWrapper, PageWrapper } from "reacthalfmoon";
 import { useState } from "react"; 
+import FloatingButton from "../Components/FloatingButton";
 
-export default function HomePage({cookies, setCookie, handleFormSwitch, isLoginModalOpen, setIsLoginModalOpen, isRegisterModalOpen, setIsRegisterModalOpen}){
+export default function HomePage({cookies, setCookie, handleFormSwitch, isLoginModalOpen, setIsLoginModalOpen, isRegisterModalOpen, setIsRegisterModalOpen, setIsContactModalOpen, isContactModalOpen}){
     const [search, setSearch] = useState('');
     const [bookGenre, setBookGenre] = useState([]);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -27,6 +28,7 @@ export default function HomePage({cookies, setCookie, handleFormSwitch, isLoginM
         <ContentWrapper>
             <SlideShow />
             <AllBooks search={search} bookGenre={bookGenre} cookies={cookies} setBookGenre={setBookGenre}/>
+            <FloatingButton setIsContactModalOpen={setIsContactModalOpen} isContactModalOpen={isContactModalOpen}/>
         </ContentWrapper>
     </PageWrapper>
 </div>

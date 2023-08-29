@@ -13,8 +13,9 @@ import 'react-tabs/style/react-tabs.css';
 import { Rating } from '@smastrom/react-rating'
 import '@smastrom/react-rating/style.css'
 import EditBookDataModal from "../Modals/EditBookDataModal";
+import FloatingButton from "../Components/FloatingButton";
 
-export default function BookPage({cookies, setCookie, handleFormSwitch, setIsLoginModalOpen, isLoginModalOpen, isRegisterModalOpen, setIsRegisterModalOpen}){
+export default function BookPage({cookies, setCookie, handleFormSwitch, setIsLoginModalOpen, isLoginModalOpen, isRegisterModalOpen, setIsRegisterModalOpen, isContactModalOpen, setIsContactModalOpen}){
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isEditBookDataModalOpen, setIsEditBookDataModalOpen] = useState(false);
     const [book, setBook] = useState([])
@@ -176,6 +177,8 @@ export default function BookPage({cookies, setCookie, handleFormSwitch, setIsLog
                             </div>
                         </div>
                     </div>
+
+                <FloatingButton setIsContactModalOpen={setIsContactModalOpen} isContactModalOpen={isContactModalOpen}/>
                 </ContentWrapper>
             </PageWrapper>
     </div>

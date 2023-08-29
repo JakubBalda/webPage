@@ -7,8 +7,9 @@ import axios from 'axios';
 import 'halfmoon/css/halfmoon.min.css';
 import EditUserDataModal from "../Modals/EditUserDataModal";
 import EditUserPasswordModal from "../Modals/EditUserPasswordModal";
+import FloatingButton from "../Components/FloatingButton";
 
-export default function UserPanel({setIsLoginModalOpen, cookies, setCookie}){
+export default function UserPanel({setIsLoginModalOpen, cookies, setCookie, isContactModalOpen, setIsContactModalOpen}){
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [userProfileData, setUserProfileData] = useState([]);
     const [isEditUserDataModalOpen, setIsEditUserDataModalOpen] = useState(false);
@@ -250,6 +251,7 @@ export default function UserPanel({setIsLoginModalOpen, cookies, setCookie}){
                             </div>
                         </div>
                 </div>  
+                <FloatingButton setIsContactModalOpen={setIsContactModalOpen} isContactModalOpen={isContactModalOpen}/>
                 
             </ContentWrapper>
         </PageWrapper>
