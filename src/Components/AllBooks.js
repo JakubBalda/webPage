@@ -30,7 +30,6 @@ export default function AllBooks({ search, bookGenre, cookies, setBookGenre }) {
     const getPreferences = async () => {
       try{
           const res = await axios.get(`http://localhost:5001/api/users/getUserPreferences/${cookies.user.id}`);
-          console.log(res.data);
           setFavouriteAuthors(res.data[0]);
           setFavouriteGenres(res.data[1]);
       }catch(err){
