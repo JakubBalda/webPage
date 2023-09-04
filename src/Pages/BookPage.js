@@ -20,7 +20,7 @@ export default function BookPage({cookies, setCookie, handleFormSwitch, setIsLog
     const [isEditBookDataModalOpen, setIsEditBookDataModalOpen] = useState(false);
     const [book, setBook] = useState([])
     const [imageUrl, setImageUrl] = useState('');
-    const [fullSize, setFullSize] = useState(false);
+    const [rating, setRating] = useState(0);
     const [loading, setLoading] = useState(true);
     const [tabIndex, setTabIndex] = useState(0);
     const [shouldScroll, setShouldScroll] = useState(false);
@@ -36,7 +36,6 @@ export default function BookPage({cookies, setCookie, handleFormSwitch, setIsLog
 
             const res = await axios.get(`http://localhost:5000/api/books/${id}`);
             setBook(res.data);
-            console.log(res.data);
             setImageUrl(btoa(String.fromCharCode(...new Uint8Array(res.data.imageBlob.data))));
             setLoading(false);
           } catch (err) {
@@ -58,15 +57,23 @@ export default function BookPage({cookies, setCookie, handleFormSwitch, setIsLog
             }
         }
       }, [shouldScroll]);
-
-      const handleClick = (e) => {
-        e.stopPropagation();
-        setFullSize(!fullSize); 
-      };
       
       const handleTabSwitch = (index) => {
         setShouldScroll(true);
         setTabIndex(index);
+      }
+
+      const handleBookRate = (ratingValue) => {
+        
+        if(cookies.user.id !== undefined && rating === 0){
+            axios.post('http://localhost:5000/api/books/setBookRating', [ratingValue, cookies.user.id, book.id])
+                .then((resposne) => {
+                    console.log(resposne);
+                })
+        }else if (cookies.user.id !== undefined){
+
+        }
+        setRating(ratingValue);
       }
 
       if (loading) {
@@ -89,8 +96,6 @@ export default function BookPage({cookies, setCookie, handleFormSwitch, setIsLog
                                 <div className="card mt-50 align-self-center">
                                     <img src={`data:image/jpeg;base64,${imageUrl}`} 
                                     alt={book.imageUrl} 
-                                    className={`align-self-center ${fullSize ? 'full-size' : ''}`}
-                                    onClick={handleClick}
                                     id="bookImage"></img>
                                 </div>
                             </div>
@@ -120,12 +125,13 @@ export default function BookPage({cookies, setCookie, handleFormSwitch, setIsLog
                                                 <Rating
                                                     items={5}
                                                     style={{ maxWidth: 90, marginTop: 10, marginLeft: 15, }}
-                                                    value={0}
+                                                    value={rating}
+                                                    onChange={handleBookRate}
                                                 />
                                                 </div>
                                                 <div className="font-size-22 font-weight-bold mt-auto mb-20">{book.price.toFixed(2)} zł</div>
                                                 <div className="mx-auto form-inline">
-                                                        <input type="number" className="w-50 form-control" id="bookAmount" max={book.amount} min={1} ></input>
+                                                        <input type="number" className="w-50 form-control" id="bookAmount" defaultValue={1} max={book.amount} min={1} ></input>
                                                         <label className="ml-10" htmlFor="bookAmount">z {book.amount}</label>
                                                 </div>
                                                     {
