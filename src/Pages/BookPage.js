@@ -24,6 +24,10 @@ export default function BookPage({cookies, setCookie, handleFormSwitch, setIsLog
     const [loading, setLoading] = useState(true);
     const [tabIndex, setTabIndex] = useState(0);
     const [shouldScroll, setShouldScroll] = useState(false);
+    const [averageBookRating, setAverageBookRating] = useState({
+        averageRating: 0,
+        rateCount: 0
+    })
 
     const location = useLocation();
     const isInCorrectSite = location.pathname === '/';
@@ -57,6 +61,39 @@ export default function BookPage({cookies, setCookie, handleFormSwitch, setIsLog
             }
         }
       }, [shouldScroll]);
+
+      useEffect(() =>{
+        if(cookies.user.id !== undefined){
+            try{
+                axios.get(`http://localhost:5000/api/books/userRating/${cookies.user.id}/${id}`)
+                    .then((response) => {
+                        console.log(response.data);
+                        setRating(response.data.Rating);
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    })
+            }catch(err){
+                console.log(err);
+            }
+
+            try{
+                axios.get(`http://localhost:5000/api/books/averageRating/${id}`)
+                    .then((response) => {
+                        setAverageBookRating({
+                            averageRating: response.data.averageRating,
+                            rateCount: response.data.rateCount
+                        });
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    })
+            }catch(err){
+                console.log(err);
+            }
+        }
+        
+      }, [rating]);
       
       const handleTabSwitch = (index) => {
         setShouldScroll(true);
@@ -64,16 +101,26 @@ export default function BookPage({cookies, setCookie, handleFormSwitch, setIsLog
       }
 
       const handleBookRate = (ratingValue) => {
-        
-        if(cookies.user.id !== undefined && rating === 0){
-            axios.post('http://localhost:5000/api/books/setBookRating', [ratingValue, cookies.user.id, book.id])
-                .then((resposne) => {
-                    console.log(resposne);
-                })
-        }else if (cookies.user.id !== undefined){
-
+        if(ratingValue !== rating){
+            if(cookies.user.id !== undefined && rating === 0){
+                axios.post('http://localhost:5000/api/books/setBookRating', [ratingValue, cookies.user.id, book.id])
+                    .then((resposne) => {
+                        console.log(resposne);
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    })
+            }else if (cookies.user.id !== undefined){
+                axios.put('http://localhost:5000/api/books/updateBookRating', [ratingValue, cookies.user.id, book.id])
+                    .then((resposne) => {
+                        console.log(resposne);
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    })
+            }
+            setRating(ratingValue);
         }
-        setRating(ratingValue);
       }
 
       if (loading) {
@@ -121,13 +168,14 @@ export default function BookPage({cookies, setCookie, handleFormSwitch, setIsLog
                                                     value={1}
                                                     readOnly
                                                 />
-                                                <span className="mt-5">5</span>
+                                                <span className="mt-5">{averageBookRating.averageRating}</span>
                                                 <Rating
                                                     items={5}
                                                     style={{ maxWidth: 90, marginTop: 10, marginLeft: 15, }}
                                                     value={rating}
                                                     onChange={handleBookRate}
                                                 />
+                                                <div className="font-size-12 mt-5 ml-5">({averageBookRating.rateCount})</div>
                                                 </div>
                                                 <div className="font-size-22 font-weight-bold mt-auto mb-20">{book.price.toFixed(2)} zł</div>
                                                 <div className="mx-auto form-inline">
