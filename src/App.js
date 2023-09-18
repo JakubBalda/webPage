@@ -9,6 +9,7 @@ import { useState } from 'react';
 import UserPanel from './Pages/UserPanel';
 import ContactModal from './Modals/ContactModal';
 import { CookiesProvider } from 'react-cookie';
+import CartPage from './Pages/CartPage';
 
 function App() {
   const [cookies, setCookie] = useCookies(["user"]);
@@ -34,17 +35,26 @@ function App() {
                                   setIsLoginModalOpen={setIsLoginModalOpen} isLoginModalOpen={isLoginModalOpen}
                                   setIsRegisterModalOpen={setIsRegisterModalOpen} isRegisterModalOpen={isRegisterModalOpen}
                                   setIsContactModalOpen={setIsContactModalOpen} isContactModalOpen={isContactModalOpen} 
-                                  cart={cart}/>}></Route>
+                                  cart={cart}/>}>
+        </Route>
 
         <Route path='/book/:id' element={<BookPage cookies={cookies} setCookie={setCookie} handleFormSwitch={handleFormSwitch}
                                             setIsLoginModalOpen={setIsLoginModalOpen} isLoginModalOpen={isLoginModalOpen}
                                             setIsRegisterModalOpen={setIsRegisterModalOpen} isRegisterModalOpen={isRegisterModalOpen}
                                             setIsContactModalOpen={setIsContactModalOpen} isContactModalOpen={isContactModalOpen}
-                                            setCart={setCart} cart={cart} removeCart={removeCart}/>}></Route>
+                                            setCart={setCart} cart={cart} removeCart={removeCart}/>}>
+        </Route>
 
         <Route path='/myProfile' element={<UserPanel cookies={cookies} setCookie={setCookie} setIsLoginModalOpen={setIsLoginModalOpen}
                                             setIsContactModalOpen={setIsContactModalOpen} isContactModalOpen={isContactModalOpen} 
-                                            cart={cart}/>}></Route>
+                                            cart={cart}/>}>
+        </Route>
+
+        <Route path='/cart' element={<CartPage cookies={cookies} setCookie={setCookie} isContactModalOpen={isContactModalOpen} setIsContactModalOpen={setIsContactModalOpen} 
+                                        cart={cart} setIsLoginModalOpen={setIsLoginModalOpen} isLoginModalOpen={isLoginModalOpen}
+                                        setIsRegisterModalOpen={setIsRegisterModalOpen} isRegisterModalOpen={isRegisterModalOpen}
+                                        handleFormSwitch={handleFormSwitch}/>}>
+        </Route>
       </Routes>
     </div>
     </CookiesProvider>

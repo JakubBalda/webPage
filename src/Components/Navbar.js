@@ -3,6 +3,7 @@ import 'halfmoon/css/halfmoon.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faBars, faCartShopping} from '@fortawesome/free-solid-svg-icons';
 import { useLocation } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 export default function NavbarComponent({onSearchChange, isSidebarOpen, setIsSidebarOpen, cookies}){
   const location = useLocation();
@@ -28,7 +29,9 @@ export default function NavbarComponent({onSearchChange, isSidebarOpen, setIsSid
         </form>
         {  cookies.cart !== undefined
           ?
-          (<button className="btn btn-primary"><FontAwesomeIcon icon={faCartShopping} /></button>)
+          (<Link to={'/cart'}>
+            <button className="btn btn-primary"><FontAwesomeIcon icon={faCartShopping} /></button>
+          </Link>)
           :
           (<button className="btn btn-primary" data-toggle='tooltip' data-title={'Koszyk pusty'} data-placement='left' disabled><FontAwesomeIcon icon={faCartShopping} /></button>)
         }
