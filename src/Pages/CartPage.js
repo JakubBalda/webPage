@@ -38,17 +38,18 @@ export default function CartPage({cookies, setCookie, isContactModalOpen, setIsC
     }, [cookies])
 
     const handleRemoveFromCart = (bookId) => {
-        const currentCart = cookies.cart;
+        if(window.confirm("Usunąć książkę z koszyka?") === true){
+            const currentCart = cookies.cart;
 
-        if(currentCart.length > 1){
-            let bookInCartIndex = currentCart.findIndex((item) => item.bookId === bookId);
-            delete currentCart[bookInCartIndex];
-    
-            setCookie('cart', currentCart, {path: '/'});
-        }else{
-            removeCart('cart', {path: '/'})
+            if(currentCart.length > 1){
+                let bookInCartIndex = currentCart.findIndex((item) => item.bookId === bookId);
+                delete currentCart[bookInCartIndex];
+        
+                setCookie('cart', currentCart, {path: '/'});
+            }else{
+                removeCart('cart', {path: '/'})
+            }
         }
-       
     }
 
     return(
