@@ -23,7 +23,7 @@ export default function HomePage({cookies, setCookie, handleFormSwitch, isLoginM
     <AddNewBookModal isAddNewBookModalOpen={isAddNewBookModalOpen} setIsNewBookModalOpen={setIsNewBookModalOpen}/>    
 
     <PageWrapper withSidebar isSidebarOpen={isSidebarOpen} toggle={() => {setIsSidebarOpen(!isSidebarOpen)}}  withNavbar withTransitions>
-        <NavbarComponent onSearchChange={setSearch} isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen}/>
+        <NavbarComponent onSearchChange={setSearch} isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} cookies={cookies}/>
         <Sidebar onGenreChange={setBookGenre} setIsLoginModalOpen={setIsLoginModalOpen} cookies={cookies} setCookie={setCookie} setIsNewBookModalOpen={setIsNewBookModalOpen}/>
         <ContentWrapper>
             <SlideShow />
