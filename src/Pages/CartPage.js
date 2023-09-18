@@ -64,20 +64,20 @@ export default function CartPage({cookies, setCookie, isContactModalOpen, setIsC
                     ?
                     (<h1>Koszyk pusty</h1>)
                     :
-                    (<div className="d-flex justify-content-center">
+                    (<div className="d-flex flex-column align-items-center">
                         {cookies.cart.map((book, key)=> {
                             return(
-                                <div className="card w-three-quarter d-flex" key={book.bookId}>
+                                <div className="card w-three-quarter d-flex flex-wrap" key={book.bookId}>
                                     <div className="container">
                                         <div className="row">
                                             <div className="col-3 pt-5">
                                                 <h3>{book.title}</h3>
                                                 </div>
-                                                <div className="col-2">{book.price} zł</div>
+                                                <div className="col-2 pt-5">{book.price} zł</div>
                                             <div className="col-3 d-flex justify-content-center">
                                                 <input type="number" defaultValue={book.amount} id={book.bookId} className="form-control w-150" onChange={() => {handleAmountChange(book.bookId)}} min={1} max={book.maxBookAmount}/>
                                             </div>
-                                            <div className="col-2">{parseFloat(book.price * book.amount).toFixed(2)} zł</div>
+                                            <div className="col-2 pt-5">{parseFloat(book.price * book.amount).toFixed(2)} zł</div>
                                             <div className="col-2 text-right">
                                                 <button className="btn btn-danger" onClick={() => {handleRemoveFromCart(book.bookId)}}><FontAwesomeIcon icon={faTrash} /></button>
                                             </div>
