@@ -7,7 +7,7 @@ import LoginModal from "../Modals/LoginModal";
 import RegisterModal from "../Modals/RegisterModal";
 import AddNewBookModal from "../Modals/AddNewBookModal";
 import { ContentWrapper, PageWrapper } from "reacthalfmoon";
-import { useState } from "react"; 
+import { useState, useEffect } from "react"; 
 import FloatingButton from "../Components/FloatingButton";
 
 export default function HomePage({cookies, setCookie, handleFormSwitch, isLoginModalOpen, setIsLoginModalOpen, isRegisterModalOpen, setIsRegisterModalOpen, setIsContactModalOpen, isContactModalOpen}){
@@ -15,6 +15,11 @@ export default function HomePage({cookies, setCookie, handleFormSwitch, isLoginM
     const [bookGenre, setBookGenre] = useState([]);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isAddNewBookModalOpen, setIsNewBookModalOpen] = useState(false);
+
+    useEffect(() => {
+        setCookie('user', {}, {path: '/'});
+        console.log(cookies.user)
+      }, [])
 
     return(
 <div>

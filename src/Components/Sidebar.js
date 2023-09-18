@@ -99,7 +99,7 @@ export default function Sidebar({onGenreChange, setIsLoginModalOpen, cookies, se
                 </button>
                     <BookGenres onGenreChange={onGenreChange} booksAmount={booksAmount} genres={genres}/>
               </div>
-              {cookies.user.role === 'Admin' ? 
+              {cookies.user && cookies.user.role === 'Admin' ? 
                 (<div>
                   <button className="btn btn-success mt-20 w-200" onClick={() => {setIsNewBookModalOpen(true)}}>Dodaj książke</button>
                 </div>)

@@ -215,7 +215,7 @@ export default function AllBooks({ search, bookGenre, cookies, setBookGenre }) {
               <div className='text-center'>
                 <button className='btn btn-primary mt-20 w-100' onClick={handleResetAuthors}>Resetuj autorów</button>
               </div>
-              {cookies.user.id !== undefined ?
+              {cookies.user && cookies.user.id !== undefined ?
               (
                 <div className='mt-50 text-left w-full'>
                   <span className='mt-50 ml-15 font-size-14'>Preferencje:</span>
