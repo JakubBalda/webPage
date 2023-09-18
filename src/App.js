@@ -53,7 +53,7 @@ function App() {
         <Route path='/cart' element={<CartPage cookies={cookies} setCookie={setCookie} isContactModalOpen={isContactModalOpen} setIsContactModalOpen={setIsContactModalOpen} 
                                         cart={cart} setIsLoginModalOpen={setIsLoginModalOpen} isLoginModalOpen={isLoginModalOpen}
                                         setIsRegisterModalOpen={setIsRegisterModalOpen} isRegisterModalOpen={isRegisterModalOpen}
-                                        handleFormSwitch={handleFormSwitch}/>}>
+                                        handleFormSwitch={handleFormSwitch} removeCart={removeCart}/>}>
         </Route>
       </Routes>
     </div>

@@ -133,9 +133,8 @@ export default function BookPage({cookies, setCookie, handleFormSwitch, setIsLog
       const addToCart = () => {
         const currentCart = cookies.cart || [];
         console.log(currentCart);
-        let bookInCart;
 
-        bookInCart = currentCart.find((item) => item.bookId === id);
+        let bookInCart = currentCart.find((item) => item.bookId === id);
         console.log(currentCart);
 
         if (bookInCart) {
@@ -152,7 +151,8 @@ export default function BookPage({cookies, setCookie, handleFormSwitch, setIsLog
             bookId: id,
             title: book.title,
             amount: parseInt(document.getElementById("bookAmount").value, 10),
-            price: book.price
+            price: book.price,
+            maxBookAmount: book.amount
           };
           console.log(newBookInCart);
           currentCart.push(newBookInCart);

@@ -30,10 +30,14 @@ export default function NavbarComponent({onSearchChange, isSidebarOpen, setIsSid
         {  cookies.cart !== undefined
           ?
           (<Link to={'/cart'}>
-            <button className="btn btn-primary"><FontAwesomeIcon icon={faCartShopping} /></button>
+            <button className="btn btn-primary"><FontAwesomeIcon icon={faCartShopping} /> <sub>({cookies.cart.length})</sub></button>
           </Link>)
           :
-          (<button className="btn btn-primary" data-toggle='tooltip' data-title={'Koszyk pusty'} data-placement='left' disabled><FontAwesomeIcon icon={faCartShopping} /></button>)
+          (
+          <button className="btn btn-primary" data-toggle='tooltip' data-title={'Koszyk pusty'} data-placement='left' disabled>
+            <FontAwesomeIcon icon={faCartShopping} />
+          </button>
+          )
         }
       </nav>  
   )
