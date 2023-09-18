@@ -238,7 +238,15 @@ export default function BookPage({cookies, setCookie, handleFormSwitch, setIsLog
                                                             </div> 
                                                         : <Badge color="danger" className="my-15 mb-5">Produkt niedostępny</Badge>
                                                     }
-                                                <button className="btn btn-primary align-self-center mb-auto" onClick={addToCart}>Dodaj do koszyka</button>
+
+                                                    {
+                                                        cookies.user.id !== undefined
+                                                        ?
+                                                            (<button className="btn btn-primary align-self-center mb-auto" onClick={addToCart}>Dodaj do koszyka</button>)
+                                                        :
+                                                            (<button className="btn btn-primary align-self-center mb-auto" onClick={addToCart} disabled data-toggle='tooltip' data-title={'Zaloguj sie aby dodać do koszyka'} data-placement='bottom'>Dodaj do koszyka</button>)
+                                                    }
+                                                
                                             </div>
                                         </div>
                                     </div>

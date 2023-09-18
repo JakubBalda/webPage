@@ -47,7 +47,6 @@ export default function Sidebar({onGenreChange, setIsLoginModalOpen, cookies, se
 
       const handleLogOut = () => {
           setCookie("user", '', {path: "/"});
-          setCookie("cart", []);
           alert("Pomyślnie wylogowano");
           navigate("/");
       }

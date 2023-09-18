@@ -16,13 +16,6 @@ export default function HomePage({cookies, setCookie, handleFormSwitch, isLoginM
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isAddNewBookModalOpen, setIsNewBookModalOpen] = useState(false);
 
-    useEffect(() => {
-        if(!cookies.user){
-            setCookie('user', {}, {path: '/'});
-            console.log(cookies.user)
-        }
-      }, [])
-
     return(
 <div>
     <LoginModal isLoginModalOpen={isLoginModalOpen} setIsLoginModalOpen={setIsLoginModalOpen} handleFormSwitch={handleFormSwitch} setCookie={setCookie} cookies={cookies}/>
