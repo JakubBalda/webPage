@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faBars, faCartShopping} from '@fortawesome/free-solid-svg-icons';
 import { useLocation } from 'react-router-dom';
 
-export default function NavbarComponent({onSearchChange, isSidebarOpen, setIsSidebarOpen}){
+export default function NavbarComponent({onSearchChange, isSidebarOpen, setIsSidebarOpen, cookies}){
   const location = useLocation();
   const isInCorrectPage = location.pathname === '/';
 
@@ -22,11 +22,16 @@ export default function NavbarComponent({onSearchChange, isSidebarOpen, setIsSid
           { isInCorrectPage 
             ? 
             (<input type="text" placeholder="Wyszukaj tytuł" className="form-control w-400" onChange={(e) => onSearchChange(e.target.value)}></input>)
-             : 
+            : 
             (<input type="text" placeholder="Wyszukaj tytuł" className="form-control w-400 disabled" disabled onChange={(e) => onSearchChange(e.target.value)}></input> )
           }
         </form>
-        <button className="btn btn-primary"><FontAwesomeIcon icon={faCartShopping} /></button>
+        {  cookies.cart !== undefined
+          ?
+          (<button className="btn btn-primary"><FontAwesomeIcon icon={faCartShopping} /></button>)
+          :
+          (<button className="btn btn-primary" data-toggle='tooltip' data-title={'Koszyk pusty'} data-placement='left' disabled><FontAwesomeIcon icon={faCartShopping} /></button>)
+        }
       </nav>  
   )
 };

@@ -8,9 +8,11 @@ import { useCookies } from "react-cookie"
 import { useState } from 'react';
 import UserPanel from './Pages/UserPanel';
 import ContactModal from './Modals/ContactModal';
+import { CookiesProvider } from 'react-cookie';
 
 function App() {
   const [cookies, setCookie] = useCookies(["user"]);
+  const [cart, setCart, removeCart] = useCookies(["cart"]);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
@@ -23,6 +25,7 @@ function App() {
 }
 
   return (
+    <CookiesProvider defaultSetOptions={{ path: '/' }}>
     <div className="App">
     <ContactModal isContactModalOpen={isContactModalOpen} setIsContactModalOpen={setIsContactModalOpen} />
 
@@ -30,17 +33,21 @@ function App() {
         <Route index element={<HomePage cookies={cookies} setCookie={setCookie} handleFormSwitch={handleFormSwitch}
                                   setIsLoginModalOpen={setIsLoginModalOpen} isLoginModalOpen={isLoginModalOpen}
                                   setIsRegisterModalOpen={setIsRegisterModalOpen} isRegisterModalOpen={isRegisterModalOpen}
-                                  setIsContactModalOpen={setIsContactModalOpen} isContactModalOpen={isContactModalOpen}/>}></Route>
+                                  setIsContactModalOpen={setIsContactModalOpen} isContactModalOpen={isContactModalOpen} 
+                                  cart={cart}/>}></Route>
 
         <Route path='/book/:id' element={<BookPage cookies={cookies} setCookie={setCookie} handleFormSwitch={handleFormSwitch}
                                             setIsLoginModalOpen={setIsLoginModalOpen} isLoginModalOpen={isLoginModalOpen}
                                             setIsRegisterModalOpen={setIsRegisterModalOpen} isRegisterModalOpen={isRegisterModalOpen}
-                                            setIsContactModalOpen={setIsContactModalOpen} isContactModalOpen={isContactModalOpen}/>}></Route>
+                                            setIsContactModalOpen={setIsContactModalOpen} isContactModalOpen={isContactModalOpen}
+                                            setCart={setCart} cart={cart} removeCart={removeCart}/>}></Route>
 
         <Route path='/myProfile' element={<UserPanel cookies={cookies} setCookie={setCookie} setIsLoginModalOpen={setIsLoginModalOpen}
-                                            setIsContactModalOpen={setIsContactModalOpen} isContactModalOpen={isContactModalOpen}/>}></Route>
+                                            setIsContactModalOpen={setIsContactModalOpen} isContactModalOpen={isContactModalOpen} 
+                                            cart={cart}/>}></Route>
       </Routes>
     </div>
+    </CookiesProvider>
   );
 }
 

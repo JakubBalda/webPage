@@ -15,7 +15,7 @@ import '@smastrom/react-rating/style.css'
 import EditBookDataModal from "../Modals/EditBookDataModal";
 import FloatingButton from "../Components/FloatingButton";
 
-export default function BookPage({cookies, setCookie, handleFormSwitch, setIsLoginModalOpen, isLoginModalOpen, isRegisterModalOpen, setIsRegisterModalOpen, isContactModalOpen, setIsContactModalOpen}){
+export default function BookPage({cookies, setCookie, handleFormSwitch, setIsLoginModalOpen, isLoginModalOpen, isRegisterModalOpen, setIsRegisterModalOpen, isContactModalOpen, setIsContactModalOpen, removeCart}){
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isEditBookDataModalOpen, setIsEditBookDataModalOpen] = useState(false);
     const [book, setBook] = useState([])
@@ -67,7 +67,6 @@ export default function BookPage({cookies, setCookie, handleFormSwitch, setIsLog
             try{
                 axios.get(`http://localhost:5000/api/books/userRating/${cookies.user.id}/${id}`)
                     .then((response) => {
-                        console.log(response.data);
                         setRating(response.data.Rating);
                     })
                     .catch((error) => {
@@ -92,7 +91,6 @@ export default function BookPage({cookies, setCookie, handleFormSwitch, setIsLog
                 console.log(err);
             }
         }
-        
       }, [rating]);
       
       const handleTabSwitch = (index) => {
@@ -127,6 +125,52 @@ export default function BookPage({cookies, setCookie, handleFormSwitch, setIsLog
         }
       }
 
+      const deleteCart = () => {
+        console.log(cookies);
+        removeCart('cart', { path: '/' });
+      }
+
+      const addToCart = () => {
+        const currentCart = cookies.cart || [];
+        console.log(currentCart);
+        let bookInCart;
+
+        bookInCart = currentCart.find((item) => item.bookId === id);
+        console.log(currentCart);
+
+        if (bookInCart) {
+            let newBookAmount = parseInt(document.getElementById("bookAmount").value, 10)
+            console.log(bookInCart.amount);
+            if(bookInCart.amount + newBookAmount <= book.amount){
+                bookInCart.amount = bookInCart.amount + newBookAmount;
+            }else{
+                alert('Nie możesz dodać więcej książek niż jest na stanie!');
+            }
+
+        } else {
+          const newBookInCart = {
+            bookId: id,
+            title: book.title,
+            amount: parseInt(document.getElementById("bookAmount").value, 10),
+            price: book.price
+          };
+          console.log(newBookInCart);
+          currentCart.push(newBookInCart);
+        }
+        console.log(cookies);
+        setCookie("cart", currentCart, {path: '/'});
+      };
+
+      useEffect(() => {
+        const savedCart = cookies.cart;
+        console.log(savedCart);
+      }, [cookies]);
+
+      useEffect(() => {
+        removeCart('cart', { path: '/book' });
+      }, [])
+
+
       if (loading) {
         return <div>Loading...</div>;
       }
@@ -138,7 +182,7 @@ export default function BookPage({cookies, setCookie, handleFormSwitch, setIsLog
             <EditBookDataModal isEditBookDataModalOpen={isEditBookDataModalOpen} setIsEditBookDataModalOpen={setIsEditBookDataModalOpen} book={book} bookId={id}/>
 
             <PageWrapper withSidebar isSidebarOpen={isSidebarOpen} toggle={() => {setIsSidebarOpen(!isSidebarOpen)}}  withNavbar withTransitions >
-                <NavbarComponent isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} isInCorrectSite={isInCorrectSite}/>
+                <NavbarComponent isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} isInCorrectSite={isInCorrectSite} cookies={cookies}/>
                 <Sidebar cookies={cookies} setCookie={setCookie} setIsLoginModalOpen={setIsLoginModalOpen} setIsEditBookDataModalOpen={setIsEditBookDataModalOpen} bookId={id}/>
                 <ContentWrapper className="bg-light">
                     <div className="container-fluid">
@@ -194,7 +238,7 @@ export default function BookPage({cookies, setCookie, handleFormSwitch, setIsLog
                                                             </div> 
                                                         : <Badge color="danger" className="my-15 mb-5">Produkt niedostępny</Badge>
                                                     }
-                                                <button className="btn btn-primary align-self-center mb-auto">Dodaj do koszyka</button>
+                                                <button className="btn btn-primary align-self-center mb-auto" onClick={addToCart}>Dodaj do koszyka</button>
                                             </div>
                                         </div>
                                     </div>
