@@ -17,8 +17,10 @@ export default function HomePage({cookies, setCookie, handleFormSwitch, isLoginM
     const [isAddNewBookModalOpen, setIsNewBookModalOpen] = useState(false);
 
     useEffect(() => {
-        setCookie('user', {}, {path: '/'});
-        console.log(cookies.user)
+        if(!cookies.user){
+            setCookie('user', {}, {path: '/'});
+            console.log(cookies.user)
+        }
       }, [])
 
     return(

@@ -20,24 +20,26 @@ export default function Sidebar({onGenreChange, setIsLoginModalOpen, cookies, se
 
     useEffect(() => {
         const getBookAmount = async () => {
-          axios.get('http://localhost:5000/api/books/genres/sidebar')
-          .then(res => {
-            setBooksAmount(res.data.length);
-    
-            const genres = res.data
-            .map(dataItem => dataItem.Genre)
-            .filter((genre, index, array) => array.indexOf(genre) === index);
-          
-            const counts = genres
-              .map(genre => ({
-                type: genre,
-                count: res.data.filter(item => item.Genre === genre).length
-              }));
-    
-              setGenres(counts);
-          }).catch(err => {
-            console.log(err);
-          })
+          if(isOnMainPage){
+            axios.get('http://localhost:5000/api/books/genres/sidebar')
+            .then(res => {
+              setBooksAmount(res.data.length);
+      
+              const genres = res.data
+              .map(dataItem => dataItem.Genre)
+              .filter((genre, index, array) => array.indexOf(genre) === index);
+            
+              const counts = genres
+                .map(genre => ({
+                  type: genre,
+                  count: res.data.filter(item => item.Genre === genre).length
+                }));
+      
+                setGenres(counts);
+            }).catch(err => {
+              console.log(err);
+            })
+          }
         };
     
         getBookAmount();
