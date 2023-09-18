@@ -76,20 +76,22 @@ export default function BookPage({cookies, setCookie, handleFormSwitch, setIsLog
                 console.log(err);
             }
 
-            try{
-                axios.get(`http://localhost:5000/api/books/averageRating/${id}`)
-                    .then((response) => {
-                        setAverageBookRating({
-                            averageRating: response.data.averageRating,
-                            rateCount: response.data.rateCount
-                        });
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                    })
-            }catch(err){
-                console.log(err);
-            }
+            
+        }
+        
+        try{
+            axios.get(`http://localhost:5000/api/books/averageRating/${id}`)
+                .then((response) => {
+                    setAverageBookRating({
+                        averageRating: response.data.averageRating,
+                        rateCount: response.data.rateCount
+                    });
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        }catch(err){
+            console.log(err);
         }
       }, [rating]);
       
