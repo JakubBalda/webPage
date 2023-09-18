@@ -17,16 +17,20 @@ export default function CartPage({cookies, setCookie, isContactModalOpen, setIsC
         const currentCart = cookies.cart;
         let bookInCart = currentCart.find((item) => item.bookId === bookId);
 
-        if(newAmount <= bookInCart.maxBookAmount){
+        if(newAmount === '' || (newAmount <= bookInCart.maxBookAmount && newAmount > 0)){
             bookInCart.amount = newAmount;
-            setCookie('cart', currentCart, {path: '/'});
+        }else if (newAmount <= 0){
+            alert("Ilość musi być większa od 0");
+            document.getElementById(bookId).value = 1;
+            bookInCart.amount = 1;
         }
         else{
             alert("Maksymalna ilość na stanie to: " + bookInCart.maxBookAmount);
             document.getElementById(bookId).value = 1;
             bookInCart.amount = 1;
-            setCookie('cart', currentCart, {path: '/'});
         }
+        setCookie('cart', currentCart, {path: '/'});
+
     }
 
     useEffect(() => {
