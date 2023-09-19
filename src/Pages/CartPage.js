@@ -7,7 +7,7 @@ import RegisterModal from "../Modals/RegisterModal";
 import { useState, useEffect } from "react";
 import 'halfmoon/css/halfmoon.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 
 export default function CartPage({cookies, setCookie, isContactModalOpen, setIsContactModalOpen, setIsLoginModalOpen, isLoginModalOpen, setIsRegisterModalOpen, isRegisterModalOpen, handleFormSwitch, removeCart}){
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -52,6 +52,12 @@ export default function CartPage({cookies, setCookie, isContactModalOpen, setIsC
         }
     }
 
+    const handleCartDelete = () => {
+        if(window.confirm("Wyczyścić cały koszyk?") === true){
+            removeCart('cart', {path: '/'});
+        }
+    }
+
     return(
         <div>
             <LoginModal isLoginModalOpen={isLoginModalOpen} setIsLoginModalOpen={setIsLoginModalOpen} handleFormSwitch={handleFormSwitch} setCookie={setCookie} cookies={cookies}/>
@@ -66,6 +72,22 @@ export default function CartPage({cookies, setCookie, isContactModalOpen, setIsC
                     (<h1>Koszyk pusty</h1>)
                     :
                     (<div className="d-flex flex-column align-items-center">
+                        <div className="d-flex w-full px-10 justify-content-between">
+                            <div className="w-half text-right">
+                                <h1 className="mt-10">Twój koszyk</h1>
+                            </div>
+                            
+                            <div className="dropdown dropleft  mt-15 with-arrow">
+                                <button className="btn btn-primary border rounded-circle" data-toggle="dropdown" type="button" id="dropdown-toggle-btn-1" aria-haspopup="true" aria-expanded="false">
+                                    <FontAwesomeIcon icon={faEllipsisVertical} />
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <div><button className="btn btn-danger w-full my-5" onClick={handleCartDelete}>Wyczyść</button></div>
+                                    <div><button className="btn btn-primary w-full my-5">Zarezerwuj</button></div>
+                                    <div><button className="btn btn-primary w-full my-5">Zamów</button></div>
+                                </ul>
+                            </div>
+                        </div>
                         {cookies.cart.map((book, key)=> {
                             return(
                                 <div className="card w-three-quarter d-flex flex-wrap" key={book.bookId}>
@@ -80,7 +102,7 @@ export default function CartPage({cookies, setCookie, isContactModalOpen, setIsC
                                             </div>
                                             <div className="col-2 pt-5">{parseFloat(book.price * book.amount).toFixed(2)} zł</div>
                                             <div className="col-2 text-right">
-                                                <button className="btn btn-danger" onClick={() => {handleRemoveFromCart(book.bookId)}}><FontAwesomeIcon icon={faTrash} /></button>
+                                                <button className="btn btn-danger px-10 border rounded-circle" onClick={() => {handleRemoveFromCart(book.bookId)}}><FontAwesomeIcon icon={faTrash} /></button>
                                             </div>
                                         </div>
                                     </div>
