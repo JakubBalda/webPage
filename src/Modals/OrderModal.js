@@ -3,7 +3,7 @@ import { Button, ModalContent, ModalDialog, ModalTitle, Modal, Form, Input, Form
 import validator from 'validator';
 import { useState, useEffect } from "react";
 
-export default function OrderModal({isOrderModalOpen, setIsOrderModalOpen}){
+export default function OrderModal({isOrderModalOpen, setIsOrderModalOpen, cookies}){
     const [orderData, setOrderData] = useState({
         name: '',
         surname: '',
@@ -18,8 +18,26 @@ export default function OrderModal({isOrderModalOpen, setIsOrderModalOpen}){
         paymentOption: ''
     })
 
-    const handleUserDataLoad = () => {
+    const handleUserDataLoad = async () => {
+        try{
+            const userData = await axios.get(`http://localhost:5001/api/users/orderData/${cookies.user.id}`);
+            console.log(userData.data);
 
+            setOrderData({
+                ...orderData,
+                name: userData.data.Name,
+                surname: userData.data.Surname,
+                street: userData.data.Street,
+                city: userData.data.City,
+                postal: userData.data.Postal,
+                houseNumber: userData.data.HouseNumber,
+                flatNumber: userData.data.FlatNumber,
+                phoneNumber: userData.data.PhoneNumber,
+                mail: userData.data.Mail,
+            })
+        }catch(err){
+            console.log(err);
+        }
     }
 
     const handleDeliveryOptionChange = (event) => {
@@ -76,7 +94,7 @@ export default function OrderModal({isOrderModalOpen, setIsOrderModalOpen}){
             deliveryOption: '',
             paymentOption: ''
         })
-        
+
         document.getElementById('paymentOption').querySelector('option[value="default"]').selected = true;
         document.getElementById('deliveryOption').querySelector('option[value="default"]').selected = true;
         setIsOrderModalOpen(false);

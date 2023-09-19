@@ -60,7 +60,7 @@ export default function CartPage({cookies, setCookie, isContactModalOpen, setIsC
 
     return(
         <div>
-            <OrderModal isOrderModalOpen={isOrderModalOpen} setIsOrderModalOpen={setIsOrderModalOpen}/>
+            <OrderModal isOrderModalOpen={isOrderModalOpen} setIsOrderModalOpen={setIsOrderModalOpen} cookies={cookies}/>
             <PageWrapper withSidebar isSidebarOpen={isSidebarOpen} toggle={() => {setIsSidebarOpen(!isSidebarOpen)}}  withNavbar withTransitions>
                 <NavbarComponent isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} cookies={cookies}/>
                 <Sidebar setIsLoginModalOpen={setIsLoginModalOpen} cookies={cookies} setCookie={setCookie} removeCart={removeCart}/>
