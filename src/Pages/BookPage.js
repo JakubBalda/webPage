@@ -210,8 +210,8 @@ export default function BookPage({cookies, setCookie, handleFormSwitch, setIsLog
                                         </div>
 
                                         <div className="col-6">
-                                            <div className="border rounded min-h-250 d-flex flex-column justify-content-center">
-                                                <div className="d-flex font-size-20 p-5">
+                                            <div className="border rounded min-h-250 d-flex flex-column align-item-center">
+                                                <div className="d-flex font-size-20 p-5 mb-15">
                                                 <Rating
                                                     items={1}
                                                     style={{ maxWidth: 30 }}
@@ -227,7 +227,7 @@ export default function BookPage({cookies, setCookie, handleFormSwitch, setIsLog
                                                 />
                                                 <div className="font-size-12 mt-5 ml-5">({averageBookRating.rateCount})</div>
                                                 </div>
-                                                <div className="font-size-22 font-weight-bold mt-auto mb-20">{book.price.toFixed(2)} zł</div>
+                                                <div className="font-size-22 font-weight-bold mt-20 mb-20">{book.price.toFixed(2)} zł</div>
                                                 <div className="mx-auto form-inline">
                                                         <input type="number" className="w-50 form-control" id="bookAmount" defaultValue={1} max={book.amount} min={1} ></input>
                                                         <label className="ml-10" htmlFor="bookAmount">z {book.amount}</label>
@@ -246,14 +246,14 @@ export default function BookPage({cookies, setCookie, handleFormSwitch, setIsLog
                                                     {
                                                         cookies.user.id !== undefined
                                                         ?   
-                                                            (<div>
+                                                            (<p>
                                                                 {book.amount > 0
                                                                 ?
                                                                     (<button className="btn btn-primary align-self-center mb-auto" onClick={addToCart}>Dodaj do koszyka</button>)
                                                                 :
                                                                     (<button className="btn btn-primary align-self-center mb-auto" disabled>Dodaj do koszyka</button>)
                                                                 }
-                                                            </div>)
+                                                            </p>)
                                                         :
                                                             (<button className="btn btn-primary align-self-center mb-auto" onClick={addToCart} disabled data-toggle='tooltip' data-title={'Zaloguj sie aby dodać do koszyka'} data-placement='bottom'>Dodaj do koszyka</button>)
                                                     }
