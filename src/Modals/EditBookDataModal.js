@@ -160,10 +160,12 @@ export default function EditBookDataModal({isEditBookDataModalOpen, setIsEditBoo
             isValid = false;
             errors.pageAmount = "Ilość stron jest wymagana.";
         }
-        console.log(bookData.description);
-        if(bookData.description !== 'null' || bookData.description !== "" && bookData.description.trim().length > 500){
-            isValid = false;
-            errors.description = 'Opis zbyt długi.';
+        
+        if(bookData.description !== 'null' || bookData.description !== ""){
+            if(bookData.description.trim().length > 3000){
+                isValid = false;
+                errors.description = 'Opis zbyt długi.';
+            }
         }
 
         setBookDataFormErrors(errors);
