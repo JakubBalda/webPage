@@ -160,7 +160,7 @@ export default function EditBookDataModal({isEditBookDataModalOpen, setIsEditBoo
             isValid = false;
             errors.pageAmount = "Ilość stron jest wymagana.";
         }
-        
+
         if(bookData.description !== 'null' || bookData.description !== ""){
             if(bookData.description.trim().length > 3000){
                 isValid = false;
@@ -300,7 +300,7 @@ export default function EditBookDataModal({isEditBookDataModalOpen, setIsEditBoo
                         </Col>
                         <Col>
                             <label className="required">Cena</label>
-                            <Input type="text" placeholder="Cena" name="price" value={bookData.price} onChange={handleEditBookDataInputChange}/>
+                            <Input type="text" placeholder="Cena" name="price" value={parseFloat(bookData.price).toFixed(2)} onChange={handleEditBookDataInputChange}/>
                             {bookDataFormErrors.price && <p className="error-message text-danger">{bookDataFormErrors.price}</p>}
                         </Col>
                     </FormRow>
