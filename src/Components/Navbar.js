@@ -24,7 +24,7 @@ export default function NavbarComponent({onSearchChange, isSidebarOpen, setIsSid
             ? 
             (<input type="text" placeholder="Wyszukaj tytuł" className="form-control w-400" onChange={(e) => onSearchChange(e.target.value)}></input>)
             : 
-            (<input type="text" placeholder="Wyszukaj tytuł" className="form-control w-400 disabled" disabled onChange={(e) => onSearchChange(e.target.value)}></input> )
+            (<input type="text" placeholder="Wyszukaj tytuł" className="form-control w-400 disabled" disabled></input> )
           }
         </form>
         {  cookies.cart !== undefined
