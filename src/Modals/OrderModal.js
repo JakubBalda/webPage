@@ -31,14 +31,16 @@ export default function OrderModal({isOrderModalOpen, setIsOrderModalOpen}){
         })
 
         if(value === 'DHL' || value === 'DPD'){
+            const paymentOptionSelect = document.getElementById('paymentOption');
+            const pickupOption = paymentOptionSelect.querySelector('option[value="pickup"]');
+
+            if (pickupOption) {
+                pickupOption.disabled = true;
+            }
+
             if(orderData.paymentOption === 'pickup'){
-                const paymentOptionSelect = document.getElementById('paymentOption');
-                const pickupOption = paymentOptionSelect.querySelector('option[value="pickup"]');
-    
-                if (pickupOption) {
-                    pickupOption.disabled = true;
-                    paymentOptionSelect.querySelector('option[value="default"]').selected = true;
-                }
+                paymentOptionSelect.querySelector('option[value="default"]').selected = true;
+                orderData.paymentOption = '';
             }
             
         } else {
@@ -139,7 +141,10 @@ export default function OrderModal({isOrderModalOpen, setIsOrderModalOpen}){
                                 </Col>
                             </FormRow>
                         </Form>
-                        
+                        <div className="d-flex w-full justify-content-around">
+                            <button className="btn btn-danger">Anuluj</button>
+                            <button className="btn btn-primary">Zatwierdź</button>
+                        </div>
                         
                 </ModalContent>
             </ModalDialog>
