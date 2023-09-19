@@ -6,9 +6,11 @@ import { useState, useEffect } from "react";
 import 'halfmoon/css/halfmoon.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
+import OrderModal from "../Modals/OrderModal";
 
 export default function CartPage({cookies, setCookie, isContactModalOpen, setIsContactModalOpen, setIsLoginModalOpen, isLoginModalOpen, setIsRegisterModalOpen, isRegisterModalOpen, handleFormSwitch, removeCart}){
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
 
     const handleAmountChange = (bookId) => {
         let newAmount = document.getElementById(bookId).value;
@@ -58,6 +60,7 @@ export default function CartPage({cookies, setCookie, isContactModalOpen, setIsC
 
     return(
         <div>
+            <OrderModal isOrderModalOpen={isOrderModalOpen} setIsOrderModalOpen={setIsOrderModalOpen}/>
             <PageWrapper withSidebar isSidebarOpen={isSidebarOpen} toggle={() => {setIsSidebarOpen(!isSidebarOpen)}}  withNavbar withTransitions>
                 <NavbarComponent isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} cookies={cookies}/>
                 <Sidebar setIsLoginModalOpen={setIsLoginModalOpen} cookies={cookies} setCookie={setCookie} removeCart={removeCart}/>
@@ -79,7 +82,7 @@ export default function CartPage({cookies, setCookie, isContactModalOpen, setIsC
                                 <ul class="dropdown-menu">
                                     <div><button className="btn btn-danger w-full my-5" onClick={handleCartDelete}>Wyczyść</button></div>
                                     <div><button className="btn btn-primary w-full my-5">Zarezerwuj</button></div>
-                                    <div><button className="btn btn-primary w-full my-5">Zamów</button></div>
+                                    <div><button className="btn btn-primary w-full my-5" onClick={()=>{setIsOrderModalOpen(true)}}>Zamów</button></div>
                                 </ul>
                             </div>
                         </div>
