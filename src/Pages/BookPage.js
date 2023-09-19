@@ -234,7 +234,9 @@ export default function BookPage({cookies, setCookie, handleFormSwitch, setIsLog
                                                 </div>
                                                     {
                                                         book.amount >= 1 
-                                                        ? <div>{book.amount > 1 
+                                                        ? 
+                                                            <div>
+                                                                {book.amount > 1 
                                                                 ? <Badge color="success" className="mt-15 mb-5">Produkt dostępny</Badge> 
                                                                 : <Badge color="secondary" className="mt-15 mb-5">Ostatnia sztuka</Badge>}
                                                             </div> 
@@ -243,8 +245,15 @@ export default function BookPage({cookies, setCookie, handleFormSwitch, setIsLog
 
                                                     {
                                                         cookies.user.id !== undefined
-                                                        ?
-                                                            (<button className="btn btn-primary align-self-center mb-auto" onClick={addToCart}>Dodaj do koszyka</button>)
+                                                        ?   
+                                                            (<div>
+                                                                {book.amount > 0
+                                                                ?
+                                                                    (<button className="btn btn-primary align-self-center mb-auto" onClick={addToCart}>Dodaj do koszyka</button>)
+                                                                :
+                                                                    (<button className="btn btn-primary align-self-center mb-auto" disabled>Dodaj do koszyka</button>)
+                                                                }
+                                                            </div>)
                                                         :
                                                             (<button className="btn btn-primary align-self-center mb-auto" onClick={addToCart} disabled data-toggle='tooltip' data-title={'Zaloguj sie aby dodać do koszyka'} data-placement='bottom'>Dodaj do koszyka</button>)
                                                     }
