@@ -8,7 +8,7 @@ import { CookiesProvider } from "react-cookie";
 import { useLocation } from 'react-router-dom';
 import { Link, useNavigate } from 'react-router-dom';
 
-export default function Sidebar({onGenreChange, setIsLoginModalOpen, cookies, setCookie, setIsEditBookDataModalOpen, bookId, setIsNewBookModalOpen}){
+export default function Sidebar({onGenreChange, setIsLoginModalOpen, cookies, setCookie, setIsEditBookDataModalOpen, bookId, setIsNewBookModalOpen, removeCart}){
     const [booksAmount, setBooksAmount] = useState(null);
     const [genres, setGenres] = useState([]); 
 
@@ -47,8 +47,10 @@ export default function Sidebar({onGenreChange, setIsLoginModalOpen, cookies, se
 
       const handleLogOut = () => {
           setCookie("user", '', {path: "/"});
+          removeCart('cart', {path: '/'});
           alert("Pomyślnie wylogowano");
           navigate("/");
+          window.location.reload();
       }
 
       const handleDeleteBook = () => {

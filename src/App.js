@@ -35,7 +35,7 @@ function App() {
                                   setIsLoginModalOpen={setIsLoginModalOpen} isLoginModalOpen={isLoginModalOpen}
                                   setIsRegisterModalOpen={setIsRegisterModalOpen} isRegisterModalOpen={isRegisterModalOpen}
                                   setIsContactModalOpen={setIsContactModalOpen} isContactModalOpen={isContactModalOpen} 
-                                  cart={cart}/>}>
+                                  cart={cart} removeCart={removeCart}/>}>
         </Route>
 
         <Route path='/book/:id' element={<BookPage cookies={cookies} setCookie={setCookie} handleFormSwitch={handleFormSwitch}
@@ -47,7 +47,7 @@ function App() {
 
         <Route path='/myProfile' element={<UserPanel cookies={cookies} setCookie={setCookie} setIsLoginModalOpen={setIsLoginModalOpen}
                                             setIsContactModalOpen={setIsContactModalOpen} isContactModalOpen={isContactModalOpen} 
-                                            cart={cart}/>}>
+                                            cart={cart} removeCart={removeCart}/>}>
         </Route>
 
         <Route path='/cart' element={<CartPage cookies={cookies} setCookie={setCookie} isContactModalOpen={isContactModalOpen} setIsContactModalOpen={setIsContactModalOpen} 
