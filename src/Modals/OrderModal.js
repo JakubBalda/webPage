@@ -62,6 +62,26 @@ export default function OrderModal({isOrderModalOpen, setIsOrderModalOpen}){
         })
     }
 
+    const handleFormClear = () => {
+        setOrderData({
+            name: '',
+            surname: '',
+            city: '',
+            street: '',
+            houseNumber: '',
+            flatNumber: '',
+            postal: '',
+            mail: '',
+            phoneNumber: '',
+            deliveryOption: '',
+            paymentOption: ''
+        })
+        
+        document.getElementById('paymentOption').querySelector('option[value="default"]').selected = true;
+        document.getElementById('deliveryOption').querySelector('option[value="default"]').selected = true;
+        setIsOrderModalOpen(false);
+    }
+
     useEffect(() => {
         console.log(orderData)
     },[orderData])
@@ -123,7 +143,7 @@ export default function OrderModal({isOrderModalOpen, setIsOrderModalOpen}){
                                 <Col>
                                     <label>Dostawa</label>
                                     <select id="deliveryOption" className="form-control" name="deliveryOption" onChange={handleDeliveryOptionChange}>
-                                        <option disabled selected></option>
+                                        <option disabled selected value="default"></option>
                                         <option value="DHL">Kurier DHL</option>
                                         <option value="DPD">Kurier DPD</option>
                                         <option value="personal">Odbiór osobisty</option>
@@ -142,7 +162,7 @@ export default function OrderModal({isOrderModalOpen, setIsOrderModalOpen}){
                             </FormRow>
                         </Form>
                         <div className="d-flex w-full justify-content-around">
-                            <button className="btn btn-danger">Anuluj</button>
+                            <button className="btn btn-danger" onClick={handleFormClear}>Anuluj</button>
                             <button className="btn btn-primary">Zatwierdź</button>
                         </div>
                         
