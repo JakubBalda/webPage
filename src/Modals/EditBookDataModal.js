@@ -51,7 +51,7 @@ export default function EditBookDataModal({isEditBookDataModalOpen, setIsEditBoo
                 authorSurname: author[1],
                 isbn: book.isbn,
                 description: book.description,
-                price: book.price,
+                price: (book.price).toFixed(2),
                 amount: book.amount,
                 publisher: book.publisher,
                 pageAmount: book.pageAmount,
@@ -300,7 +300,7 @@ export default function EditBookDataModal({isEditBookDataModalOpen, setIsEditBoo
                         </Col>
                         <Col>
                             <label className="required">Cena</label>
-                            <Input type="text" placeholder="Cena" name="price" value={parseFloat(bookData.price).toFixed(2)} onChange={handleEditBookDataInputChange}/>
+                            <Input type="text" placeholder="Cena" name="price" value={bookData.price} onChange={handleEditBookDataInputChange}/>
                             {bookDataFormErrors.price && <p className="error-message text-danger">{bookDataFormErrors.price}</p>}
                         </Col>
                     </FormRow>
