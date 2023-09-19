@@ -266,7 +266,7 @@ export default function BookPage({cookies, setCookie, handleFormSwitch, setIsLog
                                         <Tab>Podcast</Tab>
                                     </TabList>
                                     <TabPanel>
-                                        <p>{book.description}</p>
+                                        <p className="font-size-12 p-15">{book.description}</p>
                                     </TabPanel>
                                     <TabPanel>
                                         <h1 >Dane szczegółowe</h1>
