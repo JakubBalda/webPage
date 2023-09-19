@@ -57,6 +57,7 @@ export default function Sidebar({onGenreChange, setIsLoginModalOpen, cookies, se
               .then((response) => {
                   if(response.data === "Deleted"){
                     alert('Książka została usunięta');
+                    navigate("/");
                   }else{
                     alert('Wystąpił błąd podczas usuwania książki, spróbuj ponownie później');
                   }
