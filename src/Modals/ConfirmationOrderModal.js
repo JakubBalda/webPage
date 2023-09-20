@@ -81,7 +81,7 @@ export default function ConfirmationOrderModal({isOrderConfirmationModalOpen, se
                                 
                             </div>
                         </div>
-                        <div className="d-flex justify-content-between mt-20">
+                        <div className="d-flex justify-content-between mt-20 pt-10">
                             <button className="btn btn-primary" onClick={()=>{handleModalSwitchToOrder()}}> <FontAwesomeIcon icon={faCircleLeft} /> Wróć</button>
                             <div>
                                 <span className="mr-20 font-size-14"><b>Cena:</b> {orderData.fullOrderPrice} zł</span>
