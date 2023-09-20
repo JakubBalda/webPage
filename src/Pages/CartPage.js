@@ -25,11 +25,13 @@ export default function CartPage({cookies, setCookie, isContactModalOpen, setIsC
         mail: '',
         phoneNumber: '',
         deliveryOption: '',
-        paymentOption: ''
+        paymentOption: '',
+        fullOrderPrice: 0.0
     })
 
     const handleModalSwitchToConfirm = () => {
         setIsOrderModalOpen(false);
+        calculateFullOrderPrice()
         setTimeout(() => {
             setIsOrderConfirmationModalOpen(true);
         }, 400);
@@ -40,6 +42,23 @@ export default function CartPage({cookies, setCookie, isContactModalOpen, setIsC
         setTimeout(() => {
             setIsOrderModalOpen(true);
         }, 400);
+    }
+
+    const calculateFullOrderPrice = () => {
+        let orderPrice = 0.0;
+
+        for(let book of cookies.cart){
+            orderPrice = orderPrice + (book.amount * book.price);
+        }
+
+        if(orderData.deliveryOption === 'DHL' || orderData.deliveryOption === 'DPD'){
+            orderPrice = orderPrice + 11.90;
+        }
+
+        setOrderData({
+            ...orderData,
+            fullOrderPrice: orderPrice.toFixed(2)
+        });
     }
 
     const handleAmountChange = (bookId) => {
@@ -128,7 +147,7 @@ export default function CartPage({cookies, setCookie, isContactModalOpen, setIsC
                                             <div className="col-3 pt-5">
                                                 <h3>{book.title}</h3>
                                                 </div>
-                                                <div className="col-2 pt-5">{book.price} zł</div>
+                                                <div className="col-2 pt-5">{book.price.toFixed(2)} zł</div>
                                             <div className="col-3 d-flex justify-content-center">
                                                 <input type="number" defaultValue={book.amount} id={book.bookId} className="form-control w-150" onChange={() => {handleAmountChange(book.bookId)}} min={1} max={book.maxBookAmount}/>
                                             </div>

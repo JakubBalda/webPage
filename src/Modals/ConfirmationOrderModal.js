@@ -8,7 +8,7 @@ export default function ConfirmationOrderModal({isOrderConfirmationModalOpen, se
 
     return(
         <Modal full isOpen={isOrderConfirmationModalOpen} toggle={()=>{setIsOrderConfirmationModalOpen(!isOrderConfirmationModalOpen)}}>
-            <ModalDialog >
+            <ModalDialog>
                 <ModalContent className="h-full">
                     <ModalTitle>Potwierdź zamówienie</ModalTitle>
                         <span>Sprawdź poprawność danych i złóż zamówienie</span>
@@ -70,7 +70,7 @@ export default function ConfirmationOrderModal({isOrderConfirmationModalOpen, se
                                         <div>
                                         {cookies.cart.map((book, key) => {
                                             return(
-                                                <p><b>Tytuł:</b> {book.title} (x{book.amount})</p>
+                                                <p><b>Tytuł:</b> "{book.title}" (x{book.amount})</p>
                                             )
                                         })}
                                         </div>
@@ -81,9 +81,13 @@ export default function ConfirmationOrderModal({isOrderConfirmationModalOpen, se
                                 
                             </div>
                         </div>
-                        <div className="d-flex justify-content-around mt-20">
+                        <div className="d-flex justify-content-between mt-20">
                             <button className="btn btn-primary" onClick={()=>{handleModalSwitchToOrder()}}> <FontAwesomeIcon icon={faCircleLeft} /> Wróć</button>
-                            <button className="btn btn-success"> <FontAwesomeIcon icon={faCheck} /> Zamów</button>
+                            <div>
+                                <span className="mr-20 font-size-14"><b>Cena:</b> {orderData.fullOrderPrice} zł</span>
+                                <button className="btn btn-success"> <FontAwesomeIcon icon={faCheck} /> Zamów</button>
+                            </div>
+                            
                         </div>
                 </ModalContent>
             </ModalDialog>
