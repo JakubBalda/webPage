@@ -111,7 +111,7 @@ export default function CartPage({cookies, setCookie, isContactModalOpen, setIsC
                                 <button className="btn btn-primary border rounded-circle" data-toggle="dropdown" type="button" id="dropdown-toggle-btn-1" aria-haspopup="true" aria-expanded="false">
                                     <FontAwesomeIcon icon={faEllipsisVertical} />
                                 </button>
-                                <ul class="dropdown-menu">
+                                <ul className="dropdown-menu">
                                     <div><button className="btn btn-danger w-full my-5" onClick={handleCartDelete}>Wyczyść</button></div>
                                     <div><button className="btn btn-primary w-full my-5">Zarezerwuj</button></div>
                                     <div><button className="btn btn-primary w-full my-5" onClick={()=>{setIsOrderModalOpen(true)}}>Zamów</button></div>
@@ -141,7 +141,13 @@ export default function CartPage({cookies, setCookie, isContactModalOpen, setIsC
                         })}
                     </div>)
                     }
-                    <FloatingButton setIsContactModalOpen={setIsContactModalOpen} isContactModalOpen={isContactModalOpen}/>
+                    {
+                        isOrderConfirmationModalOpen || isOrderModalOpen
+                        ?
+                        (<span></span>)
+                        :
+                        (<FloatingButton setIsContactModalOpen={setIsContactModalOpen} isContactModalOpen={isContactModalOpen}/>)
+                    }
                 </ContentWrapper>
             </PageWrapper>
         </div>

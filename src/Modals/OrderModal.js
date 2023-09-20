@@ -3,6 +3,8 @@ import validator from 'validator';
 import axios from "axios";
 import { useState, useEffect } from "react";
 import 'halfmoon/css/halfmoon.min.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleRight, faXmark } from '@fortawesome/free-solid-svg-icons';
 
 export default function OrderModal({isOrderModalOpen, setIsOrderModalOpen, orderData, setOrderData, cookies, handleModalSwitchToConfirm}){
     
@@ -351,8 +353,8 @@ export default function OrderModal({isOrderModalOpen, setIsOrderModalOpen, order
                             </FormRow>
                         </Form>
                         <div className="d-flex w-full justify-content-around">
-                            <button className="btn btn-danger" onClick={handleFormClear}>Anuluj</button>
-                            <button className="btn btn-primary" onClick={submitOrderData}>Zatwierdź</button>
+                            <button className="btn btn-danger" onClick={handleFormClear}> <FontAwesomeIcon icon={faXmark} /> Anuluj</button>
+                            <button className="btn btn-primary" onClick={submitOrderData}>Zatwierdź <FontAwesomeIcon icon={faCircleRight} /></button>
                         </div>
                         
                 </ModalContent>
