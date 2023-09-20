@@ -63,11 +63,22 @@ export default function ConfirmationOrderModal({isOrderConfirmationModalOpen, se
                             </div>
                             <div>
                                 <h1>Zamówienie</h1>
-                                {cookies.cart.map((book, key) => {
-                                    return(
-                                        <p><b>Tytuł:</b> {book.title} (x{book.amount})</p>
+                                {
+                                    cookies.cart !== undefined
+                                    ?
+                                    (
+                                        <div>
+                                        {cookies.cart.map((book, key) => {
+                                            return(
+                                                <p><b>Tytuł:</b> {book.title} (x{book.amount})</p>
+                                            )
+                                        })}
+                                        </div>
                                     )
-                                })}
+                                    :
+                                    (<div></div>)
+                                }
+                                
                             </div>
                         </div>
                         <div className="d-flex justify-content-around mt-20">
