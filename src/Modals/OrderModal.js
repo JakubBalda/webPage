@@ -1,23 +1,11 @@
-import axios from "axios";
 import { ModalContent, ModalDialog, ModalTitle, Modal, Form, Input, FormRow, Col } from "reacthalfmoon";
 import validator from 'validator';
+import axios from "axios";
 import { useState, useEffect } from "react";
+import 'halfmoon/css/halfmoon.min.css';
 
-export default function OrderModal({isOrderModalOpen, setIsOrderModalOpen, cookies}){
-    const [orderData, setOrderData] = useState({
-        name: '',
-        surname: '',
-        city: '',
-        street: '',
-        houseNumber: '',
-        flatNumber: '',
-        postal: '',
-        mail: '',
-        phoneNumber: '',
-        deliveryOption: '',
-        paymentOption: ''
-    })
-
+export default function OrderModal({isOrderModalOpen, setIsOrderModalOpen, orderData, setOrderData, cookies, handleModalSwitchToConfirm}){
+    
     const [orderDataErrors, setOrderDataErrors] = useState({
         name: '',
         surname: '',
@@ -178,7 +166,6 @@ export default function OrderModal({isOrderModalOpen, setIsOrderModalOpen, cooki
     const handleOrderFormChange = (event) => {
         const {name, value} = event.target;
 
-        console.log(name);
         setOrderData({
             ...orderData,
             [name]: value
@@ -191,12 +178,6 @@ export default function OrderModal({isOrderModalOpen, setIsOrderModalOpen, cooki
 
         if(name === 'deliveryOption'){
             handleDeliveryOptionChange(value)
-        }
-    }
-
-    const submitOrderData = () => {
-        if(validateOrderDataForm()){
-            console.log('Validated')
         }
     }
 
@@ -269,6 +250,14 @@ export default function OrderModal({isOrderModalOpen, setIsOrderModalOpen, cooki
         document.getElementById('paymentOption').querySelector('option[value="default"]').selected = true;
         document.getElementById('deliveryOption').querySelector('option[value="default"]').selected = true;
         setIsOrderModalOpen(false);
+    }
+
+    
+    const submitOrderData = () => {
+        if(validateOrderDataForm()){
+            console.log('Validated')
+            handleModalSwitchToConfirm();
+        }
     }
 
     useEffect(() => {

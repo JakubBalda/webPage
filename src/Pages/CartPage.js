@@ -7,10 +7,40 @@ import 'halfmoon/css/halfmoon.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 import OrderModal from "../Modals/OrderModal";
+import ConfirmationOrderModal from "../Modals/ConfirmationOrderModal";
 
-export default function CartPage({cookies, setCookie, isContactModalOpen, setIsContactModalOpen, setIsLoginModalOpen, isLoginModalOpen, setIsRegisterModalOpen, isRegisterModalOpen, handleFormSwitch, removeCart}){
+export default function CartPage({cookies, setCookie, isContactModalOpen, setIsContactModalOpen, setIsLoginModalOpen, removeCart}){
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
+    const [isOrderConfirmationModalOpen, setIsOrderConfirmationModalOpen] = useState(false);
+
+    const [orderData, setOrderData] = useState({
+        name: '',
+        surname: '',
+        city: '',
+        street: '',
+        houseNumber: '',
+        flatNumber: '',
+        postal: '',
+        mail: '',
+        phoneNumber: '',
+        deliveryOption: '',
+        paymentOption: ''
+    })
+
+    const handleModalSwitchToConfirm = () => {
+        setIsOrderModalOpen(false);
+        setTimeout(() => {
+            setIsOrderConfirmationModalOpen(true);
+        }, 400);
+    }
+
+    const handleModalSwitchToOrder = () => {
+        setIsOrderConfirmationModalOpen(false);
+        setTimeout(() => {
+            setIsOrderModalOpen(true);
+        }, 400);
+    }
 
     const handleAmountChange = (bookId) => {
         let newAmount = document.getElementById(bookId).value;
@@ -60,7 +90,9 @@ export default function CartPage({cookies, setCookie, isContactModalOpen, setIsC
 
     return(
         <div>
-            <OrderModal isOrderModalOpen={isOrderModalOpen} setIsOrderModalOpen={setIsOrderModalOpen} cookies={cookies}/>
+            <OrderModal isOrderModalOpen={isOrderModalOpen} setIsOrderModalOpen={setIsOrderModalOpen} orderData={orderData} setOrderData={setOrderData} cookies={cookies} handleModalSwitchToConfirm={handleModalSwitchToConfirm}/>
+            <ConfirmationOrderModal isOrderConfirmationModalOpen={isOrderConfirmationModalOpen} setIsOrderConfirmationModalOpen={setIsOrderConfirmationModalOpen} orderData={orderData} setOrderData={setOrderData} cookies={cookies} handleModalSwitchToOrder={handleModalSwitchToOrder}/>
+
             <PageWrapper withSidebar isSidebarOpen={isSidebarOpen} toggle={() => {setIsSidebarOpen(!isSidebarOpen)}}  withNavbar withTransitions>
                 <NavbarComponent isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} cookies={cookies}/>
                 <Sidebar setIsLoginModalOpen={setIsLoginModalOpen} cookies={cookies} setCookie={setCookie} removeCart={removeCart}/>
