@@ -175,8 +175,23 @@ export default function OrderModal({isOrderModalOpen, setIsOrderModalOpen, cooki
         return isValid;
     };
 
-    const handleOrderFormChange = () => {
+    const handleOrderFormChange = (event) => {
+        const {name, value} = event.target;
 
+        console.log(name);
+        setOrderData({
+            ...orderData,
+            [name]: value
+        })
+
+        setOrderDataErrors({
+            ...orderDataErrors,
+            [name]: ""
+        });
+
+        if(name === 'deliveryOption'){
+            handleDeliveryOptionChange(value)
+        }
     }
 
     const submitOrderData = () => {
@@ -207,13 +222,7 @@ export default function OrderModal({isOrderModalOpen, setIsOrderModalOpen, cooki
         }
     }
 
-    const handleDeliveryOptionChange = (event) => {
-        const { name, value } = event.target;
-
-        setOrderData({
-            ...orderData,
-            [name]: value
-        })
+    const handleDeliveryOptionChange = (value) => {
 
         if(value === 'DHL' || value === 'DPD'){
             const paymentOptionSelect = document.getElementById('paymentOption');
@@ -225,7 +234,11 @@ export default function OrderModal({isOrderModalOpen, setIsOrderModalOpen, cooki
 
             if(orderData.paymentOption === 'pickup'){
                 paymentOptionSelect.querySelector('option[value="default"]').selected = true;
-                orderData.paymentOption = '';
+
+                setOrderData({
+                    ...orderData,
+                    paymentOption: ''
+                })
             }
             
         } else {
@@ -236,15 +249,6 @@ export default function OrderModal({isOrderModalOpen, setIsOrderModalOpen, cooki
               pickupOption.disabled = false;
             }
           }
-    }
-
-    const handlePaymentOptionChange = (event) => {
-        const { name, value } = event.target;
-
-        setOrderData({
-            ...orderData,
-            [name]: value
-        })
     }
 
     const handleFormClear = () => {
@@ -281,7 +285,7 @@ export default function OrderModal({isOrderModalOpen, setIsOrderModalOpen, cooki
                             <FormRow equalSpacing>
                                 <Col>
                                     <label className="required">Imie</label>
-                                    <Input type="text" defaultValue={orderData.name} name="name"></Input>
+                                    <Input type="text" defaultValue={orderData.name} name="name" onChange={handleOrderFormChange}></Input>
                                     {orderDataErrors.name && <p className="error-message text-danger">{orderDataErrors.name}</p>}
                                 </Col>
                                 <Col>
@@ -336,10 +340,10 @@ export default function OrderModal({isOrderModalOpen, setIsOrderModalOpen, cooki
                             <FormRow equalSpacing>
                                 <Col>
                                     <label>Dostawa</label>
-                                    <select id="deliveryOption" className="form-control" name="deliveryOption" onChange={handleDeliveryOptionChange}>
+                                    <select id="deliveryOption" className="form-control" name="deliveryOption" onChange={handleOrderFormChange}>
                                         <option disabled selected value="default"></option>
-                                        <option value="DHL">Kurier DHL</option>
-                                        <option value="DPD">Kurier DPD</option>
+                                        <option value="DHL">Kurier DHL (+11,90 zł)</option>
+                                        <option value="DPD">Kurier DPD (+11,90 zł)</option>
                                         <option value="personal">Odbiór osobisty</option>
                                     </select>
                                     {orderDataErrors.deliveryOption && <p className="error-message text-danger">{orderDataErrors.deliveryOption}</p>}
@@ -347,7 +351,7 @@ export default function OrderModal({isOrderModalOpen, setIsOrderModalOpen, cooki
 
                                 <Col>
                                     <label>Płatność</label>
-                                    <select id="paymentOption" className="form-control" name="paymentOption" onChange={handlePaymentOptionChange}>
+                                    <select id="paymentOption" className="form-control" name="paymentOption" onChange={handleOrderFormChange}>
                                         <option disabled selected value="default"></option>
                                         <option value="BLIK">BLIK</option>
                                         <option value="traditional">Przelew tradycyjny</option>
