@@ -73,9 +73,11 @@ export default function CartPage({cookies, setCookie, isContactModalOpen, setIsC
 
             if(currentCart.length > 1){
                 let bookInCartIndex = currentCart.findIndex((item) => item.bookId === bookId);
-                delete currentCart[bookInCartIndex];
-        
-                setCookie('cart', currentCart, {path: '/'});
+
+                if (bookInCartIndex !== -1) {
+                    currentCart.splice(bookInCartIndex, 1);
+                    setCookie('cart', currentCart, { path: '/' });
+                }
             }else{
                 removeCart('cart', {path: '/'})
             }

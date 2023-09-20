@@ -10,7 +10,7 @@ import { ContentWrapper, PageWrapper } from "reacthalfmoon";
 import { useState, useEffect } from "react"; 
 import FloatingButton from "../Components/FloatingButton";
 
-export default function HomePage({cookies, setCookie, handleFormSwitch, isLoginModalOpen, setIsLoginModalOpen, isRegisterModalOpen, setIsRegisterModalOpen, setIsContactModalOpen, isContactModalOpen}){
+export default function HomePage({cookies, setCookie, handleFormSwitch, isLoginModalOpen, setIsLoginModalOpen, isRegisterModalOpen, setIsRegisterModalOpen, setIsContactModalOpen, isContactModalOpen, removeCart}){
     const [search, setSearch] = useState('');
     const [bookGenre, setBookGenre] = useState([]);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -24,7 +24,7 @@ export default function HomePage({cookies, setCookie, handleFormSwitch, isLoginM
 
     <PageWrapper withSidebar isSidebarOpen={isSidebarOpen} toggle={() => {setIsSidebarOpen(!isSidebarOpen)}}  withNavbar withTransitions>
         <NavbarComponent onSearchChange={setSearch} isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} cookies={cookies}/>
-        <Sidebar onGenreChange={setBookGenre} setIsLoginModalOpen={setIsLoginModalOpen} cookies={cookies} setCookie={setCookie} setIsNewBookModalOpen={setIsNewBookModalOpen}/>
+        <Sidebar onGenreChange={setBookGenre} setIsLoginModalOpen={setIsLoginModalOpen} cookies={cookies} setCookie={setCookie} setIsNewBookModalOpen={setIsNewBookModalOpen} removeCart={removeCart}/>
         <ContentWrapper>
             <SlideShow />
             <AllBooks search={search} bookGenre={bookGenre} cookies={cookies} setBookGenre={setBookGenre}/>
