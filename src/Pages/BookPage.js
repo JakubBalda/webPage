@@ -240,7 +240,7 @@ export default function BookPage({cookies, setCookie, handleFormSwitch, setIsLog
                                                                 ? <Badge color="success" className="mt-15 mb-5">Produkt dostępny</Badge> 
                                                                 : <Badge color="secondary" className="mt-15 mb-5">Ostatnia sztuka</Badge>}
                                                             </div> 
-                                                        : <Badge color="danger" className="my-15 mb-5">Produkt niedostępny</Badge>
+                                                        : <div><Badge color="danger" className="my-15 mb-5">Produkt niedostępny</Badge></div>
                                                     }
 
                                                     {
