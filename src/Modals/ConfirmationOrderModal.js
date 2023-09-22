@@ -3,8 +3,27 @@ import { ModalContent, ModalDialog, ModalTitle, Modal, Form, Input, FormRow, Col
 import 'halfmoon/css/halfmoon.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleLeft, faCheck } from '@fortawesome/free-solid-svg-icons';
+import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
-export default function ConfirmationOrderModal({isOrderConfirmationModalOpen, setIsOrderConfirmationModalOpen, handleModalSwitchToOrder, orderData, setOrderData, cookies}){
+export default function ConfirmationOrderModal({isOrderConfirmationModalOpen, setIsOrderConfirmationModalOpen, handleModalSwitchToOrder, orderData, setOrderData, cookies, removeCart}){
+    const navigate = useNavigate();
+    
+    const submitOrder = () => {
+        axios.post('http://localhost:5002/api/orders/storeNewOrder', [cookies.user.id, orderData, cookies.cart])
+            .then((response) => {
+                if(response.data){
+                    alert("Zamówienie złożone, sprawdź je na swoim profilu.");
+                    removeCart("cart", {path: "/"});
+                    navigate('/');
+                }
+                else
+                    alert("Wystąpił błąd, spróbuj ponownie za chwile.")
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
 
     return(
         <Modal full isOpen={isOrderConfirmationModalOpen} toggle={()=>{setIsOrderConfirmationModalOpen(!isOrderConfirmationModalOpen)}}>
@@ -85,7 +104,7 @@ export default function ConfirmationOrderModal({isOrderConfirmationModalOpen, se
                             <button className="btn btn-primary" onClick={()=>{handleModalSwitchToOrder()}}> <FontAwesomeIcon icon={faCircleLeft} /> Wróć</button>
                             <div>
                                 <span className="mr-20 font-size-14"><b>Cena:</b> {orderData.fullOrderPrice} zł</span>
-                                <button className="btn btn-success"> <FontAwesomeIcon icon={faCheck} /> Zamów</button>
+                                <button className="btn btn-success" onClick={submitOrder}> <FontAwesomeIcon icon={faCheck} /> Zamów</button>
                             </div>
                             
                         </div>
