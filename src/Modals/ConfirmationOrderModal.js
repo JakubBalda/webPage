@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-import { ModalContent, ModalDialog, ModalTitle, Modal, Form, Input, FormRow, Col } from "reacthalfmoon";
+import { ModalContent, ModalDialog, ModalTitle, Modal } from "reacthalfmoon";
 import 'halfmoon/css/halfmoon.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleLeft, faCheck } from '@fortawesome/free-solid-svg-icons';
