@@ -10,6 +10,7 @@ import EditUserPasswordModal from "../Modals/EditUserPasswordModal";
 import FloatingButton from "../Components/FloatingButton";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAnglesRight } from '@fortawesome/free-solid-svg-icons';
+import { Link } from "react-router-dom";
 
 export default function UserPanel({setIsLoginModalOpen, cookies, setCookie, isContactModalOpen, setIsContactModalOpen}){
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -135,11 +136,6 @@ export default function UserPanel({setIsLoginModalOpen, cookies, setCookie, isCo
             })
       }
 
-      useEffect(() => {
-        console.log(selectedAuthors);
-        console.log(selectedGenres)
-      })
-
     const editUserDataModal = userProfileData && (
         <EditUserDataModal
             isEditUserDataModalOpen={isEditUserDataModalOpen}
@@ -181,13 +177,13 @@ export default function UserPanel({setIsLoginModalOpen, cookies, setCookie, isCo
                             </div>
                     </div>
                     <div className="d-flex flex-column h-half w-three-quarter">
-                        <div className="card d-flex justify-content-center h-half mt-70">
+                        <div className="card d-flex justify-content-around h-half mt-70">
                             <h1 className="font-size-24">Moje zamówienia</h1>
-                            <button className="btn btn-primary ml-15">Wyświetl <FontAwesomeIcon icon={faAnglesRight} /></button>
+                            <Link to={'/myOrders'}><button className="btn btn-primary">Wyświetl <FontAwesomeIcon icon={faAnglesRight} /></button></Link>
                         </div>
-                        <div className="card d-flex justify-content-center h-half">
+                        <div className="card d-flex justify-content-around h-half">
                             <h1 className="font-size-24">Moje rezerwacje</h1>
-                            <button className="btn btn-primary ml-15">Wyświetl <FontAwesomeIcon icon={faAnglesRight} /></button>
+                            <Link ><button className="btn btn-primary">Wyświetl <FontAwesomeIcon icon={faAnglesRight} /></button></Link>
                         </div>
                     </div>
                 </div>

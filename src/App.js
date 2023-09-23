@@ -57,8 +57,8 @@ function App() {
                                         handleFormSwitch={handleFormSwitch} removeCart={removeCart}/>}>
         </Route>
 
-        <Route path='/myOrders' element={<UserOrdersPage cookies={cookies} setCookie={setCookie}
-                                              isContactModalOpen={isContactModalOpen} setIsContactModalOpen={setIsContactModalOpen}/>}> 
+        <Route path='/myOrders' element={<UserOrdersPage cookies={cookies} setCookie={setCookie} removeCart={removeCart}
+                                              isContactModalOpen={isContactModalOpen} setIsContactModalOpen={setIsContactModalOpen} />}> 
         
         </Route>
       </Routes>
