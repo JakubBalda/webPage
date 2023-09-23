@@ -10,6 +10,7 @@ import UserPanel from './Pages/UserPanel';
 import ContactModal from './Modals/ContactModal';
 import { CookiesProvider } from 'react-cookie';
 import CartPage from './Pages/CartPage';
+import UserOrdersPage from './Pages/UserOrdersPage';
 
 function App() {
   const [cookies, setCookie] = useCookies(["user"]);
@@ -54,6 +55,11 @@ function App() {
                                         cart={cart} setIsLoginModalOpen={setIsLoginModalOpen} isLoginModalOpen={isLoginModalOpen}
                                         setIsRegisterModalOpen={setIsRegisterModalOpen} isRegisterModalOpen={isRegisterModalOpen}
                                         handleFormSwitch={handleFormSwitch} removeCart={removeCart}/>}>
+        </Route>
+
+        <Route path='/myOrders' element={<UserOrdersPage cookies={cookies} setCookie={setCookie}
+                                              isContactModalOpen={isContactModalOpen} setIsContactModalOpen={setIsContactModalOpen}/>}> 
+        
         </Route>
       </Routes>
     </div>

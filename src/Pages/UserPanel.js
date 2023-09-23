@@ -8,6 +8,8 @@ import 'halfmoon/css/halfmoon.min.css';
 import EditUserDataModal from "../Modals/EditUserDataModal";
 import EditUserPasswordModal from "../Modals/EditUserPasswordModal";
 import FloatingButton from "../Components/FloatingButton";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAnglesRight } from '@fortawesome/free-solid-svg-icons';
 
 export default function UserPanel({setIsLoginModalOpen, cookies, setCookie, isContactModalOpen, setIsContactModalOpen}){
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -179,17 +181,19 @@ export default function UserPanel({setIsLoginModalOpen, cookies, setCookie, isCo
                             </div>
                     </div>
                     <div className="d-flex flex-column h-half w-three-quarter">
-                        <div className="card h-half mt-70">
+                        <div className="card d-flex justify-content-center h-half mt-70">
                             <h1 className="font-size-24">Moje zamówienia</h1>
+                            <button className="btn btn-primary ml-15">Wyświetl <FontAwesomeIcon icon={faAnglesRight} /></button>
                         </div>
-                        <div className="card h-half">
+                        <div className="card d-flex justify-content-center h-half">
                             <h1 className="font-size-24">Moje rezerwacje</h1>
+                            <button className="btn btn-primary ml-15">Wyświetl <FontAwesomeIcon icon={faAnglesRight} /></button>
                         </div>
                     </div>
                 </div>
-                <div className="mt-20 border w-three-quarter mx-auto">
+                <div className="mt-20 border w-three-quarter mx-auto mb-15">
                         <h1 className="mt-10">Moje preferencje</h1>
-                        <div className="d-flex flex-wrap">
+                        <div className="d-flex flex-wrap pb-5">
                             <div className="w-half">
                                 <h3>Ulubieni autorzy</h3>
                                 <form className='form-inline d-flex justify-content-center mt-10 w-three-quarter mx-auto'>
