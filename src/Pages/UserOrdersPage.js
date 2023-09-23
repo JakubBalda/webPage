@@ -57,7 +57,7 @@ export default function UserOrdersPage({cookies, isContactModalOpen, setIsContac
                     surname: orderDetails.data.surname,
                     city: orderDetails.data.city,
                     street: orderDetails.data.street,
-                    houseNumber: orderDetails.data.housenumber,
+                    houseNumber: orderDetails.data.houseNumber,
                     flatNumber: orderDetails.data.flatNumber,
                     postal: orderDetails.data.postal,
                     mail: orderDetails.data.mail,
@@ -105,8 +105,14 @@ export default function UserOrdersPage({cookies, isContactModalOpen, setIsContac
                     :
                     (<h1>Brak zamówień</h1>)
                     }
-
-                    <FloatingButton setIsContactModalOpen={setIsContactModalOpen} isContactModalOpen={isContactModalOpen}/>
+                    
+                    {isUserOrderModalOpen
+                    ?
+                        (<div></div>)
+                    :
+                        (<FloatingButton setIsContactModalOpen={setIsContactModalOpen} isContactModalOpen={isContactModalOpen}/>)
+                    }
+                    
                 </ContentWrapper>
             </PageWrapper>
         </div>
