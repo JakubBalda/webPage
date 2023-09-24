@@ -183,7 +183,7 @@ export default function UserPanel({setIsLoginModalOpen, cookies, setCookie, isCo
                         </div>
                         <div className="card d-flex justify-content-around h-half">
                             <h1 className="font-size-24">Moje rezerwacje</h1>
-                            <Link ><button className="btn btn-primary">Wyświetl <FontAwesomeIcon icon={faAnglesRight} /></button></Link>
+                            <Link to={'/myReservations'}><button className="btn btn-primary">Wyświetl <FontAwesomeIcon icon={faAnglesRight} /></button></Link>
                         </div>
                     </div>
                 </div>
