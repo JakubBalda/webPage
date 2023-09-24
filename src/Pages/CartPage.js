@@ -8,11 +8,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 import OrderModal from "../Modals/OrderModal";
 import ConfirmationOrderModal from "../Modals/ConfirmationOrderModal";
+import BooksReservationModal from "../Modals/BooksReservationModal"
 
 export default function CartPage({cookies, setCookie, isContactModalOpen, setIsContactModalOpen, setIsLoginModalOpen, removeCart}){
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
     const [isOrderConfirmationModalOpen, setIsOrderConfirmationModalOpen] = useState(false);
+    const [isBooksReservationModalOpen, setIsBooksReservationModalOpen] = useState(false);
 
     const [orderData, setOrderData] = useState({
         name: '',
@@ -113,6 +115,7 @@ export default function CartPage({cookies, setCookie, isContactModalOpen, setIsC
         <div>
             <OrderModal isOrderModalOpen={isOrderModalOpen} setIsOrderModalOpen={setIsOrderModalOpen} orderData={orderData} setOrderData={setOrderData} cookies={cookies} handleModalSwitchToConfirm={handleModalSwitchToConfirm}/>
             <ConfirmationOrderModal isOrderConfirmationModalOpen={isOrderConfirmationModalOpen} setIsOrderConfirmationModalOpen={setIsOrderConfirmationModalOpen} orderData={orderData} setOrderData={setOrderData} cookies={cookies} handleModalSwitchToOrder={handleModalSwitchToOrder} removeCart={removeCart}/>
+            <BooksReservationModal isBooksReservationModalOpen={isBooksReservationModalOpen} setIsBooksReservationModalOpen={setIsBooksReservationModalOpen} cookies={cookies}/>
 
             <PageWrapper withSidebar isSidebarOpen={isSidebarOpen} toggle={() => {setIsSidebarOpen(!isSidebarOpen)}}  withNavbar withTransitions>
                 <NavbarComponent isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} cookies={cookies}/>
@@ -134,7 +137,7 @@ export default function CartPage({cookies, setCookie, isContactModalOpen, setIsC
                                 </button>
                                 <ul className="dropdown-menu">
                                     <div><button className="btn btn-danger w-full my-5" onClick={handleCartDelete}>Wyczyść</button></div>
-                                    <div><button className="btn btn-primary w-full my-5">Zarezerwuj</button></div>
+                                    <div><button className="btn btn-primary w-full my-5" onClick={()=>{setIsBooksReservationModalOpen(true)}}>Zarezerwuj</button></div>
                                     <div><button className="btn btn-primary w-full my-5" onClick={()=>{setIsOrderModalOpen(true)}}>Zamów</button></div>
                                 </ul>
                             </div>
@@ -145,7 +148,7 @@ export default function CartPage({cookies, setCookie, isContactModalOpen, setIsC
                                     <div className="container">
                                         <div className="row">
                                             <div className="col-3 pt-5">
-                                                <h3>{book.title}</h3>
+                                                <h3>"{book.title}"</h3>
                                                 </div>
                                                 <div className="col-2 pt-5">{book.price.toFixed(2)} zł</div>
                                             <div className="col-3 d-flex justify-content-center">
@@ -163,7 +166,7 @@ export default function CartPage({cookies, setCookie, isContactModalOpen, setIsC
                     </div>)
                     }
                     {
-                        isOrderConfirmationModalOpen || isOrderModalOpen
+                        isOrderConfirmationModalOpen || isOrderModalOpen || isBooksReservationModalOpen
                         ?
                         (<span></span>)
                         :
