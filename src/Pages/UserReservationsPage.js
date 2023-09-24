@@ -34,7 +34,7 @@ export default function UserReservationsPage({cookies, setCookie, isContactModal
 
     return(
         <div>
-<PageWrapper withSidebar isSidebarOpen={isSidebarOpen} toggle={() => {setIsSidebarOpen(!isSidebarOpen)}}  withNavbar withTransitions>
+            <PageWrapper withSidebar isSidebarOpen={isSidebarOpen} toggle={() => {setIsSidebarOpen(!isSidebarOpen)}}  withNavbar withTransitions>
                 <NavbarComponent isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} cookies={cookies}/>
                 <Sidebar cookies={cookies} setCookie={setCookie} removeCart={removeCart}/>
 
@@ -48,7 +48,7 @@ export default function UserReservationsPage({cookies, setCookie, isContactModal
                             {userReservations.map((reservation) => (
                                 <div className='card w-three-quarter d-flex justify-content-between' id={reservation.reservationId}>
                                     <div className='mt-10'><b>ID rezerwacji:</b> {reservation.reservationId}</div>
-                                    <div className='mt-10'><b>Data rezerwacji:</b> {reservation.reservationDate} zł</div>
+                                    <div className='mt-10'><b>Data rezerwacji:</b> {reservation.reservationDate}</div>
                                     <div className='mt-10'><b>Data wygaśnięcia:</b> {reservation.expirationDate}</div>
                                     <div className='mt-10'><b>Status:</b> {reservation.status}</div>
                                     <button className='btn btn-primary' onClick={()=>getReservationDetails(reservation.reservationId)}>Szczegóły <FontAwesomeIcon icon={faAnglesRight}/></button>
