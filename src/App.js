@@ -11,6 +11,7 @@ import ContactModal from './Modals/ContactModal';
 import { CookiesProvider } from 'react-cookie';
 import CartPage from './Pages/CartPage';
 import UserOrdersPage from './Pages/UserOrdersPage';
+import UserReservationsPage from './Pages/UserReservationsPage';
 
 function App() {
   const [cookies, setCookie] = useCookies(["user"]);
@@ -60,6 +61,10 @@ function App() {
         <Route path='/myOrders' element={<UserOrdersPage cookies={cookies} setCookie={setCookie} removeCart={removeCart}
                                               isContactModalOpen={isContactModalOpen} setIsContactModalOpen={setIsContactModalOpen} />}> 
         
+        </Route>
+        <Route path='/myReservations' element={<UserReservationsPage cookies={cookies} setCookie={setCookie} removeCart={removeCart}
+                                              isContactModalOpen={isContactModalOpen} setIsContactModalOpen={setIsContactModalOpen} />}>
+                                                
         </Route>
       </Routes>
     </div>
