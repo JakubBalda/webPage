@@ -87,7 +87,8 @@ export default function UserOrdersPage({cookies, isContactModalOpen, setIsContac
 
                 <ContentWrapper>
                     {
-                        userOrders !== undefined
+                        
+                        userOrders !== undefined && userOrders.length > 0
                     ?
                     (
                         <div className="d-flex flex-wrap flex-column align-items-center">
