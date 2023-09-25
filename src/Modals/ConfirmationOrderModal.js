@@ -5,11 +5,11 @@ import { faCircleLeft, faCheck } from '@fortawesome/free-solid-svg-icons';
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 
-export default function ConfirmationOrderModal({isOrderConfirmationModalOpen, setIsOrderConfirmationModalOpen, handleModalSwitchToOrder, orderData, setOrderData, cookies, removeCart}){
+export default function ConfirmationOrderModal({isOrderConfirmationModalOpen, setIsOrderConfirmationModalOpen, handleModalSwitchToOrder, orderData, cookies, removeCart, isFromReservation, reservationId}){
     const navigate = useNavigate();
     
     const submitOrder = () => {
-        axios.post('http://localhost:5002/api/orders/storeNewOrder', [cookies.user.id, orderData, cookies.cart])
+        axios.post('http://localhost:5002/api/orders/storeNewOrder', [cookies.user.id, orderData, cookies.cart, isFromReservation, reservationId])
             .then((response) => {
                 if(response.data){
                     alert("Zamówienie złożone, sprawdź je na swoim profilu.");

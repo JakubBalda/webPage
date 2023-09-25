@@ -114,7 +114,7 @@ export default function CartPage({cookies, setCookie, isContactModalOpen, setIsC
     return(
         <div>
             <OrderModal isOrderModalOpen={isOrderModalOpen} setIsOrderModalOpen={setIsOrderModalOpen} orderData={orderData} setOrderData={setOrderData} cookies={cookies} handleModalSwitchToConfirm={handleModalSwitchToConfirm}/>
-            <ConfirmationOrderModal isOrderConfirmationModalOpen={isOrderConfirmationModalOpen} setIsOrderConfirmationModalOpen={setIsOrderConfirmationModalOpen} orderData={orderData} setOrderData={setOrderData} cookies={cookies} handleModalSwitchToOrder={handleModalSwitchToOrder} removeCart={removeCart}/>
+            <ConfirmationOrderModal isOrderConfirmationModalOpen={isOrderConfirmationModalOpen} setIsOrderConfirmationModalOpen={setIsOrderConfirmationModalOpen} orderData={orderData} setOrderData={setOrderData} cookies={cookies} handleModalSwitchToOrder={handleModalSwitchToOrder} removeCart={removeCart} isFromReservation={false}/>
             <BooksReservationModal isBooksReservationModalOpen={isBooksReservationModalOpen} setIsBooksReservationModalOpen={setIsBooksReservationModalOpen} cookies={cookies} removeCart={removeCart}/>
 
             <PageWrapper withSidebar isSidebarOpen={isSidebarOpen} toggle={() => {setIsSidebarOpen(!isSidebarOpen)}}  withNavbar withTransitions>

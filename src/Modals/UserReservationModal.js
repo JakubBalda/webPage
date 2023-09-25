@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleLeft, faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 
-export default function UserReservationModal({isUserReservationModalOpen, setIsUserReservationModalOpen, userReservationDetails}){
+export default function UserReservationModal({isUserReservationModalOpen, setIsUserReservationModalOpen, userReservationDetails, handleModalSwitchToOrder}){
 
     const cancelReservation = () => {
         if(window.confirm("Czy na pewno chcesz anulować rezerwacje?") === true){
@@ -83,7 +83,7 @@ export default function UserReservationModal({isUserReservationModalOpen, setIsU
                                 ?
                                 (<div className="d-flex justify-content-between w-half ml-20">
                                     <button className="btn btn-danger" onClick={cancelReservation}>Anuluj <FontAwesomeIcon icon={faXmark} /></button>
-                                    <button className="btn btn-success">Zamów <FontAwesomeIcon icon={faCheck} /></button>
+                                    <button className="btn btn-success" onClick={handleModalSwitchToOrder}>Zamów <FontAwesomeIcon icon={faCheck} /></button>
                                 </div>)
                                 :
                                 (<div className="d-flex justify-content-between w-half">
