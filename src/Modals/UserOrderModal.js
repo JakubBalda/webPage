@@ -39,13 +39,13 @@ export default function UserOrderModal({isUserOrderModalOpen, setIsUserOrderModa
                                 console.log(userOrderData.status)
                                 switch (userOrderData.status) {
                                 case 'Nie opłacone':
-                                    return <div className="text-danger">Status: {userOrderData.status}</div>;
+                                    return <div>Status: <span className="text-danger">{userOrderData.status}</span></div>;
                                 case 'Opłacone':
                                 case 'Wysłane':
                                 case 'Przygotowane do odbioru':
-                                    return <div className="text-secondary">Status: {userOrderData.status}</div>;
+                                    return <div>Status: <span className="text-secondary">{userOrderData.status}</span></div>;
                                 case 'Zakończone':
-                                    return <div className="text-success">Status: {userOrderData.status}</div>;
+                                    return <div>Status: <span className="text-success">{userOrderData.status}</span></div>;
                                 default:
                                     return <div></div>;
                                 }
