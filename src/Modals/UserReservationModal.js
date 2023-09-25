@@ -8,7 +8,7 @@ export default function UserReservationModal({isUserReservationModalOpen, setIsU
 
     const cancelReservation = () => {
         if(window.confirm("Czy na pewno chcesz anulować rezerwacje?") === true){
-            axios.put('http://localhost:5002/api/orders/cancelReservation', {reservationId: userReservationDetails.reservationId, status: 'Anulowana'})
+            axios.put('http://localhost:5002/api/orders/cancelReservation', {reservationId: userReservationDetails.reservationId, status: 'Anulowana', cart: userReservationDetails.cart})
                 .then((response) => {
                     console.log(response.data)
                     if(response.data == true){
