@@ -77,9 +77,20 @@ export default function UserReservationModal({isUserReservationModalOpen, setIsU
                             </div>
                         </div>
                         <div className="d-flex justify-content-around bottom-0">
-                            <button className="btn btn-primary" onClick={() => setIsUserReservationModalOpen(false)}><FontAwesomeIcon icon={faCircleLeft} /> Wróć</button>
-                            <button className="btn btn-danger" onClick={cancelReservation}>Anuluj <FontAwesomeIcon icon={faXmark} /></button>
-                            <button className="btn btn-success">Zamów <FontAwesomeIcon icon={faCheck} /></button>
+                            <button className="btn btn-primary mr-20" onClick={() => setIsUserReservationModalOpen(false)}><FontAwesomeIcon icon={faCircleLeft} /> Wróć</button>
+                            {
+                                userReservationDetails.status === 'Oczekująca'
+                                ?
+                                (<div className="d-flex justify-content-between w-half ml-20">
+                                    <button className="btn btn-danger" onClick={cancelReservation}>Anuluj <FontAwesomeIcon icon={faXmark} /></button>
+                                    <button className="btn btn-success">Zamów <FontAwesomeIcon icon={faCheck} /></button>
+                                </div>)
+                                :
+                                (<div className="d-flex justify-content-between w-half">
+                                    <button className="btn btn-danger" disabled>Anuluj <FontAwesomeIcon icon={faXmark} /></button>
+                                    <button className="btn btn-success" disabled>Zamów <FontAwesomeIcon icon={faCheck} /></button>
+                                </div>)
+                            }
                         </div>
                     </ModalContent>
                 </ModalDialog>
