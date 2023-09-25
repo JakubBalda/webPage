@@ -7,14 +7,17 @@ import { useState, useEffect } from "react";
 import FloatingButton from "../Components/FloatingButton";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAnglesRight } from '@fortawesome/free-solid-svg-icons';
+import UserReservationModal from '../Modals/UserReservationModal';
 
 export default function UserReservationsPage({cookies, setCookie, isContactModalOpen, setIsContactModalOpen, removeCart}){
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isUserReservationModalOpen, setIsUserReservationModalOpen] = useState(false);
     const [userReservations, setUserReservations] = useState([]);
+    const [userReservationDetails, setUserReservationDetails] = useState({})
 
-    const getReservationDetails = async () => {
-
+    const getReservationDetails = (reservation) => {
+        setUserReservationDetails(reservation);
+        setIsUserReservationModalOpen(true)
     }
 
     useEffect(() => {
@@ -34,6 +37,8 @@ export default function UserReservationsPage({cookies, setCookie, isContactModal
 
     return(
         <div>
+            <UserReservationModal isUserReservationModalOpen={isUserReservationModalOpen} setIsUserReservationModalOpen={setIsUserReservationModalOpen} userReservationDetails={userReservationDetails}/>
+
             <PageWrapper withSidebar isSidebarOpen={isSidebarOpen} toggle={() => {setIsSidebarOpen(!isSidebarOpen)}}  withNavbar withTransitions>
                 <NavbarComponent isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} cookies={cookies}/>
                 <Sidebar cookies={cookies} setCookie={setCookie} removeCart={removeCart}/>
@@ -51,7 +56,7 @@ export default function UserReservationsPage({cookies, setCookie, isContactModal
                                     <div className='mt-10'><b>Data rezerwacji:</b> {reservation.reservationDate}</div>
                                     <div className='mt-10'><b>Data wygaśnięcia:</b> {reservation.expirationDate}</div>
                                     <div className='mt-10'><b>Status:</b> {reservation.status}</div>
-                                    <button className='btn btn-primary' onClick={()=>getReservationDetails(reservation.reservationId)}>Szczegóły <FontAwesomeIcon icon={faAnglesRight}/></button>
+                                    <button className='btn btn-primary' onClick={()=>getReservationDetails(reservation)}>Szczegóły <FontAwesomeIcon icon={faAnglesRight}/></button>
                                 </div>
                             ))}
                         </div>
