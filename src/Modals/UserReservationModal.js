@@ -2,8 +2,28 @@ import { ModalContent, ModalDialog, ModalTitle, Modal } from "reacthalfmoon";
 import 'halfmoon/css/halfmoon.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleLeft, faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
 
 export default function UserReservationModal({isUserReservationModalOpen, setIsUserReservationModalOpen, userReservationDetails}){
+
+    const cancelReservation = () => {
+        if(window.confirm("Czy na pewno chcesz anulować rezerwacje?") === true){
+            axios.put('http://localhost:5002/api/orders/cancelReservation', {reservationId: userReservationDetails.reservationId, status: 'Anulowana'})
+                .then((response) => {
+                    console.log(response.data)
+                    if(response.data == true){
+                        alert("Rezerwacja została anulowana.");
+                        window.location.reload();
+                    }else{
+                        alert('Wystąpił błąd, spróbuj ponownie za chwilę.');
+                    }
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
+        }
+    }
+
     return(
         <div>
             <Modal isOpen={isUserReservationModalOpen} toggle={()=>{setIsUserReservationModalOpen(!isUserReservationModalOpen)}}>
@@ -58,7 +78,7 @@ export default function UserReservationModal({isUserReservationModalOpen, setIsU
                         </div>
                         <div className="d-flex justify-content-around bottom-0">
                             <button className="btn btn-primary" onClick={() => setIsUserReservationModalOpen(false)}><FontAwesomeIcon icon={faCircleLeft} /> Wróć</button>
-                            <button className="btn btn-danger">Anuluj <FontAwesomeIcon icon={faXmark} /></button>
+                            <button className="btn btn-danger" onClick={cancelReservation}>Anuluj <FontAwesomeIcon icon={faXmark} /></button>
                             <button className="btn btn-success">Zamów <FontAwesomeIcon icon={faCheck} /></button>
                         </div>
                     </ModalContent>
