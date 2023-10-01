@@ -42,6 +42,7 @@ export default function BookPage({cookies, setCookie, handleFormSwitch, setIsLog
             setBook(res.data);
             setImageUrl(btoa(String.fromCharCode(...new Uint8Array(res.data.imageBlob.data))));
             setLoading(false);
+            console.log(res.data);
           } catch (err) {
             console.log(err);
             setLoading(false);
@@ -291,7 +292,13 @@ export default function BookPage({cookies, setCookie, handleFormSwitch, setIsLog
                                         </ul>
                                     </TabPanel>
                                     <TabPanel>
-                                        <iframe className="mt-20" width="700" height="400" src="https://www.youtube.com/embed/lwYWMHVwYrs" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                                        {book.podcastLink !== ""
+                                        ?
+                                            (<iframe className="mt-20" width="700" height="400" src={book.podcastLink} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>)
+                                        :
+                                        (<h2>Podcast wkrótce!</h2>)
+                                        }
+                                        
                                     </TabPanel>
                                 </Tabs>
                                 </div>
