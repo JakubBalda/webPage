@@ -186,7 +186,7 @@ export default function BookPage({cookies, setCookie, handleFormSwitch, setIsLog
 
             <PageWrapper withSidebar isSidebarOpen={isSidebarOpen} toggle={() => {setIsSidebarOpen(!isSidebarOpen)}}  withNavbar withTransitions >
                 <NavbarComponent isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} isInCorrectSite={isInCorrectSite} cookies={cookies}/>
-                <Sidebar cookies={cookies} setCookie={setCookie} setIsLoginModalOpen={setIsLoginModalOpen} setIsEditBookDataModalOpen={setIsEditBookDataModalOpen} bookId={id}/>
+                <Sidebar cookies={cookies} setCookie={setCookie} setIsLoginModalOpen={setIsLoginModalOpen} setIsEditBookDataModalOpen={setIsEditBookDataModalOpen} bookId={id} removeCart={removeCart}/>
                 <ContentWrapper className="bg-light">
                     <div className="container-fluid">
                         <div className="row">
