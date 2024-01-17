@@ -64,7 +64,7 @@ export default function BookPage({cookies, setCookie, handleFormSwitch, setIsLog
       }, [shouldScroll]);
 
       useEffect(() =>{
-        if(cookies.user.id !== undefined){
+        if(cookies.user?.id !== undefined){
             try{
                 axios.get(`http://localhost:5000/api/books/userRating/${cookies.user.id}/${id}`)
                     .then((response) => {

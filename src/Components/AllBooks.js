@@ -39,7 +39,7 @@ export default function AllBooks({ search, bookGenre, cookies, setBookGenre }) {
 
     getBooks();
 
-    if(cookies.user.id !== undefined)
+    if(cookies.user?.id !== undefined)
       getPreferences();
   }, []);
 

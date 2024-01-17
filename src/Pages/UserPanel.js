@@ -218,7 +218,7 @@ export default function UserPanel({setIsLoginModalOpen, cookies, setCookie, isCo
                                     ))}
                                     </div>
                                 </div>
-                                <button className="btn btn-primary" onClick={handleSaveFavouriteAuthors}>Zapisz</button>
+                                <button className="btn btn-primary mt-5" onClick={handleSaveFavouriteAuthors}>Zapisz</button>
                             </div>
                             <div className="w-half">
                                 <h3>Ulubione gatunki</h3>
@@ -247,7 +247,7 @@ export default function UserPanel({setIsLoginModalOpen, cookies, setCookie, isCo
                                     ))}
                                     </div>
                                 </div>
-                                <button className="btn btn-primary" onClick={handleSaveFavouriteGenres}>Zapisz</button>
+                                <button className="btn btn-primary mt-5" onClick={handleSaveFavouriteGenres}>Zapisz</button>
                             </div>
                         </div>
                 </div>  
