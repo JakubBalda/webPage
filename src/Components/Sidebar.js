@@ -114,7 +114,7 @@ export default function Sidebar({onGenreChange, setIsLoginModalOpen, cookies, se
               ) 
               :
               (<div>
-                  {cookies.user.role === 'Admin' && isOnBookPage ?
+                  {cookies.user?.role === 'Admin' && isOnBookPage ?
                     (
                       <div className="">
                         <div>

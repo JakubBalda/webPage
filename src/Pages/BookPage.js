@@ -245,7 +245,7 @@ export default function BookPage({cookies, setCookie, handleFormSwitch, setIsLog
                                                     }
 
                                                     {
-                                                        cookies.user.id !== undefined
+                                                        cookies.user?.id !== undefined
                                                         ?   
                                                             (<p>
                                                                 {book.amount > 0

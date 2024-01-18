@@ -167,7 +167,7 @@ export default function AllBooks({ search, bookGenre, cookies, setBookGenre }) {
                 <label htmlFor='sortOption' className='ml-5 font-size-14'>
                   Sortuj:
                 </label>
-                <select id='sortOption' className='form-control' value={sortOption} onChange={handleSortChange}>
+                <select id='sortOption' className='form-control mr-0 position-relative w-200' value={sortOption} onChange={handleSortChange}>
                   <option value='title-asc'>Tytuł (A - Z)</option>
                   <option value='title-desc'>Tytuł (Z - A)</option>
                   <option value='price-asc'>Cena (Rosnąco)</option>
