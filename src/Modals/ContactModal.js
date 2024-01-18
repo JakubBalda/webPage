@@ -11,7 +11,7 @@ export default function ContactModal({isContactModalOpen, setIsContactModalOpen}
                     <div className="container-fluid">
                         <div className="row">
                             <div className="col-6 text-left">
-                                <p><b>Telefon: </b>+48 665 048 559</p>
+                                <p><b>Telefon: </b>+48 666 985 445</p>
                                 <p><b>E-mail: </b>balda.jakub@gmail.com</p>
                             </div>
                             <div className="col-6">
