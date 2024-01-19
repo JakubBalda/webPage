@@ -12,7 +12,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAnglesRight } from '@fortawesome/free-solid-svg-icons';
 import { Link } from "react-router-dom";
 
-export default function UserPanel({setIsLoginModalOpen, cookies, setCookie, isContactModalOpen, setIsContactModalOpen}){
+export default function UserPanel({setIsLoginModalOpen, cookies, setCookie, isContactModalOpen, setIsContactModalOpen, removeCart}){
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [userProfileData, setUserProfileData] = useState([]);
     const [isEditUserDataModalOpen, setIsEditUserDataModalOpen] = useState(false);
@@ -152,7 +152,7 @@ export default function UserPanel({setIsLoginModalOpen, cookies, setCookie, isCo
 
         <PageWrapper withSidebar isSidebarOpen={isSidebarOpen} toggle={() => {setIsSidebarOpen(!isSidebarOpen)}}  withNavbar withTransitions>
             <NavbarComponent isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} cookies={cookies}/>
-            <Sidebar setIsLoginModalOpen={setIsLoginModalOpen} cookies={cookies} setCookie={setCookie}/>
+            <Sidebar setIsLoginModalOpen={setIsLoginModalOpen} cookies={cookies} setCookie={setCookie} removeCart={removeCart}/>
             <ContentWrapper>
                 <div className="d-flex">
                     <div className="card w-quarter d-flex flex-column h-three-quarter">
