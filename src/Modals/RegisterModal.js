@@ -69,6 +69,7 @@ export default function RegisterModal({isRegisterModalOpen, setIsRegisterModalOp
         if(!validator.isStrongPassword(registerData.password.trim(),{
            minLength: 8, minLowercase: 1, minUppercase: 1, minNumbers: 1, minSymbols: 1, maxlength: 40 
             })){
+                alert("Hasło musi zawierać co najmniej 8 znaków, 1 dużą literę, 1 małą literę, 1 cyfrę, 1 znak alfanumeryczny");
                 errors.password = "Hasło musi być silne (max 40 znaków)!";
                 isValid = false;
         }
