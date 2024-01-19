@@ -56,6 +56,7 @@ export default function EditUserPasswordModal({isEditUserPasswordModalOpen, setI
                     console.log(response.data);
                     alert("Hasło zostało zaktualizowane");
                     setIsEditUserPasswordModalOpen(false);
+                    handleFormReset();
                 })
                 .catch((error) => {
                     console.log('Error: ' + error);
