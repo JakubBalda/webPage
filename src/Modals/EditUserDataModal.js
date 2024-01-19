@@ -221,8 +221,15 @@ export default function EditUserDataModal({isEditUserDataModalOpen, setIsEditUse
                             setIsEditUserDataModalOpen(false);
                             window.location.reload();
                         }
-                        else
-                            alert('Wystąpił błąd, sprawdź poprawność danych');
+                        else{
+                            if(response.data === "Login"){
+                                alert('Wpisany login jest zajęty.');
+                            }else if (response.data === "Mail"){
+                                alert('Wpisany adres e-mail jest zajęty.');
+                            }else{
+                                alert('Wystąpił błąd, sprawdź poprawność danych');
+                            }
+                        }
                     })
                     .catch((error) => {
                         console.log('Error: ' + error);
