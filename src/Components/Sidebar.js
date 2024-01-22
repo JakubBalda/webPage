@@ -105,7 +105,7 @@ export default function Sidebar({onGenreChange, setIsLoginModalOpen, cookies, se
               </div>
               {cookies.user && cookies.user.role === 'Admin' ? 
                 (<div>
-                  <button className="btn btn-success mt-20 w-200" onClick={() => {setIsNewBookModalOpen(true)}}>Dodaj książke</button>
+                  <button className="btn btn-success mt-20 w-200" onClick={() => {setIsNewBookModalOpen(true)}}>Dodaj książkę</button>
                 </div>)
               :
                 (<div></div>)
@@ -118,9 +118,9 @@ export default function Sidebar({onGenreChange, setIsLoginModalOpen, cookies, se
                     (
                       <div className="">
                         <div>
-                          <button className="btn btn-secondary mt-20" onClick={() => {setIsEditBookDataModalOpen(true)}}>Edytuj książke</button>
+                          <button className="btn btn-secondary mt-20" onClick={() => {setIsEditBookDataModalOpen(true)}}>Edytuj książkę</button>
                         </div>
-                        <button className="btn btn-danger mt-20" onClick={handleDeleteBook}>Usuń książke</button>
+                        <button className="btn btn-danger mt-20" onClick={handleDeleteBook}>Usuń książkę</button>
                       </div>
                     ) 
                     :
