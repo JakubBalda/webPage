@@ -131,7 +131,7 @@ export default function AddNewBookModal({isAddNewBookModalOpen, setIsNewBookModa
         }
         console.log(bookData.description);
         if(bookData.description !== 'null'){
-            if(bookData.description !== "" && bookData.description.trim().length > 500){
+            if(bookData.description !== "" && bookData.description.trim().length > 3000){
                 isValid = false;
                 errors.description = 'Opis zbyt długi.';
             }
