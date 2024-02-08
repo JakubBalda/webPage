@@ -102,12 +102,12 @@ export default function BookPage({cookies, setCookie, handleFormSwitch, setIsLog
       }
 
       const handleBookRate = (ratingValue) => {
-        if(cookies.user.id === undefined){
+        if(cookies.user?.id === undefined){
             alert('Aby ocenić musisz być zalogowany!');
         }
 
         if(ratingValue !== rating){
-            if(cookies.user.id !== undefined && rating === 0){
+            if(cookies.user?.id !== undefined && rating === 0){
                 axios.post('http://localhost:5000/api/books/setBookRating', [ratingValue, cookies.user.id, book.id])
                     .then((resposne) => {
                         console.log(resposne);
