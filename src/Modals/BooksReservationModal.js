@@ -35,7 +35,7 @@ export default function ContactModal({isBooksReservationModalOpen, setIsBooksRes
 
     useEffect(() => {
         setReservationData({
-            userId: cookies.user.id,
+            userId: cookies.user?.id,
             cart: cookies.cart
         });
     }, []);

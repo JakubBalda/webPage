@@ -115,7 +115,7 @@ export default function BookPage({cookies, setCookie, handleFormSwitch, setIsLog
                     .catch((error) => {
                         console.log(error);
                     })
-            }else if (cookies.user.id !== undefined){
+            }else if (cookies.user?.id !== undefined){
                 axios.put('http://localhost:5000/api/books/updateBookRating', [ratingValue, cookies.user.id, book.id])
                     .then((resposne) => {
                         console.log(resposne);

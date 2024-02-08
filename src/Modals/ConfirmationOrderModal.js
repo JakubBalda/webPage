@@ -9,7 +9,7 @@ export default function ConfirmationOrderModal({isOrderConfirmationModalOpen, se
     const navigate = useNavigate();
     
     const submitOrder = () => {
-        axios.post('http://localhost:5002/api/orders/storeNewOrder', [cookies.user.id, orderData, cookies.cart, isFromReservation, reservationId])
+        axios.post('http://localhost:5002/api/orders/storeNewOrder', [cookies.user?.id, orderData, cookies.cart, isFromReservation, reservationId])
             .then((response) => {
                 if(response.data){
                     alert("Zamówienie złożone, sprawdź je na swoim profilu.");

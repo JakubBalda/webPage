@@ -34,7 +34,7 @@ export default function UserPanel({setIsLoginModalOpen, cookies, setCookie, isCo
     useEffect(() => {
         const getUserData = async () => {
             try{
-                const res = await axios.get(`http://localhost:5001/api/users/${cookies.user.id}`);
+                const res = await axios.get(`http://localhost:5001/api/users/${cookies.user?.id}`);
                 setUserProfileData(res.data);
             }catch(err){
                 console.log(err)
@@ -52,7 +52,7 @@ export default function UserPanel({setIsLoginModalOpen, cookies, setCookie, isCo
 
         const getUserPreferences = async () => {
             try{
-                const res = await axios.get(`http://localhost:5001/api/users/getUserPreferences/${cookies.user.id}`);
+                const res = await axios.get(`http://localhost:5001/api/users/getUserPreferences/${cookies.user?.id}`);
                 setFavouriteAuthors(res.data[0]);
                 setSelectedAuthors(res.data[0]);
 
@@ -95,7 +95,7 @@ export default function UserPanel({setIsLoginModalOpen, cookies, setCookie, isCo
       };
 
       const handleSaveFavouriteAuthors = () =>{
-        axios.post('http://localhost:5001/api/users/favouriteAuthors', [cookies.user.id, selectedAuthors])
+        axios.post('http://localhost:5001/api/users/favouriteAuthors', [cookies.user?.id, selectedAuthors])
             .then((response) => {
                 if(response.data === 'Added' || response.data === 'Updated'){
                     alert('Zmiany zostały zapisane');
@@ -124,7 +124,7 @@ export default function UserPanel({setIsLoginModalOpen, cookies, setCookie, isCo
       };
 
       const handleSaveFavouriteGenres = () =>{
-        axios.post('http://localhost:5001/api/users/favouriteGenres', [cookies.user.id, selectedGenres])
+        axios.post('http://localhost:5001/api/users/favouriteGenres', [cookies.user?.id, selectedGenres])
             .then((response) => {
                 if(response.data === 'Added' || response.data === 'Updated'){
                     alert('Zmiany zostały zapisane');
