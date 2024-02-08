@@ -185,7 +185,7 @@ export default function OrderModal({isOrderModalOpen, setIsOrderModalOpen, order
 
     const handleUserDataLoad = async () => {
         try{
-            const userData = await axios.get(`http://localhost:5001/api/users/orderData/${cookies.user.id}`);
+            const userData = await axios.get(`http://localhost:5001/api/users/orderData/${cookies.user?.id}`);
             console.log(userData.data);
 
             setOrderData({

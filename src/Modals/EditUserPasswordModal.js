@@ -51,7 +51,7 @@ export default function EditUserPasswordModal({isEditUserPasswordModalOpen, setI
     const handleEditUserPasswordSubmit = () => {
 
         if(validateUserNewPassword() && window.confirm('Na pewno chcesz zmienić hasło?') === true){
-            axios.put(`http://localhost:5001/api/users/updatePassword/${cookies.user.id}`, userNewPassword)
+            axios.put(`http://localhost:5001/api/users/updatePassword/${cookies.user?.id}`, userNewPassword)
                 .then((response) => {
                     console.log(response.data);
                     alert("Hasło zostało zaktualizowane");

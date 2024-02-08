@@ -77,7 +77,7 @@ export default function UserReservationsPage({cookies, setCookie, isContactModal
     useEffect(() => {
         const getReservations = async () => {
             try{
-                const reservations = await axios.get(`http://localhost:5002/api/orders/getReservations/${cookies.user.id}`);
+                const reservations = await axios.get(`http://localhost:5002/api/orders/getReservations/${cookies.user?.id}`);
                 console.log(reservations.data.reservations);
                 setUserReservations(reservations.data.reservations);
             }catch(err){

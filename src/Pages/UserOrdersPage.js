@@ -35,7 +35,7 @@ export default function UserOrdersPage({cookies, isContactModalOpen, setIsContac
     useEffect(() => {
         const getUserOrders = async () => {
             try{
-                const orders = await axios.get(`http://localhost:5002/api/orders/getOrders/${cookies.user.id}`);
+                const orders = await axios.get(`http://localhost:5002/api/orders/getOrders/${cookies.user?.id}`);
                 console.log(orders.data.orders);
                 setUserOrders(orders.data.orders);
             }catch(error){
