@@ -101,6 +101,18 @@ export default function BookPage({cookies, setCookie, handleFormSwitch, setIsLog
         setTabIndex(index);
       }
 
+      const handleAmountChange = () => {
+        let newAmount = parseInt(document.getElementById("bookAmount").value, 10);
+
+        if(newAmount <= 0){
+            alert("Ilość wybranych egzemplarzy musi być większa od 0");
+            document.getElementById("bookAmount").value = 1;
+        }else if (newAmount > book.amount){
+            alert("Ilość wybranych egzemplarzy nie może być większa od ilości na stanie");
+            document.getElementById("bookAmount").value = book.amount;
+        }
+      }
+
       const handleBookRate = (ratingValue) => {
         if(cookies.user?.id === undefined){
             alert('Aby ocenić musisz być zalogowany!');
@@ -230,7 +242,8 @@ export default function BookPage({cookies, setCookie, handleFormSwitch, setIsLog
                                                 </div>
                                                 <div className="font-size-22 font-weight-bold mt-20 mb-20">{book.price.toFixed(2)} zł</div>
                                                 <div className="mx-auto form-inline">
-                                                        <input type="number" className="w-50 form-control" id="bookAmount" defaultValue={1} max={book.amount} min={1} ></input>
+                                                    
+                                                        <input type="number" className="w-50 form-control" id="bookAmount" defaultValue={1} max={book.amount} min={1} onChange={handleAmountChange} ></input> 
                                                         <label className="ml-10" htmlFor="bookAmount">z {book.amount}</label>
                                                 </div>
                                                     {
